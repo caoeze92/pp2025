@@ -5,7 +5,7 @@ public static class ConnectionFactory
 {
     public static SqlConnection GetConnection()
     {
-        string connectionString = ConfigurationManager.ConnectionStrings["dbLocalMaxi"].ConnectionString;
+        string connectionString = ConfigurationManager.ConnectionStrings["Conexion"].ConnectionString;
         return new SqlConnection(connectionString);
     }
 }

@@ -9,7 +9,7 @@ using System.Diagnostics;
 
 namespace PracticaProfesional2025
 {
-    public partial class login : System.Web.UI.Page
+   public partial class login : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

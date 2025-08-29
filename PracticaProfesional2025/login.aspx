@@ -18,7 +18,7 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">Login</h2>
+					<h2 class="heading-section">INGRESO</h2>
 				</div>
 			</div>
 			<div class="row justify-content-center">
@@ -28,7 +28,7 @@
 						<div class="login-wrap p-4 p-md-5">
 			      	<div class="d-flex">
 			      		<div class="w-100">
-			      			<h3 class="mb-4">Sign In</h3>
+			      			<h3 class="mb-4">Cuenta:</h3>
 			      		</div>
 								<div class="w-100">
 									<p class="social-media d-flex justify-content-end">
@@ -65,7 +65,7 @@
 									</div>
 		            </div>
 		          </form>
-		          <p class="text-center">Not a member? <a data-toggle="tab" href="#signup">Sign Up</a></p>
+		          <p class="text-center">¿Aun no estas registrado? <a target="_self" href="CrearUsuario.aspx"><br />Registrarte</a></p>
 		        </div>
 		      </div>
 				</div>
