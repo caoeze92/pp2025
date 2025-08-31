@@ -1,0 +1,170 @@
+USE PP2025;
+GO
+
+-- ==============================================
+-- CREACIÓN DE TABLAS PARA CONTROL DE STOCK DE PCS
+-- ==============================================
+
+-- 0. TIPOS DE ENUMERACIONES
+-- Tipos para Estados (PC o Componente)
+CREATE TABLE Tipos_Estado (
+    id_tipo_estado INT IDENTITY PRIMARY KEY,
+    nombre VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Tipos de evento (Estados o Reparación)
+CREATE TABLE Tipos_Evento (
+    id_tipo_evento INT IDENTITY PRIMARY KEY,
+    nombre VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- 1. USUARIOS
+CREATE TABLE Usuarios (
+    id_usuario INT IDENTITY PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    apellido VARCHAR(100) NOT NULL,
+    rol VARCHAR(50) NOT NULL,
+    email VARCHAR(150) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    telefono VARCHAR(20),
+    activo CHAR(1) DEFAULT '1'
+);
+
+-- 2. LABORATORIOS
+CREATE TABLE Laboratorios (
+    id_laboratorio INT IDENTITY PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    ubicacion VARCHAR(200),
+    capacidad INT,
+    responsable_id INT,
+    descripcion TEXT,
+    FOREIGN KEY (responsable_id) REFERENCES Usuarios(id_usuario)
+);
+
+-- 3. ESTADOS (para PCs y Componentes)
+CREATE TABLE Estados (
+    id_estado INT IDENTITY PRIMARY KEY,
+    descripcion VARCHAR(100) NOT NULL,
+    id_tipo_estado INT NOT NULL,
+    FOREIGN KEY (id_tipo_estado) REFERENCES Tipos_Estado(id_tipo_estado)
+);
+
+-- 4. COMPUTADORAS
+CREATE TABLE Computadoras (
+    id_computadora INT IDENTITY PRIMARY KEY,
+    id_laboratorio INT NOT NULL,
+    codigo_inventario VARCHAR(50) UNIQUE NOT NULL,
+    numero_serie VARCHAR(100),
+    descripcion TEXT,
+    estado_actual INT NOT NULL,
+    fecha_alta DATE NOT NULL,
+    fecha_baja DATE,
+    FOREIGN KEY (id_laboratorio) REFERENCES Laboratorios(id_laboratorio),
+    FOREIGN KEY (estado_actual) REFERENCES Estados(id_estado)
+);
+
+-- 5. COMPONENTES
+CREATE TABLE Componentes (
+    id_componente INT IDENTITY PRIMARY KEY,
+    tipo VARCHAR(50) NOT NULL,
+    marca VARCHAR(100),
+    modelo VARCHAR(100),
+    caracteristicas VARCHAR(200),
+    numero_serie VARCHAR(100) UNIQUE,
+    estado_id INT,
+    fecha_compra DATE,
+    FOREIGN KEY (estado_id) REFERENCES Estados(id_estado)
+);
+
+-- 6. COMPUTADORA_COMPONENTES (relación muchos a muchos)
+CREATE TABLE Computadora_Componentes (
+    id_computadora INT NOT NULL,
+    id_componente INT NOT NULL,
+    fecha_asignacion DATE NOT NULL,
+    fecha_desasignacion DATE,
+    PRIMARY KEY (id_computadora, id_componente, fecha_asignacion),
+    FOREIGN KEY (id_computadora) REFERENCES Computadoras(id_computadora),
+    FOREIGN KEY (id_componente) REFERENCES Componentes(id_componente)
+);
+
+-- 7. EVENTOS_EQUIPOS (historial de estados y reparaciones)
+CREATE TABLE Eventos_Equipos (
+    id_evento INT IDENTITY PRIMARY KEY,
+    id_computadora INT NOT NULL,
+    id_usuario INT,
+    id_tipo_evento INT NOT NULL,
+    fecha_inicio DATETIME NOT NULL,
+    fecha_fin DATETIME,
+    detalle TEXT,
+    FOREIGN KEY (id_computadora) REFERENCES Computadoras(id_computadora),
+    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario),
+    FOREIGN KEY (id_tipo_evento) REFERENCES Tipos_Evento(id_tipo_evento)
+);
+
+-- 8. RESERVAS
+CREATE TABLE Reservas (
+    id_reserva INT IDENTITY PRIMARY KEY,
+    id_usuario INT NOT NULL,
+    id_laboratorio INT NOT NULL,
+    fecha_inicio DATETIME NOT NULL,
+    fecha_fin DATETIME NOT NULL,
+    motivo VARCHAR(200),
+    FOREIGN KEY (id_usuario) REFERENCES Usuarios(id_usuario),
+    FOREIGN KEY (id_laboratorio) REFERENCES Laboratorios(id_laboratorio)
+);
+
+-- =====================================
+-- CARGA INICIAL DE DATOS
+-- =====================================
+
+-- 1. Tipos de estado
+INSERT INTO Tipos_Estado (nombre) VALUES ('PC'), ('Componente');
+
+-- 2. Tipos de evento
+INSERT INTO Tipos_Evento (nombre) VALUES ('Estados'), ('Reparacion');
+
+-- 3. ESTADOS
+-- NOTA: El ID de tipo_estado debe coincidir con 'PC' o 'Componente'
+-- Suponiendo que 'PC' tiene id 1 y 'Componente' id 2
+INSERT INTO Estados (descripcion, id_tipo_estado) VALUES
+('En funcionamiento', 1),
+('Con fallas', 1),
+('En reparación', 1),
+('Lista para instalar', 1),
+('Dado de baja', 1),
+('En uso', 2),
+('Disponible', 2),
+('En reparación', 2),
+('De baja', 2);
+
+-- 4. LABORATORIOS (ejemplo)
+INSERT INTO Laboratorios (nombre, ubicacion, capacidad, descripcion)
+VALUES
+('Laboratorio 1', 'Edificio A - Piso 1', 25, 'Laboratorio de informática básica'),
+('Laboratorio 2', 'Edificio B - Piso 2', 30, 'Laboratorio de programación avanzada');
+
+-- 5. COMPUTADORAS (ejemplo)
+-- NOTA: estado_actual debe referenciar a un estado de tipo 'PC'
+INSERT INTO Computadoras (id_laboratorio, codigo_inventario, numero_serie, descripcion, estado_actual, fecha_alta)
+VALUES
+(1, 'LAB1-PC01', 'SN123456', 'PC Dell Optiplex con Windows 10', 1, '2024-01-10'),
+(1, 'LAB1-PC02', 'SN123457', 'PC HP ProDesk con Ubuntu', 1, '2024-02-15'),
+(2, 'LAB2-PC01', 'SN987654', 'PC Lenovo ThinkCentre con Windows 11', 2, '2024-03-01');
+
+-- 6. COMPONENTES (ejemplo)
+-- NOTA: estado_id debe referenciar a un estado de tipo 'Componente'
+INSERT INTO Componentes (tipo, marca, modelo, caracteristicas, numero_serie, estado_id, fecha_compra)
+VALUES
+('CPU', 'Intel', 'i5-10400', '6 núcleos, 2.9 GHz', 'CPU-001', 6, '2023-05-20'),
+('Memoria', 'Kingston', 'DDR4', '16GB 3200MHz', 'RAM-001', 6, '2023-06-10'),
+('Disco', 'Samsung', 'EVO 860', 'SSD 512GB', 'SSD-001', 6, '2023-07-15'),
+('Monitor', 'LG', 'UltraGear', '24 pulgadas', 'MON-001', 7, '2023-08-01');
+
+-- 7. ASIGNAR COMPONENTES A COMPUTADORAS
+INSERT INTO Computadora_Componentes (id_computadora, id_componente, fecha_asignacion)
+VALUES
+(1, 1, '2024-01-10'),
+(1, 2, '2024-01-10'),
+(1, 3, '2024-01-10'),
+(1, 4, '2024-01-10');
+GO
