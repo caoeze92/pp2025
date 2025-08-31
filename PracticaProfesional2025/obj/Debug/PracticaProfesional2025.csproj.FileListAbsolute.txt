@@ -1,8 +1,0 @@
-C:\proyectosPracticas\PracticaProfesional2025\PracticaProfesional2025\bin\PracticaProfesional2025.dll
-C:\proyectosPracticas\PracticaProfesional2025\PracticaProfesional2025\bin\PracticaProfesional2025.pdb
-C:\proyectosPracticas\PracticaProfesional2025\PracticaProfesional2025\obj\Debug\PracticaProfesional2025.dll
-C:\proyectosPracticas\PracticaProfesional2025\PracticaProfesional2025\obj\Debug\PracticaProfesional2025.pdb
-D:\ARCHIVOS\Diseño y Programacion web\ISDFyT 46 - PROGRAMACION\3er Año\Practicas Prof\pp2025\PracticaProfesional2025\bin\PracticaProfesional2025.dll
-D:\ARCHIVOS\Diseño y Programacion web\ISDFyT 46 - PROGRAMACION\3er Año\Practicas Prof\pp2025\PracticaProfesional2025\bin\PracticaProfesional2025.pdb
-D:\ARCHIVOS\Diseño y Programacion web\ISDFyT 46 - PROGRAMACION\3er Año\Practicas Prof\pp2025\PracticaProfesional2025\obj\Debug\PracticaProfesional2025.dll
-D:\ARCHIVOS\Diseño y Programacion web\ISDFyT 46 - PROGRAMACION\3er Año\Practicas Prof\pp2025\PracticaProfesional2025\obj\Debug\PracticaProfesional2025.pdb

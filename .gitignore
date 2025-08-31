@@ -1,3 +1,16 @@
-.vs
+# Carpetas de Visual Studio
+.vs/
+
+# Archivos de configuración temporal de Visual Studio
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Carpetas de compilación (tu proyecto en particular)
 PracticaProfesional2025/bin/
 PracticaProfesional2025/obj/
+
+# Archivos compilados (en caso de que se cuelen)
+*.dll
+*.pdb
