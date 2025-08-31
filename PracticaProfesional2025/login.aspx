@@ -41,12 +41,12 @@
 			      		<div class="form-group mt-3">
 			      			<!--<input type="text" class="form-control" required>-->
                             <asp:TextBox ID="txtUsuario" runat="server" class="form-control" required></asp:TextBox>
-			      			<label class="form-control-placeholder" for="username">Username</label>
+			      			<label class="form-control-placeholder" for="username">Email</label>
 			      		</div>
 		            <div class="form-group">
 		              <!--<input id="password-field" type="password" class="form-control" required>-->
                       <asp:TextBox ID="txtPass" textMode= "Password" runat="server" class="form-control" required></asp:TextBox>
-		              <label class="form-control-placeholder" for="password">Password</label>
+		              <label class="form-control-placeholder" for="password">Contraseña</label>
 		              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 		            </div>
 		            <div class="form-group">
