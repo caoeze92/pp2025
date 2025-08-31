@@ -87,6 +87,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="ConsultaStock.aspx" />
+    <Content Include="CrearUsuario.aspx" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionFactory.cs" />
@@ -118,6 +119,13 @@
     </Compile>
     <Compile Include="ConsultaStock.aspx.designer.cs">
       <DependentUpon>ConsultaStock.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="CrearUsuario.aspx.cs">
+      <DependentUpon>CrearUsuario.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CrearUsuario.aspx.designer.cs">
+      <DependentUpon>CrearUsuario.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
