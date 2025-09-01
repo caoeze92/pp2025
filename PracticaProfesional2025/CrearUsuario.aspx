@@ -10,7 +10,7 @@
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	
-	<link rel="stylesheet" href="Contenido/registro/css/Login.css">
+	<link rel="stylesheet" href="Contenido/registro/css/Registro.css">
 
 	</head>
 	<body>
@@ -26,9 +26,12 @@
 					<div class="wrap">
 						<div class="img" style="background-image: url(Contenido/registro/images/bg-1.jpg);"></div>
 						<div class="login-wrap p-4 p-md-5">
+                          <div class="form-group d-md-flex">
+		                <p class="text-center">Seccion de registro de cuentas.</p>
+		                </div>
 			      	<div class="d-flex">
 			      		<div class="w-100">
-			      			<h5 class="mb-4">Crear cuenta:</h5>
+			      			<h6 class="mb-4">Ingresa tus datos:</h6>
 			      		</div>
 								<div class="w-100">
 									<p class="social-media d-flex justify-content-end">
@@ -37,24 +40,36 @@
 									</p>
 								</div>
 			      	</div>
-							<form id="Form1" action="#" class="signin-form" runat="server">
-			      		<div class="form-group mt-3">
+                   <form id="Form1" action="#" class="signin-form" runat="server">
+			      		<div class="form-group mt-4">
 			      			<!--<input type="text" class="form-control" required>-->
-                            <asp:TextBox ID="ntxtUsuario" runat="server" class="form-control" required></asp:TextBox>
-			      			<label class="form-control-placeholder" for="ntxtUsuario">Usuario</label>
+                            <asp:TextBox ID="nTxtNombre" runat="server" class="form-control" required></asp:TextBox>
+			      			<label class="form-control-placeholder" for="nTxtNombre">Nombre:</label>
 			      		</div>
-		            <div class="form-group">
+                        <div class="form-group mt-4">
+			      			<!--<input type="text" class="form-control" required>-->
+                            <asp:TextBox ID="nTxtApellido" runat="server" class="form-control" required></asp:TextBox>
+			      			<label class="form-control-placeholder" for="nTxtApellido">Apellido:</label>
+			      		</div>
+                        <div class="form-group mt-4">
+			      			<!--<input type="text" class="form-control" required>-->
+                            <asp:TextBox ID="nTxtEmail" runat="server" class="form-control" required></asp:TextBox>
+			      			<label class="form-control-placeholder" for="nTxtEmail">Email:</label>
+			      		</div>
+                        <div class="form-group mt-4">
 		              <!--<input id="password-field" type="password" class="form-control" required>-->
-                      <asp:TextBox ID="ntxtPassword" textMode= "Password" runat="server" class="form-control" required></asp:TextBox>
-		              <label class="form-control-placeholder" for="ntxtPassword">Constraseña</label>
+                      <asp:TextBox ID="nTxtPassword" textMode= "Password" runat="server" class="form-control" required></asp:TextBox>
+		              <label class="form-control-placeholder" for="nTxtPassword">Constraseña:</label>
 		              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 		            </div>
+                    <div class="form-group mt-4">
+			      			<!--<input type="text" class="form-control" required>-->
+                            <asp:TextBox ID="nTxtTelefono" runat="server" class="form-control" required></asp:TextBox>
+			      			<label class="form-control-placeholder" for="nTxtTelefono">Telefono:</label>
+			      		</div>
 		            <div class="form-group">
 		            	<!-- <button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>-->
                         <asp:Button ID="btnLogin" runat="server" OnClick="btnLogin_Click" class="form-control btn btn-primary rounded submit px-" Text="Registrarse"></asp:Button>
-		            </div>
-		            <div class="form-group d-md-flex">
-		            <p>Seccion de registro de cuentas.</p>
 		            </div>
 		          </form>
 		          <p class="text-center">¿Ya estas registrado?<a target="_self" href="login.aspx"><br />Ingresa</a></p>

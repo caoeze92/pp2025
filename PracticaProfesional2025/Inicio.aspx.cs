@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace PracticaProfesional2025
 {
@@ -11,7 +13,8 @@ namespace PracticaProfesional2025
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            lblSession.Text = (string)Session["NombreInicio"];
         }
     }
+
 }

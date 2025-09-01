@@ -20,31 +20,32 @@ namespace PracticaProfesional2025
         {
             using (SqlConnection conexion = ConnectionFactory.GetConnection())
             {
-                string script = "INSERT INTO USUARIOS (usuario, password) VALUES (@usuario, @password)";
-                    
+                string msgErr = "Error al crear la cuenta, alguno de los datos ingresados ya existen.";
+                string msgcCreada = "Cuenta creada exitosamente.";
+                string script = "INSERT INTO USUARIOS (nombre, apellido, email, password_hash, telefono) VALUES (@nombre, @apellido, @email, @password_hash, @telefono)";
+                try
+                {
                     SqlCommand command = new SqlCommand(script, conexion);
                     conexion.Open();
-                    command.Parameters.AddWithValue("@usuario", ntxtUsuario.Text);
-                    command.Parameters.AddWithValue("@password", ntxtPassword.Text);                    
-                    int resultado = command.ExecuteNonQuery();
-                    if (resultado < 0)
+                    command.Parameters.AddWithValue("@nombre", nTxtNombre.Text);
+                    command.Parameters.AddWithValue("@apellido", nTxtApellido.Text);
+                    command.Parameters.AddWithValue("@email", nTxtEmail.Text);
+                    command.Parameters.AddWithValue("@password_hash", nTxtPassword.Text);
+                    command.Parameters.AddWithValue("@telefono", nTxtTelefono.Text);
+                        int resultado = command.ExecuteNonQuery();
+                        if (resultado > 0)
+                        {
+                        Session["NombreInicio"] = nTxtNombre.Text;
+                        Response.Redirect("Inicio.aspx", false);
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msgcCreada + "');", true);
+                        }
+                    }
+                    catch (Exception ex)
                     {
                         conexion.Close();
-                        Console.WriteLine("Error al crear la cuenta en la db");
+                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msgErr + "');", true);
                         
-                        }
-                    else {
-                        Console.WriteLine("Cuenta {0} creada exitosamente", ntxtUsuario.Text);
-                        Response.Redirect("Inicio.aspx", false);
                     }
-                 //String id = String.Empty;
-                //if (id != String.Empty)
-                //{
-                //    Session["Usuario"] = ntxtUsuario.Text;
-
-                //    //Redireccionarlo ala pagina correcta
-
-                //}
             }
         }
     }

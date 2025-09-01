@@ -13,22 +13,22 @@ namespace PracticaProfesional2025 {
     public partial class login {
         
         /// <summary>
-        /// Control txtUsuario.
+        /// Control logTxtEmail.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtUsuario;
+        protected global::System.Web.UI.WebControls.TextBox logTxtEmail;
         
         /// <summary>
-        /// Control txtPass.
+        /// Control logTxtPassword.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtPass;
+        protected global::System.Web.UI.WebControls.TextBox logTxtPassword;
         
         /// <summary>
         /// Control btnLogin.

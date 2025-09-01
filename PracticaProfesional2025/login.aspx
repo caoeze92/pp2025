@@ -40,13 +40,13 @@
 							<form action="#" class="signin-form" runat="server">
 			      		<div class="form-group mt-3">
 			      			<!--<input type="text" class="form-control" required>-->
-                            <asp:TextBox ID="txtUsuario" runat="server" class="form-control" required></asp:TextBox>
-			      			<label class="form-control-placeholder" for="username">Username</label>
+                            <asp:TextBox ID="logTxtEmail" runat="server" class="form-control" required></asp:TextBox>
+			      			<label class="form-control-placeholder" for="nTxtEmail">Email:</label>
 			      		</div>
 		            <div class="form-group">
 		              <!--<input id="password-field" type="password" class="form-control" required>-->
-                      <asp:TextBox ID="txtPass" textMode= "Password" runat="server" class="form-control" required></asp:TextBox>
-		              <label class="form-control-placeholder" for="password">Password</label>
+                      <asp:TextBox ID="logTxtPassword" textMode= "Password" runat="server" class="form-control" required></asp:TextBox>
+		              <label class="form-control-placeholder" for="logTxtPassword">Password</label>
 		              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 		            </div>
 		            <div class="form-group">
