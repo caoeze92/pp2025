@@ -43,23 +43,17 @@
 							<form action="#" class="signin-form" runat="server">
 			      		<div class="form-group mt-4">
 			      			<!--<input type="text" class="form-control" required>-->
-<<<<<<< HEAD
-                            <asp:TextBox ID="txtUsuario" runat="server" class="form-control" required></asp:TextBox>
-			      			<label class="form-control-placeholder" for="username">Email</label>
-=======
+
                             <asp:TextBox ID="logTxtEmail" runat="server" class="form-control" required></asp:TextBox>
 			      			<label class="form-control-placeholder" for="nTxtEmail">Email:</label>
->>>>>>> 656b1676eca644119aa61531c6fef18eef260390
+
 			      		</div>
 		            <div class="form-group mt-4">
 		              <!--<input id="password-field" type="password" class="form-control" required>-->
-<<<<<<< HEAD
-                      <asp:TextBox ID="txtPass" textMode= "Password" runat="server" class="form-control" required></asp:TextBox>
-		              <label class="form-control-placeholder" for="password">Contraseña</label>
-=======
+
                       <asp:TextBox ID="logTxtPassword" textMode= "Password" runat="server" class="form-control" required></asp:TextBox>
 		              <label class="form-control-placeholder" for="logTxtPassword">Password</label>
->>>>>>> 656b1676eca644119aa61531c6fef18eef260390
+
 		              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 		            </div>
 		            <div class="form-group">

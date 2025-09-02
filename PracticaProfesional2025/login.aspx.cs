@@ -22,11 +22,9 @@ namespace PracticaProfesional2025
         {
             using (SqlConnection conexion = ConnectionFactory.GetConnection())
             {
-<<<<<<< HEAD
-                string script = String.Format("SELECT id_usuario FROM USUARIOS WHERE email = '{0}' AND password_hash =  '{1}'", txtUsuario.Text, txtPass.Text);
-=======
+
                 string script = String.Format("SELECT ID_USUARIO, NOMBRE FROM USUARIOS WHERE EMAIL = '{0}' AND PASSWORD_HASH =  '{1}'", logTxtEmail.Text, logTxtPassword.Text);
->>>>>>> 656b1676eca644119aa61531c6fef18eef260390
+
 
                     conexion.Open();
 
