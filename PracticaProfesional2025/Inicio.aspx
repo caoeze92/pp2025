@@ -1,4 +1,4 @@
-﻿<%@ Page Title="Inicio" Language="C#" MasterPageFile="~/Principal.Master" AutoEventWireup="true"
+﻿<%@ Page Title="INICIO - Sistema de control de Inventario Institucional - ISFDyT 46" Language="C#" MasterPageFile="~/Principal.Master" AutoEventWireup="true"
     CodeBehind="Inicio.aspx.cs" Inherits="PracticaProfesional2025.Inicio" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">

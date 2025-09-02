@@ -34,9 +34,9 @@
 			      		</div>
 								<div class="w-100">
 									<p class="social-media d-flex justify-content-end">
-										<a href="https://www.instagram.com/instituto.46" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-instagram"></span></a>
-										<a href="http://www.instituto46.edu.ar/" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-globe"></span></a>
-                                        <a href="mailto:info@instituto46.edu.ar" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-envelope"></span></a>
+										<a href="https://www.instagram.com/instituto.46" class="social-icon d-flex align-items-center justify-content-center" target="_blank"><span class="fa fa-instagram"></span></a>
+										<a href="http://www.instituto46.edu.ar/" class="social-icon d-flex align-items-center justify-content-center" target="_blank"><span class="fa fa-globe"></span></a>
+                                        <a href="mailto:info@instituto46.edu.ar" class="social-icon d-flex align-items-center justify-content-center" target="_blank"><span class="fa fa-envelope"></span></a>
 									</p>
 								</div>
 			      	</div>

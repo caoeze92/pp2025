@@ -27,17 +27,17 @@
 						<div class="img" style="background-image: url(Contenido/registro/images/bg-1.jpg);"></div>
 						<div class="login-wrap p-4 p-md-5">
                           <div class="form-group d-md-flex">
-		                <p class="text-center">Seccion de registro de Nuevas Cuentas.</p>
+		                <h5 class="text-center">Sección de registro de Nuevas Cuentas.</h5>
 		                </div>
 			      	<div class="d-flex">
 			      		<div class="w-100">
-			      			<h6 class="mb-4">Ingresa tus datos:</h6>
+			      			<h5 class="mb-4">Ingresá tus datos:</h5>
 			      		</div>
 								<div class="w-100">
 									<p class="social-media d-flex justify-content-end">
-										<a href="https://www.instagram.com/instituto.46" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-instagram"></span></a>
-										<a href="http://www.instituto46.edu.ar/" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-globe"></span></a>
-                                        <a href="mailto:info@instituto46.edu.ar" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-envelope"></span></a>
+										<a href="https://www.instagram.com/instituto.46" class="social-icon d-flex align-items-center justify-content-center" target="_blank"><span class="fa fa-instagram"></span></a>
+										<a href="http://www.instituto46.edu.ar/" class="social-icon d-flex align-items-center justify-content-center" target="_blank"><span class="fa fa-globe"></span></a>
+                                        <a href="mailto:info@instituto46.edu.ar" class="social-icon d-flex align-items-center justify-content-center" target="_blank"><span class="fa fa-envelope"></span></a>
 									</p>
 								</div>
 			      	</div>
