@@ -2,7 +2,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>NUEVO USUARIO</title>
+  	<title>NUEVO USUARIO - Sistema de control de Inventario Institucional - ISFDyT 46</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -27,7 +27,7 @@
 						<div class="img" style="background-image: url(Contenido/registro/images/bg-1.jpg);"></div>
 						<div class="login-wrap p-4 p-md-5">
                           <div class="form-group d-md-flex">
-		                <p class="text-center">Seccion de registro de cuentas.</p>
+		                <p class="text-center">Seccion de registro de Nuevas Cuentas.</p>
 		                </div>
 			      	<div class="d-flex">
 			      		<div class="w-100">
@@ -35,8 +35,9 @@
 			      		</div>
 								<div class="w-100">
 									<p class="social-media d-flex justify-content-end">
-										<a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a>
-										<a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span></a>
+										<a href="https://www.instagram.com/instituto.46" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-instagram"></span></a>
+										<a href="http://www.instituto46.edu.ar/" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-globe"></span></a>
+                                        <a href="mailto:info@instituto46.edu.ar" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-envelope"></span></a>
 									</p>
 								</div>
 			      	</div>
@@ -72,7 +73,7 @@
                         <asp:Button ID="btnLogin" runat="server" OnClick="btnLogin_Click" class="form-control btn btn-primary rounded submit px-" Text="Registrarse"></asp:Button>
 		            </div>
 		          </form>
-		          <p class="text-center">¿Ya estas registrado?<a target="_self" href="login.aspx"><br />Ingresa</a></p>
+		          <p class="text-center">¿Ya estás registrado?<a target="_self" href="login.aspx"><br />Ingresar</a></p>
 		        </div>
 		      </div>
 				</div>

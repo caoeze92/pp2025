@@ -35,6 +35,7 @@ namespace PracticaProfesional2025
                         int resultado = command.ExecuteNonQuery();
                         if (resultado > 0)
                         {
+                        conexion.Close();
                         Session["NombreInicio"] = nTxtNombre.Text;
                         Response.Redirect("Inicio.aspx", false);
                         ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msgcCreada + "');", true);
@@ -44,7 +45,7 @@ namespace PracticaProfesional2025
                     {
                         conexion.Close();
                         ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msgErr + "');", true);
-                        
+                        Console.WriteLine(ex);
                     }
             }
         }

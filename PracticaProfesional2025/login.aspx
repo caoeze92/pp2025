@@ -2,7 +2,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-  	<title>Login 05</title>
+  	<title>Sistema de control de Inventario Institucional - ISFDyT 46</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -18,13 +18,15 @@
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-md-6 text-center mb-5">
-					<h2 class="heading-section">INGRESO</h2>
+					<h2 class="heading-section">Sistema de control <br />Inventario Institucional</h2>
+                    <h3 class="heading-section">ISFDyT 46</h3>
+                    
 				</div>
 			</div>
 			<div class="row justify-content-center">
 				<div class="col-md-7 col-lg-5">
 					<div class="wrap">
-						<div class="img" style="background-image: url(Contenido/login/images/bg-1.jpg);"></div>
+						<div class="img" style="background-image: url(Contenido/images/dtc.jpeg);"></div>
 						<div class="login-wrap p-4 p-md-5">
 			      	<div class="d-flex">
 			      		<div class="w-100">
@@ -32,18 +34,19 @@
 			      		</div>
 								<div class="w-100">
 									<p class="social-media d-flex justify-content-end">
-										<a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-facebook"></span></a>
-										<a href="#" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-twitter"></span></a>
+										<a href="https://www.instagram.com/instituto.46" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-instagram"></span></a>
+										<a href="http://www.instituto46.edu.ar/" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-globe"></span></a>
+                                        <a href="mailto:info@instituto46.edu.ar" class="social-icon d-flex align-items-center justify-content-center"><span class="fa fa-envelope"></span></a>
 									</p>
 								</div>
 			      	</div>
 							<form action="#" class="signin-form" runat="server">
-			      		<div class="form-group mt-3">
+			      		<div class="form-group mt-4">
 			      			<!--<input type="text" class="form-control" required>-->
                             <asp:TextBox ID="logTxtEmail" runat="server" class="form-control" required></asp:TextBox>
 			      			<label class="form-control-placeholder" for="nTxtEmail">Email:</label>
 			      		</div>
-		            <div class="form-group">
+		            <div class="form-group mt-4">
 		              <!--<input id="password-field" type="password" class="form-control" required>-->
                       <asp:TextBox ID="logTxtPassword" textMode= "Password" runat="server" class="form-control" required></asp:TextBox>
 		              <label class="form-control-placeholder" for="logTxtPassword">Password</label>
@@ -65,7 +68,7 @@
 									</div>
 		            </div>
 		          </form>
-		          <p class="text-center">¿Aun no estas registrado? <a target="_self" href="CrearUsuario.aspx"><br />Registrarte</a></p>
+		          <p class="text-center">¿Aun no estás registrado? <a target="_self" href="CrearUsuario.aspx"><br />Nuevo usuario</a></p>
 		        </div>
 		      </div>
 				</div>

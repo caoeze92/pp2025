@@ -57,7 +57,8 @@ body {
   line-height: 1.5;
   color: #212529;
   text-align: left;
-  background-color: #fff; }
+  background-color: #fff; 
+  }
 
 [tabindex="-1"]:focus {
   outline: 0 !important; }
@@ -1596,7 +1597,8 @@ pre {
   font-size: 1rem;
   font-weight: 400;
   line-height: 1.5;
-  color: #495057;
+  /*color: #495057;*/
+  color: #1b263b;
   background-color: #fff;
   background-clip: padding-box;
   border: 1px solid #ced4da;
@@ -8131,39 +8133,50 @@ a.text-dark:hover, a.text-dark:focus {
   .table .thead-dark th {
     color: inherit;
     border-color: #dee2e6; } }
-
+/* BODY GENERAL  */
 body {
   font-family: "Lato", Arial, sans-serif;
   font-size: 16px;
   line-height: 1.8;
   font-weight: normal;
-  background: #f8f9fd;
-  color: gray; }
+  /*background: #f8f9fd;*/
+  background: #0d1b2a;
+  /* color: gray;*/
+  color: #0d1b2a; }
 
 a {
   -webkit-transition: .3s all ease;
   -o-transition: .3s all ease;
   transition: .3s all ease;
-  color: #01d28e; }
+  /* color: #01d28e; */
+  color: #778da9; }
   a:hover, a:focus {
     text-decoration: none !important;
     outline: none !important;
     -webkit-box-shadow: none;
     box-shadow: none; }
   a:hover, a:active, a:focus {
-    color: #01d28e;
+   /* color: #01d28e; */
+    color: #415a77;
     outline: none !important;
-    text-decoration: none !important; }
+    text-decoration: none !important;
+    font-weight: bolder;
+   }
 
-h1, h2, h3, h4, h5, h6,
+h1, h2, h3, h4, h5,
 .h1, .h2, .h3, .h4, .h5 {
   line-height: 1.5;
   font-weight: 400;
-  font-family: "Lato", Arial, sans-serif;
-  color: #000; }
+  font-family: "Roboto", Arial, sans-serif;
+  color: #415a77; 
+  }
 
 .bg-primary {
-  background: #01d28e !important; }
+/*   background: #01d28e !important; */
+background: #778da9 !important;
+  font-family: "Roboto", Arial, sans-serif;
+  font-weight:bolder;
+}
 
 .ftco-section {
   padding: 7em 0; }
@@ -8176,7 +8189,11 @@ h1, h2, h3, h4, h5, h6,
 
 .heading-section {
   font-size: 28px;
-  color: #000; }
+  /* color: #000; */
+  color: #e0e1dd;
+  font-family: "Roboto", Arial, sans-serif;
+  font-weight:bolder;
+  }
 
 .img {
   background-size: cover;
@@ -8208,13 +8225,14 @@ h1, h2, h3, h4, h5, h6,
 
 .form-control {
   height: 48px;
-  background: #fff;
+  /* background: #fff; */
+  background: #e0e1dd; /* Fondo inputs */
   color: #000;
   font-size: 16px;
   border-radius: 5px;
   -webkit-box-shadow: none;
   box-shadow: none;
-  border: 1px solid rgba(0, 0, 0, 0.1); }
+  border: 1px solid #1b263b; }
   .form-control::-webkit-input-placeholder {
     /* Chrome/Opera/Safari */
     color: rgba(0, 0, 0, 0.2) !important; }
@@ -8231,7 +8249,7 @@ h1, h2, h3, h4, h5, h6,
     outline: none !important;
     -webkit-box-shadow: none;
     box-shadow: none;
-    border: 1px solid #01d28e; }
+    border: 1px solid #1b263b; }
 
 .field-icon {
   position: absolute;
@@ -8260,7 +8278,7 @@ h1, h2, h3, h4, h5, h6,
   text-transform: uppercase;
   font-size: 12px;
   letter-spacing: 1px;
-  color: #01d28e;
+  color: #1b263b;
   font-weight: 700; }
 
 .social-media {
@@ -8271,14 +8289,16 @@ h1, h2, h3, h4, h5, h6,
     width: 40px;
     height: 40px;
     background: transparent;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid #1b263b;
     font-size: 16px;
     margin-right: 5px;
     border-radius: 50%; }
     .social-media .social-icon span {
       color: #999999; }
     .social-media .social-icon:hover, .social-media .social-icon:focus {
-      background: #01d28e; }
+      /* background: #01d28e;  */
+      background: #1b263b;
+      }
       .social-media .social-icon:hover span, .social-media .social-icon:focus span {
         color: #fff; }
 
@@ -8307,14 +8327,16 @@ h1, h2, h3, h4, h5, h6,
 .checkmark {
   position: absolute;
   top: 0;
-  left: 0; }
+  left: 0;
+  color:  }
 
 /* Create the checkmark/indicator (hidden when not checked) */
 .checkmark:after {
   content: "\f0c8";
   font-family: "FontAwesome";
   position: absolute;
-  color: rgba(0, 0, 0, 0.1);
+/*  color: rgba(0, 0, 0, 0.1);*/
+color: #1b263b;
   font-size: 20px;
   margin-top: -4px;
   -webkit-transition: 0.3s;
@@ -8331,35 +8353,46 @@ h1, h2, h3, h4, h5, h6,
   display: block;
   content: "\f14a";
   font-family: "FontAwesome";
-  color: rgba(0, 0, 0, 0.2); }
+  color: rgba(0, 0, 0, 0.2);
+   }
 
 /* Style the checkmark/indicator */
 .checkbox-primary {
-  color: #01d28e; }
+  /*color: #01d28e;*/
+  color: #1b263b; }
   .checkbox-primary input:checked ~ .checkmark:after {
-    color: #01d28e; }
+    /*color: #01d28e;*/
+    color: #1b263b; }
 
 .btn {
   cursor: pointer;
   -webkit-box-shadow: none !important;
   box-shadow: none !important;
   font-size: 15px;
+  font-family: "Roboto", Arial, sans-serif;
   padding: 10px 20px; }
   .btn:hover, .btn:active, .btn:focus {
     outline: none; }
   .btn.btn-primary {
-    background: #01d28e !important;
-    border: 1px solid #01d28e !important;
+    /* background: #01d28e !important; */
+    background: #1b263b !important;
+    border: 1px solid #0d1b2a !important;
     color: #fff !important; }
     .btn.btn-primary:hover {
       border: 1px solid #01d28e;
       background: transparent;
-      color: #01d28e; }
+      opacity: 0.9;
+      /* color: #01d28e; */
+      color: #1b263b;
+      font-family: "Roboto", Arial, sans-serif;
+      font-weight: bolder;
+       }
     .btn.btn-primary.btn-outline-primary {
-      border: 1px solid #01d28e;
+      /*border: 1px solid #01d28e;*/
+      border: 1px solid #0d1b2a;
       background: transparent;
-      color: #01d28e; }
+      color: #1b263b; }
       .btn.btn-primary.btn-outline-primary:hover {
         border: 1px solid transparent;
-        background: #01d28e;
+        background: #1b263b;
         color: #fff; }
