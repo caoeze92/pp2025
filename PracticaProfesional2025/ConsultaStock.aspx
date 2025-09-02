@@ -51,95 +51,78 @@
         <h2 class="mb-4">CONSULTA DE STOCK</h2>
 
         <!-- Panel de filtros -->
-        <asp:Panel ID="pnlFiltros" runat="server" CssClass="mb-4">
-            <div class="row g-2">
-                <div class="col-md-2">
-                    <div class="filtro-box">
-                        <label for="txtIdComputadora">ID Computadora</label>
-                        <asp:TextBox ID="txtIdComputadora" runat="server" />
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="filtro-box">
-                        <label for="txtIdComponente">ID Componente</label>
-                        <asp:TextBox ID="txtIdComponente" runat="server" />
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="filtro-box">
-                        <label for="txtCodigoInventario">Inventario</label>
-                        <asp:TextBox ID="txtCodigoInventario" runat="server" />
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="filtro-box">
-                        <label for="txtNumeroSerie">Nro. Serie</label>
-                        <asp:TextBox ID="txtNumeroSerie" runat="server" />
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="filtro-box">
-                        <label for="txtDescripcion">Descripción</label>
-                        <asp:TextBox ID="txtDescripcion" runat="server" />
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="filtro-box">
-                        <label for="txtIdLaboratorio">Laboratorio</label>
-                        <asp:TextBox ID="txtIdLaboratorio" runat="server" />
-                    </div>
-                </div>
+<!-- Panel de filtros -->
+<asp:Panel ID="pnlFiltros" runat="server" CssClass="mb-3">
+    <div class="row g-2">
+        <!-- Primera fila (6 campos) -->
+        <div class="col-md-2">
+            <div class="filtro-box">
+                <label for="txtIdComputadora">ID Computadora</label>
+                <asp:TextBox ID="txtIdComputadora" runat="server" />
             </div>
-
-            <div class="row g-2 mt-2">
-                <!-- Estado de la PC -->
-                <div class="col-md-2">
-                    <div class="filtro-box">
-                        <label for="ddlEstado">Estado de la PC</label>
-                        <asp:DropDownList ID="ddlEstado" runat="server">
-                            <asp:ListItem Text="-- Seleccione --" Value="" />
-                            <asp:ListItem Text="En uso" Value="En uso" />
-                            <asp:ListItem Text="Disponible" Value="Disponible" />
-                            <asp:ListItem Text="En reparación" Value="En reparación" />
-                            <asp:ListItem Text="De baja" Value="De baja" />
-                        </asp:DropDownList>
-                    </div>
-                </div>
-
-                <!-- Estado del Componente -->
-                <div class="col-md-2">
-                    <div class="filtro-box">
-                        <label for="DropDownList1">Estado del Componente</label>
-                        <asp:DropDownList ID="DropDownList1" runat="server">
-                            <asp:ListItem Text="-- Seleccione --" Value="" />
-                            <asp:ListItem Text="En funcionamiento" Value="En funcionamiento" />
-                            <asp:ListItem Text="En reparación" Value="En reparación" />
-                            <asp:ListItem Text="Lista para instalar" Value="Lista para instalar" />
-                            <asp:ListItem Text="Dado de baja" Value="Dado de baja" />
-                        </asp:DropDownList>
-                    </div>
-                </div>
-
-                <!-- Tipo de Componente -->
-                <div class="col-md-2">
-                    <div class="filtro-box">
-                        <label for="txtTipoComponente">Tipo de Componente</label>
-                        <asp:TextBox ID="txtTipoComponente" runat="server" />
-                    </div>
-                </div>
-
-                <!-- Botón Buscar -->
-                <div class="col-md-2 d-flex align-items-end">
-                    <asp:Button ID="Button1" runat="server" Text="Buscar" CssClass="btn btn-primary w-100 btn-buscar" OnClick="btnBuscar_Click" />
-                </div>
+        </div>
+        <div class="col-md-2">
+            <div class="filtro-box">
+                <label for="txtIdComponente">ID Componente</label>
+                <asp:TextBox ID="txtIdComponente" runat="server" />
             </div>
+        </div>
+        <div class="col-md-2">
+            <div class="filtro-box">
+                <label for="txtCodigoInventario">Inventario</label>
+                <asp:TextBox ID="txtCodigoInventario" runat="server" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="filtro-box">
+                <label for="txtNumeroSerie">Nro. Serie</label>
+                <asp:TextBox ID="txtNumeroSerie" runat="server" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="filtro-box">
+                <label for="txtDescripcion">Descripción</label>
+                <asp:TextBox ID="txtDescripcion" runat="server" />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="filtro-box">
+                <label for="txtIdLaboratorio">Laboratorio</label>
+                <asp:TextBox ID="txtIdLaboratorio" runat="server" />
+            </div>
+        </div>
+    </div>
 
-        </asp:Panel>
+    <div class="row g-2 mt-2">
+        <!-- Segunda fila (4 filtros + botón) -->
+        <div class="col-md-2">
+            <div class="filtro-box">
+                <label for="ddlEstadoPC">Estado de la PC</label>
+                <asp:DropDownList ID="ddlEstadoPC" runat="server" CssClass="form-select"></asp:DropDownList>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="filtro-box">
+                <label for="ddlEstadoComponente">Estado del Componente</label>
+                <asp:DropDownList ID="ddlEstadoComponente" runat="server" CssClass="form-select"></asp:DropDownList>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="filtro-box">
+                <label for="txtTipoComponente">Tipo de Componente</label>
+                <asp:TextBox ID="txtTipoComponente" runat="server" />
+            </div>
+        </div>
+        <div class="col-md-2 d-flex align-items-end">
+            <asp:Button ID="Button1" runat="server" Text="Buscar" CssClass="btn btn-primary w-100 btn-buscar" OnClick="btnBuscar_Click" />
+        </div>
+    </div>
+</asp:Panel>
 
         <!-- Tabla de resultados -->
         <h4>Resultados</h4>
         <div class="table-responsive">
-            <asp:GridView ID="gvResultados" runat="server" AutoGenerateColumns="false" CssClass="text-center">
+            <asp:GridView ID="gvResultados" runat="server" AutoGenerateColumns="false" CssClass="text-center" OnRowDataBound="gvResultados_RowDataBound">
                 
                 <HeaderStyle BackColor="#0d6efd" ForeColor="White" HorizontalAlign="Center" Font-Bold="True" />
 

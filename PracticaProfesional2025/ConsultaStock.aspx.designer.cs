@@ -76,22 +76,22 @@ namespace PracticaProfesional2025 {
         protected global::System.Web.UI.WebControls.TextBox txtIdLaboratorio;
         
         /// <summary>
-        /// Control ddlEstado.
+        /// Control ddlEstadoPC.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlEstado;
+        protected global::System.Web.UI.WebControls.DropDownList ddlEstadoPC;
         
         /// <summary>
-        /// Control DropDownList1.
+        /// Control ddlEstadoComponente.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
+        protected global::System.Web.UI.WebControls.DropDownList ddlEstadoComponente;
         
         /// <summary>
         /// Control txtTipoComponente.

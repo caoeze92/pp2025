@@ -13,7 +13,10 @@ namespace PracticaProfesional2025
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)//QUE SOLO CARGEUA LA PRIMRA VEZ
+            {
+                CargarEstados();
+            }
         }
 
 
@@ -41,8 +44,12 @@ namespace PracticaProfesional2025
                     FROM Computadora_Componentes cc
                     JOIN Componentes comp ON comp.id_componente = cc.id_componente
                     JOIN Computadoras c ON c.id_computadora = cc.id_computadora
-                    LEFT JOIN vw_Estados_Componentes estComp ON estComp.id_estado = comp.estado_id
-                    LEFT JOIN vw_Estados_PC estPC ON estPC.id_estado = c.estado_actual
+                    LEFT JOIN Estados estPC 
+                        ON estPC.id_estado = c.estado_actual
+                        AND estPC.id_tipo_estado = 1     -- PC
+                    LEFT JOIN Estados estComp 
+                        ON estComp.id_estado = comp.estado_id 
+                        AND estComp.id_tipo_estado = 2   -- Componente  
                     WHERE (@idComputadora IS NULL OR c.id_computadora = @idComputadora)
                       AND (@idComponente IS NULL OR comp.id_componente = @idComponente)
                       AND (@codigoInventario IS NULL OR c.codigo_inventario LIKE @codigoInventario + '%')
@@ -65,21 +72,25 @@ namespace PracticaProfesional2025
                 cmd.Parameters.AddWithValue("@numeroSerie", string.IsNullOrEmpty(txtNumeroSerie.Text) ? (object)DBNull.Value : txtNumeroSerie.Text);
                 cmd.Parameters.AddWithValue("@descripcion", string.IsNullOrEmpty(txtDescripcion.Text) ? (object)DBNull.Value : txtDescripcion.Text);
                 cmd.Parameters.AddWithValue("@idLaboratorio", string.IsNullOrEmpty(txtIdLaboratorio.Text) ? (object)DBNull.Value : txtIdLaboratorio.Text);
-                cmd.Parameters.AddWithValue("@estadoPC", string.IsNullOrEmpty(ddlEstado.SelectedValue) ? (object)DBNull.Value : ddlEstado.SelectedValue);
-                cmd.Parameters.AddWithValue("@estadoComp", string.IsNullOrEmpty(DropDownList1.SelectedValue) ? (object)DBNull.Value : DropDownList1.SelectedValue);
+                cmd.Parameters.AddWithValue("@estadoPC", string.IsNullOrEmpty(ddlEstadoPC.SelectedValue) ? (object)DBNull.Value : ddlEstadoPC.SelectedValue);
+                cmd.Parameters.AddWithValue("@estadoComp", string.IsNullOrEmpty(ddlEstadoComponente.SelectedValue) ? (object)DBNull.Value : ddlEstadoComponente.SelectedValue);
                 cmd.Parameters.AddWithValue("@tipoComponente", string.IsNullOrEmpty(txtTipoComponente.Text) ? (object)DBNull.Value : txtTipoComponente.Text);
+                
 
-
-        System.Diagnostics.Debug.WriteLine("Parametros para la query de Consulta Stock");
-        foreach (SqlParameter p in cmd.Parameters)
-        {   string result = String.Format("{0} = {1}", p.ParameterName, p.Value);
-        System.Diagnostics.Debug.WriteLine(result);
-        }
+                System.Diagnostics.Debug.WriteLine("Parametros para la query de Consulta Stock");
+                foreach (SqlParameter p in cmd.Parameters)
+                {
+                    string result = String.Format("{0} = {1}", p.ParameterName, p.Value);
+                    System.Diagnostics.Debug.WriteLine(result);
+                }
 
 
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
+
+
+
 
                 gvResultados.DataSource = dt;
                 gvResultados.DataBind();
@@ -93,6 +104,64 @@ namespace PracticaProfesional2025
             // Ejemplo: mostrar el ID de la computadora seleccionada
             string idComp = row.Cells[0].Text;
             // Hacer algo con idComp...
+        }
+
+        protected void gvResultados_RowDataBound(object sender, GridViewRowEventArgs e)
+{
+
+            DateTime fecha;
+    if (e.Row.RowType == DataControlRowType.DataRow)
+    {
+        for (int i = 0; i < e.Row.Cells.Count; i++)
+        {
+            string cellText = e.Row.Cells[i].Text;
+
+            // Si la celda está vacía o es NULL
+            if (string.IsNullOrWhiteSpace(cellText) || cellText == "&nbsp;")
+            {
+                e.Row.Cells[i].Text = "-";
+            }
+            else
+            {
+                // Intentar convertir a fecha y formatear
+                if (DateTime.TryParse(cellText, out fecha))
+                {
+                    e.Row.Cells[i].Text = fecha.ToString("dd/MM/yyyy");
+                }
+            }
+        }
+    }
+}
+
+
+        private void CargarEstados()
+        {
+            using (SqlConnection con = ConnectionFactory.GetConnection())
+            {
+                con.Open();
+
+                // Estados de PC
+                SqlCommand cmdPC = new SqlCommand("SELECT descripcion FROM Estados WHERE id_tipo_estado = 1", con);
+                SqlDataReader drPC = cmdPC.ExecuteReader();
+                ddlEstadoPC.DataSource = drPC;
+                ddlEstadoPC.DataTextField = "descripcion";
+                ddlEstadoPC.DataValueField = "descripcion";
+                ddlEstadoPC.DataBind();
+                drPC.Close();
+                System.Diagnostics.Debug.WriteLine("Cargo combo EstadosPC");
+                ddlEstadoPC.Items.Insert(0, new ListItem("-- Seleccione --", ""));
+
+                // Estados de Componentes
+                SqlCommand cmdComp = new SqlCommand("SELECT descripcion FROM Estados WHERE id_tipo_estado = 2", con);
+                SqlDataReader drComp = cmdComp.ExecuteReader();
+                ddlEstadoComponente.DataSource = drComp;
+                ddlEstadoComponente.DataTextField = "descripcion";
+                ddlEstadoComponente.DataValueField = "descripcion";
+                ddlEstadoComponente.DataBind();
+                drComp.Close();
+                System.Diagnostics.Debug.WriteLine("Cargo combo estadosComp");
+                ddlEstadoComponente.Items.Insert(0, new ListItem("-- Seleccione --", ""));
+            }
         }
     }
 }
