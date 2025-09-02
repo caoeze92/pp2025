@@ -9,6 +9,8 @@ using System.Diagnostics;
 
 namespace PracticaProfesional2025
 {
+
+
    public partial class login : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
@@ -20,7 +22,11 @@ namespace PracticaProfesional2025
         {
             using (SqlConnection conexion = ConnectionFactory.GetConnection())
             {
+<<<<<<< HEAD
                 string script = String.Format("SELECT id_usuario FROM USUARIOS WHERE email = '{0}' AND password_hash =  '{1}'", txtUsuario.Text, txtPass.Text);
+=======
+                string script = String.Format("SELECT ID_USUARIO, NOMBRE FROM USUARIOS WHERE EMAIL = '{0}' AND PASSWORD_HASH =  '{1}'", logTxtEmail.Text, logTxtPassword.Text);
+>>>>>>> 656b1676eca644119aa61531c6fef18eef260390
 
                     conexion.Open();
 
@@ -29,12 +35,14 @@ namespace PracticaProfesional2025
                     SqlDataReader reader = command.ExecuteReader();
 
                     String id = String.Empty;
+                    String Nombre = String.Empty;
 
                     if (reader.HasRows)
                     {
                         while (reader.Read())
                         {
                             id = reader.GetInt32(0).ToString();
+                            Nombre = reader.GetString(1);
                         }
                     }
 
@@ -43,12 +51,13 @@ namespace PracticaProfesional2025
 
                     if (id != String.Empty)
                     {
-                        Session["Usuario"] = txtUsuario.Text;
+                        Session["NombreInicio"] = Nombre;
 
                         //Redireccionarlo ala pagina correcta
 
                         Response.Redirect("Inicio.aspx", false);
                     }
+
                 }
         }
 
