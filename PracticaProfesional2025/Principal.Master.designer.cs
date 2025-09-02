@@ -13,6 +13,15 @@ namespace PracticaProfesional2025 {
     public partial class Principal {
         
         /// <summary>
+        /// Control menuAdmin.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuAdmin;
+        
+        /// <summary>
         /// Control form1.
         /// </summary>
         /// <remarks>

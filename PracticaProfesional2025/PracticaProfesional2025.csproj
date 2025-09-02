@@ -51,6 +51,7 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="AdministracionDeUsuarios.aspx" />
     <Content Include="Contenido\css\bootstrap.min.css" />
     <Content Include="Contenido\css\bootstrap\mixins\_border-radius.css" />
     <Content Include="Contenido\css\bootstrap\mixins\_screen-reader.css" />
@@ -77,6 +78,7 @@
     <Content Include="Contenido\login\js\popper.js" />
     <Content Include="Inicio.aspx" />
     <Content Include="login.aspx" />
+    <Content Include="NoAutorizado.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -90,6 +92,13 @@
     <Content Include="CrearUsuario.aspx" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AdministracionDeUsuarios.aspx.cs">
+      <DependentUpon>AdministracionDeUsuarios.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AdministracionDeUsuarios.aspx.designer.cs">
+      <DependentUpon>AdministracionDeUsuarios.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ConnectionFactory.cs" />
     <Compile Include="Inicio.aspx.cs">
       <DependentUpon>Inicio.aspx</DependentUpon>
@@ -104,6 +113,13 @@
     </Compile>
     <Compile Include="login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="NoAutorizado.aspx.cs">
+      <DependentUpon>NoAutorizado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NoAutorizado.aspx.designer.cs">
+      <DependentUpon>NoAutorizado.aspx</DependentUpon>
     </Compile>
     <Compile Include="Principal.Master.cs">
       <DependentUpon>Principal.Master</DependentUpon>

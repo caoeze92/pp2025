@@ -33,8 +33,9 @@
 	          <li>
               <a href="#"><span class="fa fa-briefcase mr-3"></span> OTRO</a>
 	          </li>
-	          <li>
-              <a href="#"><span class="fa fa-sticky-note mr-3"></span> OTRO</a>
+              <!-- Solo Admin -->
+	          <li id="menuAdmin" runat="server">
+              <a href="AdministracionDeUsuarios.aspx"><span class="fa fa-sticky-note mr-3"></span> Administrar Usuarios</a>
 	          </li>
 	        </ul>
 

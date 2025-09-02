@@ -11,7 +11,17 @@ namespace PracticaProfesional2025
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (IsPostBack)
+            {
+                if (Session["Rol"] != null && Session["Rol"].ToString() == "admin")
+                {
+                    menuAdmin.Visible = true;
+                }
+                else
+                {
+                    menuAdmin.Visible = false;
+                }
+            }
         }
     }
 }
