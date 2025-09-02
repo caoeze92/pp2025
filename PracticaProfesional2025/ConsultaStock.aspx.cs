@@ -28,37 +28,37 @@ namespace PracticaProfesional2025
             {
                 string query = @"
                     SELECT 
-                        c.id_computadora,
-                        comp.id_componente,
-                        cc.fecha_asignacion,
-                        cc.fecha_desasignacion,
-                        c.id_laboratorio,
-                        c.codigo_inventario,
-                        c.numero_serie,
-                        c.descripcion,
-                        comp.tipo AS tipo_componente,
-                        comp.marca,
-                        comp.modelo,
-                        estComp.descripcion AS estado_componente,
-                        estPC.descripcion AS estado_pc
-                    FROM Computadora_Componentes cc
-                    JOIN Componentes comp ON comp.id_componente = cc.id_componente
-                    JOIN Computadoras c ON c.id_computadora = cc.id_computadora
-                    LEFT JOIN Estados estPC 
-                        ON estPC.id_estado = c.estado_actual
-                        AND estPC.id_tipo_estado = 1     -- PC
-                    LEFT JOIN Estados estComp 
-                        ON estComp.id_estado = comp.estado_id 
-                        AND estComp.id_tipo_estado = 2   -- Componente  
-                    WHERE (@idComputadora IS NULL OR c.id_computadora = @idComputadora)
-                      AND (@idComponente IS NULL OR comp.id_componente = @idComponente)
-                      AND (@codigoInventario IS NULL OR c.codigo_inventario LIKE @codigoInventario + '%')
-                      AND (@numeroSerie IS NULL OR c.numero_serie LIKE @numeroSerie + '%')
-                      AND (@descripcion IS NULL OR c.descripcion LIKE '%' + @descripcion + '%')
-                      AND (@idLaboratorio IS NULL OR c.id_laboratorio = @idLaboratorio)
-                      AND (@estadoPC IS NULL OR estPC.descripcion = @estadoPC)
-                      AND (@estadoComp IS NULL OR estComp.descripcion = @estadoComp)
-                      AND (@tipoComponente IS NULL OR comp.tipo LIKE @tipoComponente + '%')";
+    c.id_computadora,
+    comp.id_componente,
+    ccomp.fecha_asignacion,
+    ccomp.fecha_desasignacion,
+    c.id_laboratorio,
+    c.codigo_inventario,
+    c.numero_serie,
+    c.descripcion,
+    comp.tipo AS tipo_componente,
+    comp.marca,
+    comp.modelo,
+    estComp.descripcion AS estado_componente,
+    estPC.descripcion AS estado_pc
+FROM Componentes comp
+LEFT JOIN Computadora_Componentes ccomp ON comp.id_componente = ccomp.id_componente
+LEFT JOIN Computadoras c ON ccomp.id_computadora = c.id_computadora
+LEFT JOIN Estados estPC 
+    ON estPC.id_estado = c.estado_actual
+    AND estPC.id_tipo_estado = 1     -- PC
+LEFT JOIN Estados estComp 
+    ON estComp.id_estado = comp.estado_id 
+    AND estComp.id_tipo_estado = 2   -- Componente
+WHERE (@idComputadora IS NULL OR c.id_computadora = @idComputadora)
+  AND (@idComponente IS NULL OR comp.id_componente = @idComponente)
+  AND (@codigoInventario IS NULL OR c.codigo_inventario LIKE @codigoInventario + '%')
+  AND (@numeroSerie IS NULL OR c.numero_serie LIKE @numeroSerie + '%')
+  AND (@descripcion IS NULL OR c.descripcion LIKE '%' + @descripcion + '%')
+  AND (@idLaboratorio IS NULL OR c.id_laboratorio = @idLaboratorio)
+  AND (@estadoPC IS NULL OR estPC.descripcion = @estadoPC)
+  AND (@estadoComp IS NULL OR estComp.descripcion = @estadoComp)
+  AND (@tipoComponente IS NULL OR comp.tipo LIKE @tipoComponente + '%')";
 
 
 
