@@ -49,7 +49,9 @@ namespace PracticaProfesional2025
 
                     if (id != String.Empty)
                     {
-                        Session["NombreInicio"] = Nombre;
+                        // Guardar ID y nombre en Session
+                        Session["idUsuario"] = id;          // <-- Nuevo
+                        Session["NombreInicio"] = Nombre;   // <-- ya existía
 
                         //Redireccionarlo ala pagina correcta
 

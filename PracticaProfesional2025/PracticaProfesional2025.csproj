@@ -92,6 +92,8 @@
     <Content Include="Inicio.aspx" />
     <Content Include="login.aspx" />
     <Content Include="NoAutorizado.aspx" />
+    <Content Include="ReservaExitosa.aspx" />
+    <Content Include="Reservas.aspx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -155,6 +157,20 @@
     </Compile>
     <Compile Include="CrearUsuario.aspx.designer.cs">
       <DependentUpon>CrearUsuario.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ReservaExitosa.aspx.cs">
+      <DependentUpon>ReservaExitosa.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ReservaExitosa.aspx.designer.cs">
+      <DependentUpon>ReservaExitosa.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Reservas.aspx.cs">
+      <DependentUpon>Reservas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Reservas.aspx.designer.cs">
+      <DependentUpon>Reservas.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -31,7 +31,7 @@
 	              <a href="ConsultaStock.aspx"><span class="fa fa-user mr-3"></span> Consultar Stock</a>
 	          </li>
 	          <li>
-              <a href="#"><span class="fa fa-briefcase mr-3"></span> OTRO</a>
+              <a href="Reservas.aspx"><span class="fa fa-briefcase mr-3"></span> Reservas</a>
 	          </li>
               <!-- Solo Admin -->
 	          <li id="menuAdmin" runat="server">
