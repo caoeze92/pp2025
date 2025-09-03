@@ -23,17 +23,15 @@ namespace PracticaProfesional2025
             using (SqlConnection conexion = ConnectionFactory.GetConnection())
             {
 
-                string script = String.Format("SELECT ID_USUARIO, NOMBRE FROM USUARIOS WHERE EMAIL = '{0}' AND PASSWORD_HASH =  '{1}'", logTxtEmail.Text, logTxtPassword.Text);
+                string script = String.Format("SELECT ID_USUARIO, NOMBRE, ROL FROM USUARIOS WHERE EMAIL = '{0}' AND PASSWORD_HASH =  '{1}'", logTxtEmail.Text, logTxtPassword.Text);
 
 
                     conexion.Open();
-
                     SqlCommand command = new SqlCommand(script, conexion);
-
                     SqlDataReader reader = command.ExecuteReader();
-
                     String id = String.Empty;
                     String Nombre = String.Empty;
+                    String logRol = String.Empty;
 
                     if (reader.HasRows)
                     {
@@ -41,6 +39,7 @@ namespace PracticaProfesional2025
                         {
                             id = reader.GetInt32(0).ToString();
                             Nombre = reader.GetString(1);
+                            logRol = reader.GetString(2);
                         }
                     }
 
@@ -50,9 +49,9 @@ namespace PracticaProfesional2025
                     if (id != String.Empty)
                     {
                         Session["NombreInicio"] = Nombre;
+                        Session["logRol"] = logRol;
 
                         //Redireccionarlo ala pagina correcta
-
                         Response.Redirect("Inicio.aspx", false);
                     }
 

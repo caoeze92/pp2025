@@ -4,7 +4,7 @@
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head id="Head1" runat="server">
-    <title>Administración De Usuarios</title>
+    <title>Administración De Usuarios - Sistema de control de Inventario Institucional - ISFDyT 46</title>
 </head>
 <body>
     <form id="form1" runat="server">
@@ -21,9 +21,9 @@
                 <asp:TemplateField HeaderText="Rol">
                     <EditItemTemplate>
                         <asp:DropDownList ID="ddlRol" runat="server">
-                            <asp:ListItem Text="admin" Value="admin" />
-                            <asp:ListItem Text="user" Value="user" />
-                            <asp:ListItem Text="invitado" Value="invitado" />
+                            <asp:ListItem Text="Admin" Value="Admin" />
+                            <asp:ListItem Text="Usuario" Value="Usuario" />
+                            <asp:ListItem Text="Invitado" Value="Invitado" />
                         </asp:DropDownList>
                     </EditItemTemplate>
                     <ItemTemplate>

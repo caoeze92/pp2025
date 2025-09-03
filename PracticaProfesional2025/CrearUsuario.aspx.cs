@@ -37,6 +37,7 @@ namespace PracticaProfesional2025
                         {
                         conexion.Close();
                         Session["NombreInicio"] = nTxtNombre.Text;
+                        Session["logRol"] = "Usuario";
                         Response.Redirect("Inicio.aspx", false);
                         ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msgcCreada + "');", true);
                         }
