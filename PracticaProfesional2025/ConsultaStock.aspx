@@ -2,7 +2,6 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <style>
-    /* Estilo de panel de filtros */
     .filtro-box {
         border: 1px solid #ced4da;
         border-radius: 5px;
@@ -27,8 +26,6 @@
         height: 34px;
         font-size: 0.85rem;
     }
-
-    /* Tabla resultados */
     #gvResultados {
         border: 2px solid #0d6efd;
         border-collapse: collapse;
@@ -50,82 +47,142 @@
     <div id="content" class="p-4 p-md-5 pt-5">
         <h2 class="mb-4">CONSULTA DE STOCK</h2>
 
-        <!-- Panel de filtros -->
-<!-- Panel de filtros -->
-<asp:Panel ID="pnlFiltros" runat="server" CssClass="mb-3">
-    <div class="row g-2">
-        <!-- Primera fila (6 campos) -->
-        <div class="col-md-2">
-            <div class="filtro-box">
-                <label for="txtIdComputadora">ID Computadora</label>
-                <asp:TextBox ID="txtIdComputadora" runat="server" />
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="filtro-box">
-                <label for="txtIdComponente">ID Componente</label>
-                <asp:TextBox ID="txtIdComponente" runat="server" />
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="filtro-box">
-                <label for="txtCodigoInventario">Inventario</label>
-                <asp:TextBox ID="txtCodigoInventario" runat="server" />
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="filtro-box">
-                <label for="txtNumeroSerie">Nro. Serie</label>
-                <asp:TextBox ID="txtNumeroSerie" runat="server" />
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="filtro-box">
-                <label for="txtDescripcion">Descripción</label>
-                <asp:TextBox ID="txtDescripcion" runat="server" />
-            </div>
-        </div>
-        <div class="col-md-2">
-            <div class="filtro-box">
-                <label for="txtIdLaboratorio">Laboratorio</label>
-                <asp:TextBox ID="txtIdLaboratorio" runat="server" />
-            </div>
-        </div>
-    </div>
+        <asp:Label ID="lblError" runat="server" ForeColor="Red" CssClass="fw-bold" EnableViewState="false" />
+        <br />
 
-    <div class="row g-2 mt-2">
-        <!-- Segunda fila (4 filtros + botón) -->
-        <div class="col-md-2">
-            <div class="filtro-box">
-                <label for="ddlEstadoPC">Estado de la PC</label>
-                <asp:DropDownList ID="ddlEstadoPC" runat="server" CssClass="form-select"></asp:DropDownList>
+        <asp:ValidationSummary ID="valSummary" runat="server"
+            CssClass="alert alert-danger"
+            ValidationGroup="buscar"
+            HeaderText="Revisá estos campos:" />
+
+        <asp:Panel ID="pnlFiltros" runat="server" CssClass="mb-3">
+            <div class="row g-2">
+                <!-- ID Computadora -->
+                <div class="col-md-2">
+                    <div class="filtro-box">
+                        <label for="txtIdComputadora">ID Computadora</label>
+                        <asp:TextBox ID="txtIdComputadora" runat="server" />
+                        <asp:RequiredFieldValidator 
+                            ID="rfvIdComputadora" 
+                            runat="server"
+                            ControlToValidate="txtIdComputadora"
+                            ErrorMessage="Este campo es obligatorio"
+                            ValidationGroup="buscar"
+                            Display="Dynamic"
+                            ForeColor="Red" />
+                        <asp:CompareValidator 
+                            ID="cvIdComputadora" 
+                            runat="server"
+                            ControlToValidate="txtIdComputadora"
+                            Operator="DataTypeCheck" 
+                            Type="Integer"
+                            ErrorMessage="ID Computadora debe ser numérico"
+                            ValidationGroup="buscar"
+                            Display="Dynamic"
+                            ForeColor="Red" />
+                    </div>
+                </div>
+
+                <!-- ID Componente -->
+                <div class="col-md-2">
+                    <div class="filtro-box">
+                        <label for="txtIdComponente">ID Componente</label>
+                        <asp:TextBox ID="txtIdComponente" runat="server" />
+                        <asp:CompareValidator 
+                            ID="cvIdComponente" 
+                            runat="server"
+                            ControlToValidate="txtIdComponente"
+                            Operator="DataTypeCheck" 
+                            Type="Integer"
+                            ErrorMessage="ID Componente debe ser numérico"
+                            ValidationGroup="buscar"
+                            Display="Dynamic"
+                            ForeColor="Red" />
+                    </div>
+                </div>
+
+                <!-- Inventario -->
+                <div class="col-md-2">
+                    <div class="filtro-box">
+                        <label for="txtCodigoInventario">Inventario</label>
+                        <asp:TextBox ID="txtCodigoInventario" runat="server" />
+                    </div>
+                </div>
+
+                <!-- Nro. Serie -->
+                <div class="col-md-2">
+                    <div class="filtro-box">
+                        <label for="txtNumeroSerie">Nro. Serie</label>
+                        <asp:TextBox ID="txtNumeroSerie" runat="server" />
+                    </div>
+                </div>
+
+                <!-- Descripción -->
+                <div class="col-md-2">
+                    <div class="filtro-box">
+                        <label for="txtDescripcion">Descripción</label>
+                        <asp:TextBox ID="txtDescripcion" runat="server" />
+                    </div>
+                </div>
+
+                <!-- Laboratorio -->
+                <div class="col-md-2">
+                    <div class="filtro-box">
+                        <label for="txtIdLaboratorio">Laboratorio</label>
+                        <asp:TextBox ID="txtIdLaboratorio" runat="server" />
+                        <asp:CompareValidator 
+                            ID="cvIdLaboratorio" 
+                            runat="server"
+                            ControlToValidate="txtIdLaboratorio"
+                            Operator="DataTypeCheck"
+                            Type="Integer"
+                            Display="Dynamic"
+                            ErrorMessage="Laboratorio debe ser numérico"
+                            ValidationGroup="buscar" />
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="col-md-2">
-            <div class="filtro-box">
-                <label for="ddlEstadoComponente">Estado del Componente</label>
-                <asp:DropDownList ID="ddlEstadoComponente" runat="server" CssClass="form-select"></asp:DropDownList>
+
+            <div class="row g-2 mt-2">
+                <!-- Estado PC -->
+                <div class="col-md-2">
+                    <div class="filtro-box">
+                        <label for="ddlEstadoPC">Estado de la PC</label>
+                        <asp:DropDownList ID="ddlEstadoPC" runat="server" CssClass="form-select"></asp:DropDownList>
+                    </div>
+                </div>
+
+                <!-- Estado Componente -->
+                <div class="col-md-2">
+                    <div class="filtro-box">
+                        <label for="ddlEstadoComponente">Estado del Componente</label>
+                        <asp:DropDownList ID="ddlEstadoComponente" runat="server" CssClass="form-select"></asp:DropDownList>
+                    </div>
+                </div>
+
+                <!-- Tipo de Componente -->
+                <div class="col-md-2">
+                    <div class="filtro-box">
+                        <label for="txtTipoComponente">Tipo de Componente</label>
+                        <asp:TextBox ID="txtTipoComponente" runat="server" />
+                    </div>
+                </div>
+
+                <!-- Botón Buscar -->
+                <div class="col-md-2 d-flex align-items-end">
+                    <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-primary w-100 btn-buscar"
+                        OnClick="btnBuscar_Click"
+                        CausesValidation="true"
+                        ValidationGroup="buscar" />
+                </div>
             </div>
-        </div>
-        <div class="col-md-2">
-            <div class="filtro-box">
-                <label for="txtTipoComponente">Tipo de Componente</label>
-                <asp:TextBox ID="txtTipoComponente" runat="server" />
-            </div>
-        </div>
-        <div class="col-md-2 d-flex align-items-end">
-            <asp:Button ID="Button1" runat="server" Text="Buscar" CssClass="btn btn-primary w-100 btn-buscar" OnClick="btnBuscar_Click" />
-        </div>
-    </div>
-</asp:Panel>
+        </asp:Panel>
 
         <!-- Tabla de resultados -->
         <h4>Resultados</h4>
         <div class="table-responsive">
             <asp:GridView ID="gvResultados" runat="server" AutoGenerateColumns="false" CssClass="text-center" OnRowDataBound="gvResultados_RowDataBound">
-                
                 <HeaderStyle BackColor="#0d6efd" ForeColor="White" HorizontalAlign="Center" Font-Bold="True" />
-
                 <Columns>
                     <asp:BoundField DataField="id_computadora" HeaderText="ID Computadora" ItemStyle-Width="70px" />
                     <asp:BoundField DataField="descripcion" HeaderText="PC Descripción" ItemStyle-Width="200px" ItemStyle-HorizontalAlign="Left" />

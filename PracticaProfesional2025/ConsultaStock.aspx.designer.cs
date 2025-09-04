@@ -13,6 +13,24 @@ namespace PracticaProfesional2025 {
     public partial class WebForm1 {
         
         /// <summary>
+        /// Control lblError.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblError;
+        
+        /// <summary>
+        /// Control valSummary.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ValidationSummary valSummary;
+        
+        /// <summary>
         /// Control pnlFiltros.
         /// </summary>
         /// <remarks>
@@ -31,6 +49,24 @@ namespace PracticaProfesional2025 {
         protected global::System.Web.UI.WebControls.TextBox txtIdComputadora;
         
         /// <summary>
+        /// Control rfvIdComputadora.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvIdComputadora;
+        
+        /// <summary>
+        /// Control cvIdComputadora.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator cvIdComputadora;
+        
+        /// <summary>
         /// Control txtIdComponente.
         /// </summary>
         /// <remarks>
@@ -38,6 +74,15 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtIdComponente;
+        
+        /// <summary>
+        /// Control cvIdComponente.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator cvIdComponente;
         
         /// <summary>
         /// Control txtCodigoInventario.
@@ -76,6 +121,15 @@ namespace PracticaProfesional2025 {
         protected global::System.Web.UI.WebControls.TextBox txtIdLaboratorio;
         
         /// <summary>
+        /// Control cvIdLaboratorio.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator cvIdLaboratorio;
+        
+        /// <summary>
         /// Control ddlEstadoPC.
         /// </summary>
         /// <remarks>
@@ -103,13 +157,13 @@ namespace PracticaProfesional2025 {
         protected global::System.Web.UI.WebControls.TextBox txtTipoComponente;
         
         /// <summary>
-        /// Control Button1.
+        /// Control btnBuscar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Button btnBuscar;
         
         /// <summary>
         /// Control gvResultados.

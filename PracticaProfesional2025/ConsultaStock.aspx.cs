@@ -22,10 +22,11 @@ namespace PracticaProfesional2025
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
-
-            using (SqlConnection conexion = ConnectionFactory.GetConnection())
+            try
             {
-                string query = @"
+                using (SqlConnection conexion = ConnectionFactory.GetConnection())
+                {
+                    string query = @"
                     SELECT 
                         c.id_computadora,
                         comp.id_componente,
@@ -59,40 +60,47 @@ namespace PracticaProfesional2025
                       AND (@estadoComp IS NULL OR estComp.descripcion = @estadoComp)
                       AND (@tipoComponente IS NULL OR comp.tipo LIKE @tipoComponente + '%')";
 
-                SqlCommand cmd = new SqlCommand(query, conexion);
+                    SqlCommand cmd = new SqlCommand(query, conexion);
 
-                // Parámetros
-                cmd.Parameters.AddWithValue("@idComputadora", string.IsNullOrEmpty(txtIdComputadora.Text) ? (object)DBNull.Value : txtIdComputadora.Text);
-                cmd.Parameters.AddWithValue("@idComponente", string.IsNullOrEmpty(txtIdComponente.Text) ? (object)DBNull.Value : txtIdComponente.Text);
-                cmd.Parameters.AddWithValue("@codigoInventario", string.IsNullOrEmpty(txtCodigoInventario.Text) ? (object)DBNull.Value : txtCodigoInventario.Text);
-                cmd.Parameters.AddWithValue("@numeroSerie", string.IsNullOrEmpty(txtNumeroSerie.Text) ? (object)DBNull.Value : txtNumeroSerie.Text);
-                cmd.Parameters.AddWithValue("@descripcion", string.IsNullOrEmpty(txtDescripcion.Text) ? (object)DBNull.Value : txtDescripcion.Text);
-                cmd.Parameters.AddWithValue("@idLaboratorio", string.IsNullOrEmpty(txtIdLaboratorio.Text) ? (object)DBNull.Value : txtIdLaboratorio.Text);
-                cmd.Parameters.AddWithValue("@estadoPC", string.IsNullOrEmpty(ddlEstadoPC.SelectedValue) ? (object)DBNull.Value : ddlEstadoPC.SelectedValue);
-                cmd.Parameters.AddWithValue("@estadoComp", string.IsNullOrEmpty(ddlEstadoComponente.SelectedValue) ? (object)DBNull.Value : ddlEstadoComponente.SelectedValue);
-                cmd.Parameters.AddWithValue("@tipoComponente", string.IsNullOrEmpty(txtTipoComponente.Text) ? (object)DBNull.Value : txtTipoComponente.Text);
-                
+                    // Parámetros
+                    cmd.Parameters.AddWithValue("@idComputadora", string.IsNullOrEmpty(txtIdComputadora.Text) ? (object)DBNull.Value : txtIdComputadora.Text);
+                    cmd.Parameters.AddWithValue("@idComponente", string.IsNullOrEmpty(txtIdComponente.Text) ? (object)DBNull.Value : txtIdComponente.Text);
+                    cmd.Parameters.AddWithValue("@codigoInventario", string.IsNullOrEmpty(txtCodigoInventario.Text) ? (object)DBNull.Value : txtCodigoInventario.Text);
+                    cmd.Parameters.AddWithValue("@numeroSerie", string.IsNullOrEmpty(txtNumeroSerie.Text) ? (object)DBNull.Value : txtNumeroSerie.Text);
+                    cmd.Parameters.AddWithValue("@descripcion", string.IsNullOrEmpty(txtDescripcion.Text) ? (object)DBNull.Value : txtDescripcion.Text);
+                    cmd.Parameters.AddWithValue("@idLaboratorio", string.IsNullOrEmpty(txtIdLaboratorio.Text) ? (object)DBNull.Value : txtIdLaboratorio.Text);
+                    cmd.Parameters.AddWithValue("@estadoPC", string.IsNullOrEmpty(ddlEstadoPC.SelectedValue) ? (object)DBNull.Value : ddlEstadoPC.SelectedValue);
+                    cmd.Parameters.AddWithValue("@estadoComp", string.IsNullOrEmpty(ddlEstadoComponente.SelectedValue) ? (object)DBNull.Value : ddlEstadoComponente.SelectedValue);
+                    cmd.Parameters.AddWithValue("@tipoComponente", string.IsNullOrEmpty(txtTipoComponente.Text) ? (object)DBNull.Value : txtTipoComponente.Text);
 
-                System.Diagnostics.Debug.WriteLine("Parametros para la query de Consulta Stock");
-                foreach (SqlParameter p in cmd.Parameters)
-                {
-                    string result = String.Format("{0} = {1}", p.ParameterName, p.Value);
-                    System.Diagnostics.Debug.WriteLine(result);
+
+                    System.Diagnostics.Debug.WriteLine("Parametros para la query de Consulta Stock");
+                    foreach (SqlParameter p in cmd.Parameters)
+                    {
+                        string result = String.Format("{0} = {1}", p.ParameterName, p.Value);
+                        System.Diagnostics.Debug.WriteLine(result);
+                    }
+
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+
+
+
+
+                    gvResultados.DataSource = dt;
+                    gvResultados.DataBind();
                 }
-
-
-                DataTable dt = new DataTable();
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                da.Fill(dt);
-
-
-
-
-                gvResultados.DataSource = dt;
-                gvResultados.DataBind();
+            }
+            catch (Exception ex)
+            {
+                // Mensaje visible para el usuario
+                lblError.Text = "Ocurrió un error al consultar los datos. Intente nuevamente.";
+                // Log técnico para depuración
+                System.Diagnostics.Debug.WriteLine(ex);
             }
         }
-
         protected void gvResultados_SelectedIndexChanged(object sender, EventArgs e)
         {
             // Aquí puedes manejar la fila seleccionada
