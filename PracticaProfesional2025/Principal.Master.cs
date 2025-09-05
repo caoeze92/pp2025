@@ -11,16 +11,14 @@ namespace PracticaProfesional2025
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (IsPostBack)
+            // Verifica siempre el rol, no solo en postback
+            if (Session["rol"] != null && Session["rol"].ToString() == "admin")
             {
-                if (Session["rol"] != null && Session["rol"].ToString() == "admin")
-                {
-                    menuAdmin.Visible = true;
-                }
-                else
-                {
-                    menuAdmin.Visible = false;
-                }
+                menuAdmin.Visible = true;
+            }
+            else
+            {
+                menuAdmin.Visible = false;
             }
         }
 
