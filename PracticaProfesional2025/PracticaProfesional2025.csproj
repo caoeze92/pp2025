@@ -89,6 +89,7 @@
     <Content Include="Contenido\registro\js\jquery.min.js" />
     <Content Include="Contenido\registro\js\main.js" />
     <Content Include="Contenido\registro\js\popper.js" />
+    <Content Include="Error.aspx" />
     <Content Include="Inicio.aspx" />
     <Content Include="login.aspx" />
     <Content Include="NoAutorizado.aspx" />
@@ -115,6 +116,13 @@
       <DependentUpon>AdministracionDeUsuarios.aspx</DependentUpon>
     </Compile>
     <Compile Include="ConnectionFactory.cs" />
+    <Compile Include="Error.aspx.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Error.aspx.designer.cs">
+      <DependentUpon>Error.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Inicio.aspx.cs">
       <DependentUpon>Inicio.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -172,6 +180,7 @@
     <Compile Include="Reservas.aspx.designer.cs">
       <DependentUpon>Reservas.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Usuario.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Principal.Master" />

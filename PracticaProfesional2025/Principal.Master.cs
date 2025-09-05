@@ -13,7 +13,7 @@ namespace PracticaProfesional2025
         {
             if (IsPostBack)
             {
-                if (Session["Rol"] != null && Session["Rol"].ToString() == "admin")
+                if (Session["rol"] != null && Session["rol"].ToString() == "admin")
                 {
                     menuAdmin.Visible = true;
                 }
@@ -22,6 +22,14 @@ namespace PracticaProfesional2025
                     menuAdmin.Visible = false;
                 }
             }
+        }
+
+
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon(); // termina la sesión
+            Response.Redirect("login.aspx"); // redirige al login
         }
     }
 }
