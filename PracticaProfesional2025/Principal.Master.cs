@@ -11,17 +11,23 @@ namespace PracticaProfesional2025
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (IsPostBack)
+            // Verifica siempre el rol, no solo en postback
+            if (Session["rol"] != null && Session["rol"].ToString() == "admin")
             {
-                if (Session["Rol"] != null && Session["Rol"].ToString() == "admin")
-                {
-                    menuAdmin.Visible = true;
-                }
-                else
-                {
-                    menuAdmin.Visible = false;
-                }
+                menuAdmin.Visible = true;
             }
+            else
+            {
+                menuAdmin.Visible = false;
+            }
+        }
+
+
+        protected void btnLogout_Click(object sender, EventArgs e)
+        {
+            Session.Clear();
+            Session.Abandon(); // termina la sesión
+            Response.Redirect("login.aspx"); // redirige al login
         }
     }
 }

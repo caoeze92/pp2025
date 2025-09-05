@@ -11,50 +11,92 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
     <link href="Contenido/css/style.css" rel="stylesheet" type="text/css" />
+
+    <!-- Estilos inline para botón y footer -->
+    <style>
+        .btn-logout {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 5px 15px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            cursor: pointer;
+            margin-bottom: 5px;
+        }
+
+        .btn-logout:hover {
+            background-color: #c0392b;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 0.8em;
+            margin-top: 10px;
+        }
+
+        .wrapper {
+            min-height: 100vh;
+            display: flex;
+        }
+
+        nav#sidebar {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    </style>
 </head>
 <body>
-    <div class="wrapper d-flex align-items-stretch">
-        <nav id="sidebar">
-				<div class="custom-menu">
-					<button type="button" id="sidebarCollapse" class="btn btn-primary">
-	          <i class="fa fa-bars"></i>
-	          <span class="sr-only">Toggle Menu</span>
-	        </button>
-        </div>
-				<div class="p-4">
-		  		<h1><a href="Inicio.aspx" class="logo">Lab Stock<span>> ISFDyT 46 <br /> > 2025</span></a></h1>
-	        <ul class="list-unstyled components mb-5">
-	          <li class="active">
-	            <a href="Inicio.aspx"><span class="fa fa-home mr-3"></span> Inicio</a>
-	          </li>
-	          <li>
-	              <a href="ConsultaStock.aspx"><span class="fa fa-user mr-3"></span> Consultar Stock</a>
-	          </li>
-	          <li>
-              <a href="#"><span class="fa fa-briefcase mr-3"></span> OTRO</a>
-	          </li>
-              <!-- Solo Admin -->
-	          <li id="menuAdmin" runat="server">
-              <a href="AdministracionDeUsuarios.aspx"><span class="fa fa-sticky-note mr-3"></span> Administrar Usuarios</a>
-	          </li>
-	        </ul>
+    <form id="form1" runat="server">
+        <div class="wrapper d-flex align-items-stretch">
+            <!-- Sidebar -->
+            <nav id="sidebar">
+                <div class="p-4">
+                    <!-- Logo -->
+                    <h1>
+                        <a href="Inicio.aspx" class="logo">
+                            Lab Stock <span>> ISFDyT 46 <br /> > 2025</span>
+                        </a>
+                    </h1>
 
-	        <div class="footer">
-	        	<p><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-						  Copyright &copy; <br /><script>   document.write(new Date().getFullYear());</script> ~ Todos los derechos reservados. <br />Sitio web desarrollado con tecnología ASP.NET & C#.<i class="icon-heart" aria-hidden="true"></i> <br /> by:<br /> > Autalan N. | Ayuza H. <br /> > Cao E. | Davini M.
-						  <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. --></p>
-	        </div>
+                    <!-- Menú -->
+                    <ul class="list-unstyled components mb-5">
+                        <li class="active">
+                            <a href="Inicio.aspx"><span class="fa fa-home mr-3"></span> Inicio</a>
+                        </li>
+                        <li>
+                            <a href="ConsultaStock.aspx"><span class="fa fa-user mr-3"></span> Consultar Stock</a>
+                        </li>
+                        <li>
+                            <a href="Reservas.aspx"><span class="fa fa-briefcase mr-3"></span> Reservas</a>
+                        </li>
+                        <!-- Solo Admin -->
+                        <li id="menuAdmin" runat="server">
+                            <a href="AdministracionDeUsuarios.aspx"><span class="fa fa-sticky-note mr-3"></span> Administrar Usuarios</a>
+                        </li>
+                    </ul>
 
-	      </div>
-    	</nav>
-        <form id="form1" runat="server">
-        <div>
+                    <!-- Botón de cierre de sesión -->
+                    <asp:Button ID="btnLogout" runat="server" Text="Cerrar sesión" CssClass="btn-logout" OnClick="btnLogout_Click" />
+
+                    <!-- Footer -->
+                    <div class="footer text-center">
+                        <p style="font-size: 0.8em; margin-top: 5px;">
+                            &copy; <script>                                       document.write(new Date().getFullYear());</script> ~ Todos los derechos reservados.<br />
+                            Sitio web desarrollado con tecnología ASP.NET & C#.<i class="icon-heart" aria-hidden="true"></i><br />
+                            by: Autalan N. | Ayuza H. <br /> Cao E. | Davini M.
+                        </p>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Contenido principal -->
             <asp:ContentPlaceHolder ID="ContentPlaceHolder1" runat="server">
-
             </asp:ContentPlaceHolder>
         </div>
-        </form>
-    </div>
+    </form>
+
     <script src="Contenido/js/jquery.min.js"></script>
     <script src="Contenido/js/popper.js"></script>
     <script src="Contenido/js/bootstrap.min.js"></script>
