@@ -1,5 +1,7 @@
 # Carpetas de Visual Studio
 .vs/
+Backup/
+*/Backup/
 
 # Archivos de configuración temporal de Visual Studio
 *.suo
@@ -14,3 +16,5 @@ PracticaProfesional2025/obj/
 # Archivos compilados (en caso de que se cuelen)
 *.dll
 *.pdb
+*.htm
+*.html
