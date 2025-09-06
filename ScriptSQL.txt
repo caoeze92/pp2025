@@ -189,3 +189,28 @@ CREATE VIEW dbo.vw_Estados_PC AS
 SELECT id_estado, descripcion
 FROM dbo.Estados
 WHERE id_tipo_estado = 2;
+
+
+///// TABLA HISTORIAL
+
+USE PP2025;
+GO
+
+CREATE TABLE Historial(
+	[id_historial] [int] IDENTITY(1,1) NOT NULL,
+	[tipo_evento] [int] NOT NULL,
+	[entidad] varchar(50) NOT NULL,
+	[usuario] varchar(50) NULL,
+	[fecha_solicitud] [datetime] NOT NULL,
+	[detalle] [text] NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[id_historial] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+GO
+
+ALTER TABLE [dbo].[Historial]  WITH CHECK ADD FOREIGN KEY([tipo_evento])
+REFERENCES [dbo].[Tipos_Evento] ([id_tipo_evento])
+GO
