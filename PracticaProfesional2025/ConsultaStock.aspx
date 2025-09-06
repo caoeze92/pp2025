@@ -62,14 +62,7 @@
                     <div class="filtro-box">
                         <label for="txtIdComputadora">ID Computadora</label>
                         <asp:TextBox ID="txtIdComputadora" runat="server" />
-                        <asp:RequiredFieldValidator 
-                            ID="rfvIdComputadora" 
-                            runat="server"
-                            ControlToValidate="txtIdComputadora"
-                            ErrorMessage="Este campo es obligatorio"
-                            ValidationGroup="buscar"
-                            Display="Dynamic"
-                            ForeColor="Red" />
+                        
                         <asp:CompareValidator 
                             ID="cvIdComputadora" 
                             runat="server"
