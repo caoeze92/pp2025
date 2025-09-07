@@ -3,7 +3,7 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div id="content" class="p-4 p-md-5 pt-5">
-        <h2 class="mb-4">REGISTRO DE EVENTOS</h2>
+        <h2 class="mb-4">HISTORIAL DE REGISTROS DE EVENTOS</h2>
           <style>
     /* Estilo de panel de filtros */
     .filtro-box {
@@ -120,20 +120,20 @@
         <!-- Tabla de resultados -->
         <h4>Resultados</h4>
         <div class="table-responsive">
-            <asp:GridView ID="gvResultados" runat="server" AutoGenerateColumns="false" CssClass="text-center" OnRowDataBound="gvResultados_RowDataBound_Eventos">
+            <asp:GridView ID="gvResultados" runat="server" AutoGenerateColumns="false" CssClass="text-center"  OnPageIndexChanging="gvResultados_PageIndexChanging" OnRowDataBound="gvResultados_RowDataBound_Eventos" AllowPaging="True" PageSize="5">
                 
                 <HeaderStyle BackColor="#0d1b2a" ForeColor="White" HorizontalAlign="Center" Font-Bold="True" />
 
                 <Columns>
-                    <asp:BoundField DataField="id_evento" HeaderText="ID Evento" ItemStyle-Width="70px" />
-                    <asp:BoundField DataField="id_computadora" HeaderText="ID Computadora" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Left" />
-                    <asp:BoundField DataField="id_usuario" HeaderText="ID Usuario" ItemStyle-Width="70px" />
-                    <asp:BoundField DataField="id_tipo_evento" HeaderText="Tipo de Evento" ItemStyle-Width="100px" />
-                    <asp:BoundField DataField="fecha_inicio" HeaderText="Fecha de Inicio" DataFormatString="{0:dd/MM/yyyy}" ItemStyle-Width="100px" />
-                    <asp:BoundField DataField="fecha_fin" HeaderText="Fecha de Fin" DataFormatString="{0:dd/MM/yyyy}" ItemStyle-Width="110px" />
+                    <asp:BoundField DataField="id_historial" HeaderText="ID Evento" ItemStyle-Width="70px" />
+                    <asp:BoundField DataField="tipo_evento" HeaderText="Tipo de Evento" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="entidad" HeaderText="Entidad" ItemStyle-Width="70px" />
+                    <asp:BoundField DataField="usuario" HeaderText="Usuario" ItemStyle-Width="100px" />
+                    <asp:BoundField DataField="fecha_solicitud" HeaderText="Fecha de Solicitud" DataFormatString="{0:dd/MM/yyyy HH:mm:ss}" ItemStyle-Width="105px" />
                     <asp:BoundField DataField="detalle" HeaderText="Detalle del Evento" ItemStyle-Width="100px" />
-                </Columns>
-            </asp:GridView>
-        </div>
+                    </Columns>
+               </asp:GridView>
+            <asp:TextBox ID="lblTotalRows" runat="server" Text="Total de Filas" Width="250px"></asp:TextBox>
+            </div>
     </div>
-</asp:Content>
+   </asp:Content>

@@ -15,23 +15,23 @@ namespace PracticaProfesional2025
         {
             using (SqlConnection conexion = ConnectionFactory.GetConnection())
             {
-                string query = @"SELECT * FROM Eventos_Equipos;";
-
+                string query = @"SELECT * FROM Historial;";
                 SqlCommand cmd = new SqlCommand(query, conexion);
-
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
                 gvResultados.DataSource = dt;
                 gvResultados.DataBind();
+                int totalFilas = dt.Rows.Count;
+                lblTotalRows.Text = "Total: " + gvResultados.Rows.Count + " de " + totalFilas + "registros.";
+                ViewState["totalFilas"] = totalFilas;
             }
         }
 
         // a
-        
+
         protected void gvResultados_RowDataBound_Eventos(object sender, GridViewRowEventArgs e)
         {
-
             DateTime fecha;
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
@@ -49,15 +49,37 @@ namespace PracticaProfesional2025
                         // Intentar convertir a fecha y formatear
                         if (DateTime.TryParse(cellText, out fecha))
                         {
-                            e.Row.Cells[i].Text = fecha.ToString("dd/MM/yyyy");
+                            e.Row.Cells[i].Text = fecha.ToString("dd/MM/yyyy HH:mm:ss");
                         }
                     }
                 }
             }
         }
 
-
         //a
 
+
+        //b
+        protected void gvResultados_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            gvResultados.PageIndex = e.NewPageIndex;
+            gvResultados.DataBind();
+
+            // ACTUALIZACION DE TEXTO DE REGISTROS MOSTRADOS
+
+            int totalFilas = (int)ViewState["totalFilas"];
+            int paginaActual = gvResultados.PageIndex + 1;
+            int pageSize = gvResultados.PageSize;
+            int registroActual = paginaActual * pageSize;
+
+            if (registroActual > totalFilas)
+                registroActual = totalFilas;
+
+            lblTotalRows.Text = $"Total: {registroActual} de {totalFilas} registros.";
+        }
+        //b
+
+
     }
+
 }
