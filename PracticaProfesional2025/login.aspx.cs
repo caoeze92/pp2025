@@ -64,7 +64,7 @@ namespace PracticaProfesional2025
                                 // Guardar en sesión
                                 Session["idUsuario"] = usuario.IdUsuario;
                                 Session["NombreInicio"] = usuario.Nombre;
-                                Session["rol"] = usuario.Rol;         // "admin" o "usuario" para mostrar o no el menu de admunUsuarios
+                                Session["logRol"] = usuario.Rol;         // "admin" o "usuario" para mostrar o no el menu de admunUsuarios
                                 Response.Redirect("Inicio.aspx", false);
                             }
                             else

@@ -24,7 +24,7 @@ namespace PracticaProfesional2025
             using (SqlConnection conexion = ConnectionFactory.GetConnection())
             {
                 string msgErr = "Error al crear la cuenta, alguno de los datos ingresados ya existen.";
-                string msgcCreada = "Cuenta creada exitosamente.";
+                string msgcCreada = "alert('Cuenta creada con éxito'); window.location='Login.aspx';";
                 string script = "INSERT INTO USUARIOS (nombre, apellido, rol, email, password_hash, telefono, activo) VALUES (@nombre, @apellido,@rol, @email, @password_hash, @telefono, @activo)";
                 try
                 {
@@ -43,8 +43,11 @@ namespace PracticaProfesional2025
                         conexion.Close();
                         Session["NombreInicio"] = nTxtNombre.Text;
                         Session["logRol"] = "Usuario";
-                        Response.Redirect("Inicio.aspx", false);
-                        ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msgcCreada + "');", true);
+                        //ClientScript.RegisterStartupScript(this.GetType(), "myalert", "alert('" + msgcCreada + "');", true);
+
+                        ClientScript.RegisterStartupScript(this.GetType(), "redirectAlert", msgcCreada, true);
+                        //Response.Redirect("Login.aspx", false);
+                        
                         }
                     }
                     catch (Exception ex)
