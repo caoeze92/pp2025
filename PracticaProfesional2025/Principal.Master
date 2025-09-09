@@ -71,6 +71,9 @@
                         <li>
                             <a href="Reservas.aspx"><span class="fa fa-briefcase mr-3"></span> Reservas</a>
                         </li>
+                        <li>
+                            <a href="Eventos.aspx"><span class="fa fa-briefcase mr-3"></span> Historial</a>
+                        </li>
                         <!-- Solo Admin -->
                         <li id="menuAdmin" runat="server">
                             <a href="AdministracionDeUsuarios.aspx"><span class="fa fa-sticky-note mr-3"></span> Administrar Usuarios</a>

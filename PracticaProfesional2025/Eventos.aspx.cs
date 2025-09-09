@@ -75,7 +75,7 @@ namespace PracticaProfesional2025
             if (registroActual > totalFilas)
                 registroActual = totalFilas;
 
-            lblTotalRows.Text = $"Total: {registroActual} de {totalFilas} registros.";
+            lblTotalRows.Text = "Total: "+ registroActual +" de " + totalFilas +" registros.";
         }
         //b
 
