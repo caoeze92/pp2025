@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Web.UI.WebControls;
+using System.Web.UI;
 
 namespace PracticaProfesional2025
 {
@@ -16,13 +13,11 @@ namespace PracticaProfesional2025
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["Rol"] == null || Session["Rol"].ToString() != "admin")
+            if ((String)Session["logRol"] != "Admin")
             {
                 Response.Redirect("NoAutorizado.aspx");
-
             }
-
-            if (IsPostBack)
+            else if (!IsPostBack)
             {
                 CargarUsuarios();
             }
@@ -32,7 +27,7 @@ namespace PracticaProfesional2025
         {
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                SqlDataAdapter da = new SqlDataAdapter(" SELECT id_usuario, nombre, apellido, rol, email, telefono, activo FROM Usuario", conn);
+                SqlDataAdapter da = new SqlDataAdapter("SELECT id_usuario, nombre, apellido, rol, email, telefono, activo FROM Usuarios", conn);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 gvUsuarios.DataSource = dt;
@@ -40,38 +35,52 @@ namespace PracticaProfesional2025
             }
         }
 
-        protected void gvUsuarios_RowEditing(object sender, System.Web.UI.WebControls.GridViewEditEventArgs e)
+        protected void gvUsuarios_RowEditing(object sender, GridViewEditEventArgs e)
         {
             gvUsuarios.EditIndex = e.NewEditIndex;
             CargarUsuarios();
         }
 
-        protected void gvUsuarios_RowCancelingEdit(object sender, System.Web.UI.WebControls.GridViewCancelEditEventArgs e)
+        protected void gvUsuarios_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             gvUsuarios.EditIndex = -1;
             CargarUsuarios();
         }
 
-        protected void gvUsuarios_RowUpdating(object sender, System.Web.UI.WebControls.GridViewUpdateEventArgs e)
+        protected void gvUsuarios_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
             int idUsuario = (int)gvUsuarios.DataKeys[e.RowIndex].Value;
             GridViewRow row = gvUsuarios.Rows[e.RowIndex];
             DropDownList ddlRol = (DropDownList)row.FindControl("ddlRol");
 
-
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE Usuarios SET rol=@rol WHERE id_usuario=@ID", conn);
+                SqlCommand cmd = new SqlCommand("UPDATE Usuarios SET rol=@Rol WHERE id_usuario=@ID", conn);
                 cmd.Parameters.AddWithValue("@Rol", ddlRol.SelectedValue);
                 cmd.Parameters.AddWithValue("@ID", idUsuario);
                 cmd.ExecuteNonQuery();
             }
+
             gvUsuarios.EditIndex = -1;
             CargarUsuarios();
         }
 
-        protected void gvUsuarios_RowDeleting(object sender, System.Web.UI.WebControls.GridViewDeleteEventArgs e)
+        protected void gvUsuarios_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow && gvUsuarios.EditIndex == e.Row.RowIndex)
+            {
+                DropDownList ddlRol = (DropDownList)e.Row.FindControl("ddlRol");
+                string rolActual = DataBinder.Eval(e.Row.DataItem, "rol").ToString();
+
+                if (ddlRol.Items.FindByValue(rolActual) != null)
+                {
+                    ddlRol.SelectedValue = rolActual;
+                }
+            }
+        }
+
+        protected void gvUsuarios_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int idUsuario = (int)gvUsuarios.DataKeys[e.RowIndex].Value;
 

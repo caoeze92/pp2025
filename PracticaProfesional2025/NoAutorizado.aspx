@@ -1,16 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="NoAutorizado.aspx.cs" Inherits="PracticaProfesional2025.NoAutorizado" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true"  MasterPageFile="~/Principal.Master" CodeBehind="NoAutorizado.aspx.cs" Inherits="PracticaProfesional2025.NoAutorizado" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="form1" runat="server">
-    <div>
-    
+<asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+    <div id="content" class="p-4 p-md-5 pt-5">
+        <h2 class="mb-4">Usted NO está Autorizado <asp:Label ID="lblSession" runat="server" Text="LabelSesion"></asp:Label></h2>
+        <h4 class="mb-4">Tipo de usuario: <asp:Label ID="lblRol" runat="server" Text="LabelRol"></asp:Label></h4>
+        <p>&nbsp;Regrese a la pagina de inicio</p>
+        <asp:Button ID="btnVolver" runat="server" Text="Volver" PostBackUrl="~/Inicio.aspx" />
     </div>
-    </form>
-</body>
-</html>
+</asp:Content>

@@ -11,7 +11,8 @@ namespace PracticaProfesional2025
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            lblSession.Text = (string)Session["NombreInicio"];
+            lblRol.Text = (string)Session["logRol"];
         }
     }
 }
