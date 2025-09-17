@@ -214,3 +214,11 @@ GO
 ALTER TABLE [dbo].[Historial]  WITH CHECK ADD FOREIGN KEY([tipo_evento])
 REFERENCES [dbo].[Tipos_Evento] ([id_tipo_evento])
 GO
+
+/// IMPLEMENTACION NUEVA COLUMNA EN TABLA HISTORIAL
+USE PP2025
+GO
+
+ALTER TABLE Historial
+ADD codEntidad int NULL;
+GO
