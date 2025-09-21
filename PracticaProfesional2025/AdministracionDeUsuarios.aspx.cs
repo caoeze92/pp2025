@@ -16,14 +16,11 @@ namespace PracticaProfesional2025
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Session["Rol"] == null || Session["Rol"].ToString() != "admin")
+            if ((String)Session["logRol"] != "Admin")
             {
                 Response.Redirect("NoAutorizado.aspx");
 
-            }
-
-            if (IsPostBack)
-            {
+            } else {
                 CargarUsuarios();
             }
         }
@@ -32,7 +29,7 @@ namespace PracticaProfesional2025
         {
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                SqlDataAdapter da = new SqlDataAdapter(" SELECT id_usuario, nombre, apellido, rol, email, telefono, activo FROM Usuario", conn);
+                SqlDataAdapter da = new SqlDataAdapter(" SELECT id_usuario, nombre, apellido, rol, email, telefono, activo FROM Usuarios", conn);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 gvUsuarios.DataSource = dt;
