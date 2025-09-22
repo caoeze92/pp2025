@@ -49,11 +49,12 @@
         background-color: #d1e7ff;
     }
     </style>
-<%--<!-- Panel de filtros -->
+<!-- Panel de filtros -->
 <asp:Panel ID="pnlFiltros" runat="server" CssClass="mb-3">
+    <h4>BUSCAR / FILTRAR INFORMACIÓN:</h4>
     <div class="row g-2">
         <!-- Primera fila (6 campos) -->
-        <div class="col-md-2">
+ <%--       <div class="col-md-2">
             <div class="filtro-box">
                 <label for="txtIdComputadora">ID Computadora</label>
                 <asp:TextBox ID="txtIdComputadora" runat="server" />
@@ -88,12 +89,40 @@
                 <label for="txtIdLaboratorio">Laboratorio</label>
                 <asp:TextBox ID="txtIdLaboratorio" runat="server" />
             </div>
+        </div>--%>
+
+         <div class="col-md-2">
+            <div class="filtro-box">
+                <label for="txtIdComputadora">ID</label>
+                <asp:TextBox ID="txtIdComputadora" runat="server" />
+            </div>
         </div>
+        <div class="col-md-2">
+            <div class="filtro-box">
+                <label for="txtIdComponente">Evento</label>
+                <asp:TextBox ID="txtIdComponente" runat="server" />
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="filtro-box">
+                <label for="txtIdComponente">Entidad</label>
+                <asp:TextBox ID="TextBox2" runat="server" />
+            </div>
+        </div>
+
+        <div class="col-md-2">
+            <div class="filtro-box">
+                <label for="txtIdComponente">Usuario</label>
+                <asp:TextBox ID="TextBox1" runat="server" />
+            </div>
+        </div>
+
     </div>
 
     <div class="row g-2 mt-2">
         <!-- Segunda fila (4 filtros + botón) -->
-        <div class="col-md-2">
+      <%--  <div class="col-md-2">
             <div class="filtro-box">
                 <label for="ddlEstadoPC">Estado de la PC</label>
                 <asp:DropDownList ID="ddlEstadoPC" runat="server" CssClass="form-select"></asp:DropDownList>
@@ -110,12 +139,12 @@
                 <label for="txtTipoComponente">Tipo de Componente</label>
                 <asp:TextBox ID="txtTipoComponente" runat="server" />
             </div>
-        </div>
+        </div>--%>
         <div class="col-md-2 d-flex align-items-end">
-            <asp:Button ID="Button1" runat="server" Text="Buscar" CssClass="btn btn-primary w-100 btn-buscar" OnClick="btnBuscar_Click" />
+            <asp:Button ID="Button1" runat="server" Text="Buscar" CssClass="btn btn-primary w-100 btn-buscar" BackColor="#0d1b2a" OnClick="btnBuscar_Click" />
         </div>
     </div>
-</asp:Panel>--%>
+</asp:Panel>
 
         <!-- Tabla de resultados -->
         <h4>Resultados</h4>
@@ -126,8 +155,10 @@
 
                 <Columns>
                     <asp:BoundField DataField="id_historial" HeaderText="ID Evento" ItemStyle-Width="70px" />
-                    <asp:BoundField DataField="tipo_evento" HeaderText="Tipo de Evento" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="tipo_evento" HeaderText="Codigo de Evento" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Center" />
+                    <asp:BoundField DataField="nombre_evento" HeaderText="Evento" ItemStyle-Width="70px" ItemStyle-HorizontalAlign="Center" />
                     <asp:BoundField DataField="entidad" HeaderText="Entidad" ItemStyle-Width="70px" />
+                    <asp:BoundField DataField="codEntidad" HeaderText="Cod. Entidad" ItemStyle-Width="100px" />
                     <asp:BoundField DataField="usuario" HeaderText="Usuario" ItemStyle-Width="100px" />
                     <asp:BoundField DataField="fecha_solicitud" HeaderText="Fecha de Solicitud" DataFormatString="{0:dd/MM/yyyy HH:mm:ss}" ItemStyle-Width="105px" />
                     <asp:BoundField DataField="detalle" HeaderText="Detalle del Evento" ItemStyle-Width="100px" />

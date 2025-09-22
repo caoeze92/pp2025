@@ -13,9 +13,33 @@ namespace PracticaProfesional2025
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            //ACTUALIZACION DE DATOS MEDIANTE LA FUNCION CARGAR DATOS
+            if (!IsPostBack) // solo en la primera carga de la página
+            {
+                CargarDatos();
+            }
+        }
+
+        // nueva implementacion para cargar/actualizar los datos
+
+        private void CargarDatos()
+        {
             using (SqlConnection conexion = ConnectionFactory.GetConnection())
             {
-                string query = @"SELECT * FROM Historial;";
+                string query = @"
+                    SELECT 
+                    h.id_historial,
+                    h.tipo_evento,
+                    te.nombre AS nombre_evento,
+                    h.entidad,
+                    h.codentidad,
+                    h.usuario,
+                    h.fecha_solicitud,
+                    h.detalle
+                   FROM historial h
+                   INNER JOIN tipos_evento te 
+                    ON h.tipo_evento = te.id_tipo_evento;
+                 ";
                 SqlCommand cmd = new SqlCommand(query, conexion);
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -27,8 +51,8 @@ namespace PracticaProfesional2025
                 ViewState["totalFilas"] = totalFilas;
             }
         }
-
-        // a
+            //fin nueva imp
+            // a
 
         protected void gvResultados_RowDataBound_Eventos(object sender, GridViewRowEventArgs e)
         {
@@ -63,7 +87,8 @@ namespace PracticaProfesional2025
         protected void gvResultados_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvResultados.PageIndex = e.NewPageIndex;
-            gvResultados.DataBind();
+            //gvResultados.DataBind();
+            CargarDatos(); // 
 
             // ACTUALIZACION DE TEXTO DE REGISTROS MOSTRADOS
 
@@ -79,6 +104,12 @@ namespace PracticaProfesional2025
         }
         //b
 
+        //c
+        protected void btnBuscar_Click (object sender, EventArgs e)
+        {
+
+        }
+        //c
 
     }
 
