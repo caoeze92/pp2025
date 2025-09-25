@@ -46,6 +46,24 @@
 
                             <asp:TextBox ID="logTxtEmail" runat="server" class="form-control" required></asp:TextBox>
 			      			<label class="form-control-placeholder" for="nTxtEmail">Email:</label>
+                            <!-- Validación de campo vacío -->
+                             <asp:RequiredFieldValidator 
+                                  ID="rfvEmail"
+                                  runat="server" 
+                                  ControlToValidate="logTxtEmail"
+                                  ErrorMessage="El email es obligatorio"
+                                  ForeColor="Red" 
+                                  Display="Dynamic" />
+
+                              <!-- Validación de formato de correo -->
+                              <asp:RegularExpressionValidator 
+                                  ID="revEmail" 
+                                  runat="server" 
+                                  ControlToValidate="logTxtEmail"
+                                  ValidationExpression="^[^@\s]+@[^@\s]+\.[^@\s]+$"
+                                  ErrorMessage="Formato de email no válido"
+                                  ForeColor="Red" 
+                                  Display="Dynamic" />
 
 			      		</div>
 		            <div class="form-group mt-4">
@@ -53,12 +71,30 @@
 
                       <asp:TextBox ID="logTxtPassword" textMode= "Password" runat="server" class="form-control" required></asp:TextBox>
 		              <label class="form-control-placeholder" for="logTxtPassword">Password</label>
+                       <!-- Validación de campo vacío -->
+                      <asp:RequiredFieldValidator 
+                          ID="rfvPassword" 
+                          runat="server" 
+                          ControlToValidate="logTxtPassword"
+                          ErrorMessage="La contraseña es obligatoria"
+                          ForeColor="Red" 
+                          Display="Dynamic" />
 
 		              <span toggle="#password-field" class="fa fa-fw fa-eye field-icon toggle-password"></span>
 		            </div>
 		            <div class="form-group">
 		            	<!-- <button type="submit" class="form-control btn btn-primary rounded submit px-3">Sign In</button>-->
                         <asp:Button ID="btnLogin" runat="server" OnClick="btnLogin_Click" class="form-control btn btn-primary rounded submit px-" Text="Ingresar"></asp:Button>
+                         <asp:Label ID="lblMensaje" runat="server" ForeColor="Red"></asp:Label>
+
+                        <!-- Resumen de validaciones -->
+                        <asp:ValidationSummary 
+                            ID="vsErrores" 
+                            runat="server" 
+                            ForeColor="Red" 
+                            DisplayMode="BulletList" 
+                            HeaderText="Por favor corrige los siguientes errores:" />
+
 		            </div>
 		            <div class="form-group d-md-flex">
 		            	<div class="w-50 text-left">
