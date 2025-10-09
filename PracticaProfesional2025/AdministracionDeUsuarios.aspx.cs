@@ -49,6 +49,20 @@ namespace PracticaProfesional2025
             CargarUsuarios();
         }
 
+        protected void gvUsuarios_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow && gvUsuarios.EditIndex == e.Row.RowIndex)
+            {
+                DropDownList ddlRol = (DropDownList)e.Row.FindControl("ddlRol");
+                string rolActual = DataBinder.Eval(e.Row.DataItem, "rol").ToString();
+
+                if (ddlRol.Items.FindByValue(rolActual) != null)
+                {
+                    ddlRol.SelectedValue = rolActual;
+                }
+            }
+        }
+
         protected void gvUsuarios_RowUpdating(object sender, System.Web.UI.WebControls.GridViewUpdateEventArgs e)
         {
             int idUsuario = (int)gvUsuarios.DataKeys[e.RowIndex].Value;
