@@ -17,6 +17,8 @@ namespace PracticaProfesional2025
         protected void Page_Load(object sender, EventArgs e)
         {
                 CargarUsuarios();
+
+                CargarUsuarios();
         }
 
         private void CargarUsuarios()

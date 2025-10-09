@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AdministracionDeUsuarios.aspx" />
+    <Content Include="Componentes.aspx" />
+    <Content Include="Computadoras.aspx" />
     <Content Include="Contenido\css\bootstrap.min.css" />
     <Content Include="Contenido\css\bootstrap\mixins\_border-radius.css" />
     <Content Include="Contenido\css\bootstrap\mixins\_screen-reader.css" />
@@ -125,6 +127,20 @@
     </Compile>
     <Compile Include="AdministracionDeUsuarios.aspx.designer.cs">
       <DependentUpon>AdministracionDeUsuarios.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Componentes.aspx.cs">
+      <DependentUpon>Componentes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Componentes.aspx.designer.cs">
+      <DependentUpon>Componentes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Computadoras.aspx.cs">
+      <DependentUpon>Computadoras.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Computadoras.aspx.designer.cs">
+      <DependentUpon>Computadoras.aspx</DependentUpon>
     </Compile>
     <Compile Include="ConnectionFactory.cs" />
     <Compile Include="Error.aspx.cs">

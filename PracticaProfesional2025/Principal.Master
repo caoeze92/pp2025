@@ -84,6 +84,13 @@
                         <li id="menuAdmin" runat="server">
                             <a href="AdministracionDeUsuarios.aspx"><span class="fa fa-sticky-note mr-3"></span> Administrar Usuarios</a>
                         </li>
+                        <li id="menuComputadoras" runat="server">
+                            <a href="computadoras.aspx"><span class="fa fa-desktop mr-3"></span> Computadoras</a>
+                        </li>
+                        <li id="menuComponentes" runat="server">
+                            <a href="componentes.aspx"><span class="fa fa-cogs mr-3"></span> Componentes</a>
+                        </li>
+
                     </ul>
 
                     <!-- Botón de cierre de sesión -->
