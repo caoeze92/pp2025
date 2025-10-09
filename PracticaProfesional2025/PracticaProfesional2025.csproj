@@ -103,7 +103,6 @@
     <Content Include="Error.aspx" />
     <Content Include="Inicio.aspx" />
     <Content Include="login.aspx" />
-    <Content Include="NoAutorizado.aspx" />
     <Content Include="ReservaExitosa.aspx" />
     <Content Include="Reservas.aspx" />
     <Content Include="Web.config">
@@ -148,13 +147,6 @@
     </Compile>
     <Compile Include="login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="NoAutorizado.aspx.cs">
-      <DependentUpon>NoAutorizado.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="NoAutorizado.aspx.designer.cs">
-      <DependentUpon>NoAutorizado.aspx</DependentUpon>
     </Compile>
     <Compile Include="Principal.Master.cs">
       <DependentUpon>Principal.Master</DependentUpon>

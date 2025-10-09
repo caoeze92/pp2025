@@ -16,13 +16,7 @@ namespace PracticaProfesional2025
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            if ((String)Session["logRol"] != "Admin")
-            {
-                Response.Redirect("NoAutorizado.aspx");
-
-            } else {
                 CargarUsuarios();
-            }
         }
 
         private void CargarUsuarios()
