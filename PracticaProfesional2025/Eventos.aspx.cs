@@ -13,46 +13,58 @@ namespace PracticaProfesional2025
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //ACTUALIZACION DE DATOS MEDIANTE LA FUNCION CARGAR DATOS
-            if (!IsPostBack) // solo en la primera carga de la página
+            if (!IsPostBack)
             {
-                CargarDatos();
+                CargarDatos();   // carga general
+                CargarEstados(); // carga del combo
             }
         }
 
-        // nueva implementacion para cargar/actualizar los datos
-
-        private void CargarDatos()
+        // CargarDatos con parámetro opcional
+        private void CargarDatos(string eventoSeleccionado = "")
         {
             using (SqlConnection conexion = ConnectionFactory.GetConnection())
             {
                 string query = @"
                     SELECT 
-                    h.id_historial,
-                    h.tipo_evento,
-                    te.nombre AS nombre_evento,
-                    h.entidad,
-                    h.codentidad,
-                    h.usuario,
-                    h.fecha_solicitud,
-                    h.detalle
-                   FROM historial h
-                   INNER JOIN tipos_evento te 
-                    ON h.tipo_evento = te.id_tipo_evento;
-                 ";
+                        h.id_historial,
+                        h.tipo_evento,
+                        te.nombre AS nombre_evento,
+                        h.entidad,
+                        h.codentidad,
+                        h.usuario,
+                        h.fecha_solicitud,
+                        h.detalle
+                    FROM historial h
+                    INNER JOIN tipos_evento te 
+                        ON h.tipo_evento = te.id_tipo_evento";
+
+                // Si hay un filtro, agregamos WHERE
+                if (!string.IsNullOrEmpty(eventoSeleccionado))
+                {
+                    query += " WHERE te.nombre = @nombreEvento";
+                }
+
                 SqlCommand cmd = new SqlCommand(query, conexion);
+
+                // Si hay filtro, asignar parámetro
+                if (!string.IsNullOrEmpty(eventoSeleccionado))
+                {
+                    cmd.Parameters.AddWithValue("@nombreEvento", eventoSeleccionado);
+                }
+
                 DataTable dt = new DataTable();
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 da.Fill(dt);
+
                 gvResultados.DataSource = dt;
                 gvResultados.DataBind();
+
                 int totalFilas = dt.Rows.Count;
-                lblTotalRows.Text = "Total: " + gvResultados.Rows.Count + " de " + totalFilas + "registros.";
+                lblTotalRows.Text = "Total: " + gvResultados.Rows.Count + " de " + totalFilas + " registros.";
                 ViewState["totalFilas"] = totalFilas;
             }
         }
-            //fin nueva imp
-            // a
 
         protected void gvResultados_RowDataBound_Eventos(object sender, GridViewRowEventArgs e)
         {
@@ -62,55 +74,57 @@ namespace PracticaProfesional2025
                 for (int i = 0; i < e.Row.Cells.Count; i++)
                 {
                     string cellText = e.Row.Cells[i].Text;
-
-                    // Si la celda está vacía o es NULL
                     if (string.IsNullOrWhiteSpace(cellText) || cellText == "&nbsp;")
                     {
                         e.Row.Cells[i].Text = "-";
                     }
-                    else
+                    else if (DateTime.TryParse(cellText, out fecha))
                     {
-                        // Intentar convertir a fecha y formatear
-                        if (DateTime.TryParse(cellText, out fecha))
-                        {
-                            e.Row.Cells[i].Text = fecha.ToString("dd/MM/yyyy HH:mm:ss");
-                        }
+                        e.Row.Cells[i].Text = fecha.ToString("dd/MM/yyyy HH:mm:ss");
                     }
                 }
             }
         }
 
-        //a
-
-
-        //b
         protected void gvResultados_PageIndexChanging(object sender, GridViewPageEventArgs e)
         {
             gvResultados.PageIndex = e.NewPageIndex;
-            //gvResultados.DataBind();
-            CargarDatos(); // 
 
-            // ACTUALIZACION DE TEXTO DE REGISTROS MOSTRADOS
+            // Mantener el filtro actual si existe
+            string eventoSeleccionado = comboEventos.SelectedValue;
+            CargarDatos(eventoSeleccionado);
 
             int totalFilas = (int)ViewState["totalFilas"];
             int paginaActual = gvResultados.PageIndex + 1;
             int pageSize = gvResultados.PageSize;
             int registroActual = paginaActual * pageSize;
-
             if (registroActual > totalFilas)
                 registroActual = totalFilas;
 
-            lblTotalRows.Text = "Total: "+ registroActual +" de " + totalFilas +" registros.";
+            lblTotalRows.Text = "Total: " + registroActual + " de " + totalFilas + " registros.";
         }
-        //b
 
-        //c
-        protected void btnBuscar_Click (object sender, EventArgs e)
+        // BTN Buscar
+        protected void btnBuscar_Click(object sender, EventArgs e)
         {
-
+            string eventoSeleccionado = comboEventos.SelectedValue;
+            CargarDatos(eventoSeleccionado);
         }
-        //c
 
+        private void CargarEstados()
+        {
+            using (SqlConnection con = ConnectionFactory.GetConnection())
+            {
+                con.Open();
+                SqlCommand cmdEventos = new SqlCommand("SELECT nombre FROM Tipos_Evento", con);
+                SqlDataReader opcEventos = cmdEventos.ExecuteReader();
+                comboEventos.DataSource = opcEventos;
+                comboEventos.DataTextField = "nombre";
+                comboEventos.DataValueField = "nombre";
+                comboEventos.DataBind();
+                opcEventos.Close();
+                comboEventos.Items.Insert(0, new ListItem("-- Eventos --", ""));
+            }
+        }
     }
-
 }

@@ -31,13 +31,13 @@ namespace PracticaProfesional2025 {
         protected global::System.Web.UI.WebControls.TextBox txtIdComputadora;
         
         /// <summary>
-        /// txtIdComponente control.
+        /// comboEventos control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtIdComponente;
+        protected global::System.Web.UI.WebControls.DropDownList comboEventos;
         
         /// <summary>
         /// TextBox2 control.
@@ -58,13 +58,13 @@ namespace PracticaProfesional2025 {
         protected global::System.Web.UI.WebControls.TextBox TextBox1;
         
         /// <summary>
-        /// Button1 control.
+        /// btnBuscar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Button btnBuscar;
         
         /// <summary>
         /// gvResultados control.
