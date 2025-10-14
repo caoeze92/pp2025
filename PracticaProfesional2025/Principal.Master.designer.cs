@@ -22,6 +22,33 @@ namespace PracticaProfesional2025 {
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
         
         /// <summary>
+        /// Control menuConsultaStock.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuConsultaStock;
+        
+        /// <summary>
+        /// Control menuReservas.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuReservas;
+        
+        /// <summary>
+        /// Control menuEvento.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuEvento;
+        
+        /// <summary>
         /// Control menuAdmin.
         /// </summary>
         /// <remarks>
@@ -31,22 +58,13 @@ namespace PracticaProfesional2025 {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuAdmin;
         
         /// <summary>
-        /// Control menuComputadoras.
+        /// Control menuAlta.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuComputadoras;
-        
-        /// <summary>
-        /// Control menuComponentes.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuComponentes;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuAlta;
         
         /// <summary>
         /// Control btnLogout.

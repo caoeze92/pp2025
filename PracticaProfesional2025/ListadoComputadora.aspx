@@ -1,4 +1,4 @@
-﻿<%@ Page Title="ABM Computadoras" Language="C#" MasterPageFile="~/Principal.Master" AutoEventWireup="true" CodeBehind="Computadoras.aspx.cs" Inherits="PracticaProfesional2025.Computadoras" %>
+﻿<%@ Page Title="ABM Computadoras" Language="C#" MasterPageFile="~/Principal.Master" AutoEventWireup="true" CodeBehind="ListadoComputadora.aspx.cs" Inherits="PracticaProfesional2025.Computadoras" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <div class="container mt-5">
@@ -31,7 +31,7 @@
         <asp:Button 
             ID="btnAgregar" 
             runat="server" 
-            Text="Agregar nueva computadora" 
+            Text="Nuevo" 
             CssClass="btn btn-primary mt-3" 
             OnClick="btnAgregar_Click" />
     </div>

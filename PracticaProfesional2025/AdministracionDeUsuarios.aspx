@@ -24,7 +24,6 @@
                         <asp:DropDownList ID="ddlRol" runat="server">
                             <asp:ListItem Text="admin" Value="admin" />
                             <asp:ListItem Text="usuario" Value="usuario" />
-                            <asp:ListItem Text="invitado" Value="invitado" />
                         </asp:DropDownList>
                     </EditItemTemplate>
                     <ItemTemplate>

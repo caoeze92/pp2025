@@ -103,16 +103,7 @@ namespace PracticaProfesional2025
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            using (SqlConnection conn = new SqlConnection(connStr))
-            {
-                conn.Open();
-                string query = @"INSERT INTO Computadoras (id_laboratorio, codigo_inventario, numero_serie, descripcion, estado_actual, fecha_alta)
-                                 VALUES (0, '', '', '', 'Disponible', GETDATE())";
-                SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.ExecuteNonQuery();
-            }
-
-            CargarComputadoras();
+            Response.Redirect("AltaComputadora.aspx");
         }
     }
 }

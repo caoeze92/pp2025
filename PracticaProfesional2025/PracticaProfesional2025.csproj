@@ -63,8 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AdministracionDeUsuarios.aspx" />
-    <Content Include="Componentes.aspx" />
-    <Content Include="Computadoras.aspx" />
+    <Content Include="ListadoComputadora.aspx" />
     <Content Include="Contenido\css\bootstrap.min.css" />
     <Content Include="Contenido\css\bootstrap\mixins\_border-radius.css" />
     <Content Include="Contenido\css\bootstrap\mixins\_screen-reader.css" />
@@ -102,6 +101,7 @@
     <Content Include="Contenido\registro\js\jquery.min.js" />
     <Content Include="Contenido\registro\js\main.js" />
     <Content Include="Contenido\registro\js\popper.js" />
+    <Content Include="AltaComputadora.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="Inicio.aspx" />
     <Content Include="login.aspx" />
@@ -128,21 +128,24 @@
     <Compile Include="AdministracionDeUsuarios.aspx.designer.cs">
       <DependentUpon>AdministracionDeUsuarios.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Componentes.aspx.cs">
-      <DependentUpon>Componentes.aspx</DependentUpon>
+    <Compile Include="Componente.cs" />
+    <Compile Include="Computadora.cs" />
+    <Compile Include="ComputadoraComponente.cs" />
+    <Compile Include="ListadoComputadora.aspx.cs">
+      <DependentUpon>ListadoComputadora.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Componentes.aspx.designer.cs">
-      <DependentUpon>Componentes.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Computadoras.aspx.cs">
-      <DependentUpon>Computadoras.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="Computadoras.aspx.designer.cs">
-      <DependentUpon>Computadoras.aspx</DependentUpon>
+    <Compile Include="ListadoComputadora.aspx.designer.cs">
+      <DependentUpon>ListadoComputadora.aspx</DependentUpon>
     </Compile>
     <Compile Include="ConnectionFactory.cs" />
+    <Compile Include="AltaComputadora.aspx.cs">
+      <DependentUpon>AltaComputadora.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="AltaComputadora.aspx.designer.cs">
+      <DependentUpon>AltaComputadora.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

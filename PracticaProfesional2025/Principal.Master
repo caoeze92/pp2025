@@ -71,24 +71,21 @@
                         <li class="active">
                             <a href="Inicio.aspx"><span class="fa fa-home mr-3"></span> Inicio</a>
                         </li>
-                        <li>
+                        <li id="menuConsultaStock" runat="server">
                             <a href="ConsultaStock.aspx"><span class="fa fa-user mr-3"></span> Consultar Stock</a>
                         </li>
-                        <li>
+                        <li id="menuReservas" runat="server">
                             <a href="Reservas.aspx"><span class="fa fa-briefcase mr-3"></span> Reservas</a>
                         </li>
-                        <li>
+                        <li id="menuEvento" runat="server">
                             <a href="Eventos.aspx"><span class="fa fa-briefcase mr-3"></span> Historial</a>
                         </li>
                         <!-- Solo Admin -->
                         <li id="menuAdmin" runat="server">
                             <a href="AdministracionDeUsuarios.aspx"><span class="fa fa-sticky-note mr-3"></span> Administrar Usuarios</a>
                         </li>
-                        <li id="menuComputadoras" runat="server">
-                            <a href="computadoras.aspx"><span class="fa fa-desktop mr-3"></span> Computadoras</a>
-                        </li>
-                        <li id="menuComponentes" runat="server">
-                            <a href="componentes.aspx"><span class="fa fa-cogs mr-3"></span> Componentes</a>
+                        <li id="menuAlta" runat="server">
+                            <a href="ListadoComputadora.aspx"><span class="fa fa-desktop mr-3"></span> Agregar PC's/Componentes</a>
                         </li>
 
                     </ul>
