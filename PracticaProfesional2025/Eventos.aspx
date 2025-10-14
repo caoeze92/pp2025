@@ -97,10 +97,17 @@
                 <asp:TextBox ID="txtIdComputadora" runat="server" />
             </div>
         </div>
-        <div class="col-md-2">
+<%--        <div class="col-md-2">
             <div class="filtro-box">
                 <label for="txtIdComponente">Evento</label>
                 <asp:TextBox ID="txtIdComponente" runat="server" />
+            </div>
+        </div>--%>
+
+            <div class="col-md-2">
+            <div class="filtro-box">
+                <label for="txtEventos">Evento</label>
+                <asp:DropDownList ID="comboEventos" runat="server" CssClass="form-select"></asp:DropDownList>
             </div>
         </div>
 
@@ -141,7 +148,7 @@
             </div>
         </div>--%>
         <div class="col-md-2 d-flex align-items-end">
-            <asp:Button ID="Button1" runat="server" Text="Buscar" CssClass="btn btn-primary w-100 btn-buscar" BackColor="#0d1b2a" OnClick="btnBuscar_Click" />
+            <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-primary w-100 btn-buscar" BackColor="#0d1b2a" OnClick="btnBuscar_Click" />
         </div>
     </div>
 </asp:Panel>
