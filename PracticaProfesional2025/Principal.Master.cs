@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
 
 namespace PracticaProfesional2025
 {
@@ -11,19 +8,9 @@ namespace PracticaProfesional2025
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (IsPostBack)
-            {
-                if (Session["Rol"] != null && Session["Rol"].ToString() == "admin")
-                {
-                    menuAdmin.Visible = true;
-                }
-                else
-                {
-                    menuAdmin.Visible = false;
-                }
-            }
-            // Verifica siempre el rol, no solo en postback 
-            if (Session["logRol"] != null && Session["logRol"].ToString() == "Admin")
+            // Mostramos el menú solo si hay sesión iniciada
+            if (Session["logRol"] != null &&
+                Session["logRol"].ToString().ToLower() == "admin")
             {
                 menuAdmin.Visible = true;
             }
@@ -33,12 +20,11 @@ namespace PracticaProfesional2025
             }
         }
 
-
         protected void btnLogout_Click(object sender, EventArgs e)
         {
             Session.Clear();
-            Session.Abandon(); // termina la sesión
-            Response.Redirect("login.aspx"); // redirige al login
+            Session.Abandon();
+            Response.Redirect("login.aspx");
         }
     }
 }

@@ -63,6 +63,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AdministracionDeUsuarios.aspx" />
+    <Content Include="Componentes.aspx" />
+    <Content Include="Computadoras.aspx" />
     <Content Include="Contenido\css\bootstrap.min.css" />
     <Content Include="Contenido\css\bootstrap\mixins\_border-radius.css" />
     <Content Include="Contenido\css\bootstrap\mixins\_screen-reader.css" />
@@ -103,7 +105,6 @@
     <Content Include="Error.aspx" />
     <Content Include="Inicio.aspx" />
     <Content Include="login.aspx" />
-    <Content Include="NoAutorizado.aspx" />
     <Content Include="ReservaExitosa.aspx" />
     <Content Include="Reservas.aspx" />
     <Content Include="Web.config">
@@ -127,6 +128,20 @@
     <Compile Include="AdministracionDeUsuarios.aspx.designer.cs">
       <DependentUpon>AdministracionDeUsuarios.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Componentes.aspx.cs">
+      <DependentUpon>Componentes.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Componentes.aspx.designer.cs">
+      <DependentUpon>Componentes.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Computadoras.aspx.cs">
+      <DependentUpon>Computadoras.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Computadoras.aspx.designer.cs">
+      <DependentUpon>Computadoras.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ConnectionFactory.cs" />
     <Compile Include="Error.aspx.cs">
       <DependentUpon>Error.aspx</DependentUpon>
@@ -148,13 +163,6 @@
     </Compile>
     <Compile Include="login.aspx.designer.cs">
       <DependentUpon>login.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="NoAutorizado.aspx.cs">
-      <DependentUpon>NoAutorizado.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="NoAutorizado.aspx.designer.cs">
-      <DependentUpon>NoAutorizado.aspx</DependentUpon>
     </Compile>
     <Compile Include="Principal.Master.cs">
       <DependentUpon>Principal.Master</DependentUpon>
