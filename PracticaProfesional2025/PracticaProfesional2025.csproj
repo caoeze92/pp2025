@@ -63,6 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="AdministracionDeUsuarios.aspx" />
+    <Content Include="Global.asax" />
     <Content Include="ListadoComputadora.aspx" />
     <Content Include="Contenido\css\bootstrap.min.css" />
     <Content Include="Contenido\css\bootstrap\mixins\_border-radius.css" />
@@ -129,8 +130,14 @@
       <DependentUpon>AdministracionDeUsuarios.aspx</DependentUpon>
     </Compile>
     <Compile Include="Componente.cs" />
+    <Compile Include="ComponenteRepository.cs" />
     <Compile Include="Computadora.cs" />
     <Compile Include="ComputadoraComponente.cs" />
+    <Compile Include="ComputadoraRepository.cs" />
+    <Compile Include="DebugHelper.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
     <Compile Include="ListadoComputadora.aspx.cs">
       <DependentUpon>ListadoComputadora.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

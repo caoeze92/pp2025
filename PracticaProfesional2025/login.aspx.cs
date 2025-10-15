@@ -17,6 +17,8 @@ namespace PracticaProfesional2025
     {
         Usuario usuario = null;
 
+        SqlDataReader reader;
+
         protected void Page_Load(object sender, EventArgs e)
         {
 
@@ -24,15 +26,30 @@ namespace PracticaProfesional2025
 
         protected void btnLogin_Click(object sender, EventArgs e)
         {
+            
             using (SqlConnection conexion = ConnectionFactory.GetConnection())
             {
                 string query = "SELECT * FROM USUARIOS WHERE EMAIL = @Email";
+                
+                try
+                {
 
                 conexion.Open();
                 SqlCommand command = new SqlCommand(query, conexion);
                 command.Parameters.AddWithValue("@Email", logTxtEmail.Text);
 
-                SqlDataReader reader = command.ExecuteReader();
+                reader = command.ExecuteReader();
+                
+                }
+
+                catch(Exception ex){
+                     // Guardamos la excepción completa en sesión para mostrar en Error.aspx
+                Session["ErrorMessage"] = "Ocurrió un error al guardar el registro.";
+                Session["ErrorException"] = ex.ToString(); // stack trace completo
+
+                Response.Redirect("Error.aspx");
+                }
+                
 
                 if (reader.Read()) // si encontró el usuario
                 {

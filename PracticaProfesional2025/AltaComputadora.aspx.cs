@@ -88,38 +88,60 @@ namespace PracticaProfesional2025
 
         protected void btnAgregarComponente_Click(object sender, EventArgs e)
         {
-            // Crear un componente temporal tomando los valores de los TextBox
+            // Crear un nuevo componente desde los campos de texto
             var componente = new Componente
             {
-                Id_Componente = 0, // temporal hasta guardar en DB
                 Tipo = txtTipo.Text,
                 Marca = txtMarca.Text,
                 Modelo = txtModelo.Text,
-                Numero_Serie = txtNumeroSerieComp.Text,
-                Caracteristicas = "",       // si tenés input, reemplazalo por txtCaracteristicas.Text
-                Estado_Id = 1,              // por defecto o según tu lógica
-                Fecha_Compra = DateTime.Now // o tomar de un input si lo tenés
+                Numero_Serie = txtNumeroSerieComp.Text
             };
 
-            // Agregar a la lista temporal en ViewState
-            var lista = ComponentesTemp;
-            lista.Add(componente);
-            ComponentesTemp = lista;
+            // Agregar a la lista en memoria
+            Componentes.Add(componente);
 
-            // Refrescar GridView
-            gvComponentes.DataSource = ComponentesTemp;
+            // Actualizar la grilla
+            gvComponentes.DataSource = Componentes;
             gvComponentes.DataBind();
 
-            // Limpiar los inputs
-            txtTipo.Text = "";
-            txtMarca.Text = "";
-            txtModelo.Text = "";
-            txtNumeroSerieComp.Text = "";
+            // Limpiar los campos
+            txtTipo.Text = txtMarca.Text = txtModelo.Text = txtNumeroSerieComp.Text = "";
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
         {
-            
+            try
+            {
+                // Determinar si el usuario está creando una computadora o un componente individual
+                string tipoCarga = ddlTipoCarga.SelectedValue;
+
+                if (tipoCarga == "computadora")
+                {
+                    GuardarComputadoraConComponentes();
+                }
+                else if (tipoCarga == "componente")
+                {
+                    GuardarComponenteIndividual();
+                }
+                else
+                {
+                    // No es un error crítico, podemos mostrar mensaje en la misma página
+                    lblMensaje.Text = "Debe seleccionar un tipo de alta.";
+                    lblMensaje.CssClass = "text-danger fw-bold";
+                    return;
+                }
+
+                lblMensaje.Text = "Registro guardado correctamente.";
+                lblMensaje.CssClass = "text-success fw-bold";
+            }
+            catch (Exception ex)
+            {
+                // Guardamos la excepción completa en sesión para mostrar en Error.aspx
+                Session["ErrorMessage"] = "Ocurrió un error al guardar el registro.";
+                Session["ErrorException"] = ex.ToString(); // stack trace completo
+
+                Response.Redirect("Error.aspx");
+            }
 
         }
 
@@ -128,19 +150,67 @@ namespace PracticaProfesional2025
             Response.Redirect("ListadoComputadora.aspx");
         }
 
-        private List<Componente> ComponentesTemp
+        private List<Componente> Componentes
         {
             get
             {
-                if (ViewState["ComponentesTemp"] == null)
-                    ViewState["ComponentesTemp"] = new List<Componente>();
-                return (List<Componente>)ViewState["ComponentesTemp"];
+                if (ViewState["Componentes"] == null)
+                    ViewState["Componentes"] = new List<Componente>();
+                return (List<Componente>)ViewState["Componentes"];
             }
             set
             {
-                ViewState["ComponentesTemp"] = value;
+                ViewState["Componentes"] = value;
             }
         }
+
+        private void GuardarComputadoraConComponentes()
+        {
+            // 1️⃣ Crear la computadora
+            var computadora = new Computadora
+            {
+                IdLaboratorio = int.Parse(ddlLaboratorio.SelectedValue),
+                CodigoInventario = txtCodigoInventario.Text,
+                NumeroSerie = txtNumeroSerie.Text,
+                Descripcion = txtDescripcion.Text,
+                FechaAlta = DateTime.Parse(txtFechaAlta.Text),
+                EstadoActual = "1" // Activo
+            };
+
+            DebugHelper.PrintObjectProperties(computadora);
+            var repoCompu = new ComputadoraRepository();
+            int idComputadora = repoCompu.Insert(computadora);
+
+            // 2️⃣ Insertar los componentes asociados
+            var repoComponente = new ComponenteRepository();
+
+            foreach (var comp in Componentes)
+            {
+                int idComponente = repoComponente.Insert(comp);
+                repoComponente.VincularConComputadora(idComputadora, idComponente);
+            }
+
+            // Limpiar después de guardar
+            Componentes.Clear();
+            gvComponentes.DataSource = null;
+            gvComponentes.DataBind();
+        }
+
+        private void GuardarComponenteIndividual()
+        {
+            var componente = new Componente
+            {
+                Tipo = txtTipo.Text,
+                Marca = txtMarca.Text,
+                Modelo = txtModelo.Text,
+                Numero_Serie = txtNumeroSerieComp.Text
+            };
+
+            DebugHelper.PrintObjectProperties(componente);
+            var repo = new ComponenteRepository();
+            repo.Insert(componente);
+        }
+
 
     }
 }
