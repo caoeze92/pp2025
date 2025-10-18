@@ -129,11 +129,11 @@
     <Compile Include="AdministracionDeUsuarios.aspx.designer.cs">
       <DependentUpon>AdministracionDeUsuarios.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Componente.cs" />
-    <Compile Include="ComponenteRepository.cs" />
-    <Compile Include="Computadora.cs" />
-    <Compile Include="ComputadoraComponente.cs" />
-    <Compile Include="ComputadoraRepository.cs" />
+    <Compile Include="modelo\Componente.cs" />
+    <Compile Include="repositorio\ComponenteRepository.cs" />
+    <Compile Include="modelo\Computadora.cs" />
+    <Compile Include="modelo\ComputadoraComponente.cs" />
+    <Compile Include="repositorio\ComputadoraRepository.cs" />
     <Compile Include="DebugHelper.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -217,7 +217,7 @@
     <Compile Include="Reservas.aspx.designer.cs">
       <DependentUpon>Reservas.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Usuario.cs" />
+    <Compile Include="modelo\Usuario.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Principal.Master" />
@@ -518,6 +518,7 @@
     <None Include="Contenido\scss\bootstrap\_variables.scss" />
     <None Include="Contenido\scss\style.scss" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

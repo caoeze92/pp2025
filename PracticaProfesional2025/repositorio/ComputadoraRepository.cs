@@ -9,7 +9,7 @@ namespace PracticaProfesional2025
     {
         public int Insert(Computadora computadora)
         {
-            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConexionBD"].ConnectionString))
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Conexion"].ConnectionString))
             {
                 con.Open();
                 SqlTransaction transaction = con.BeginTransaction();

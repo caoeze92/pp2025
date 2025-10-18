@@ -144,8 +144,55 @@
     <!-- Panel Componente individual -->
     <asp:Panel ID="pnlComponente" runat="server" Visible="false">
         <h4>Datos del Componente Individual</h4>
-        <!-- Aquí podrías agregar inputs para crear un componente directamente -->
+        <div class="row g-2">
+            <div class="col-md-3">
+                <div class="filtro-box">
+                    <label for="txtTipoCompIndividual">Tipo</label>
+                    <asp:TextBox ID="txtTipoCompIndividual" runat="server" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="filtro-box">
+                    <label for="txtMarcaCompIndividual">Marca</label>
+                    <asp:TextBox ID="txtMarcaCompIndividual" runat="server" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="filtro-box">
+                    <label for="txtModeloCompIndividual">Modelo</label>
+                    <asp:TextBox ID="txtModeloCompIndividual" runat="server" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="filtro-box">
+                    <label for="txtCaracCompIndividual">Caracteristicas</label>
+                    <asp:TextBox ID="txtCaracCompIndividual" runat="server" />
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="filtro-box">
+                    <label for="txtNumeroSerieIndividual">Número de Serie</label>
+                    <asp:TextBox ID="txtNumeroSerieIndividual" runat="server" />
+                </div>
+            </div>
+        </div>
+
+        <div class="row g-2 mt-2">
+            <div class="col-md-3">
+                <div class="filtro-box">
+                    <label for="txtCantidadIndividual">Cantidad</label>
+                    <asp:TextBox ID="txtCantidadIndividual" runat="server" TextMode="Number" Text="1" />
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="filtro-box">
+                    <label for="ddlComputadoraAsociar">Asociar a Computadora</label>
+                    <asp:DropDownList ID="ddlComputadoraAsociar" runat="server" CssClass="form-select"></asp:DropDownList>
+                </div>
+            </div>
+        </div>
     </asp:Panel>
+
 
     <div class="mt-3">
         <asp:Button ID="btnGuardar" runat="server" Text="Guardar Registro" CssClass="btn btn-success btn-crear" OnClick="btnGuardar_Click" />

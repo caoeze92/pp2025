@@ -157,6 +157,69 @@ namespace PracticaProfesional2025 {
         protected global::System.Web.UI.WebControls.Panel pnlComponente;
         
         /// <summary>
+        /// Control txtTipoCompIndividual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTipoCompIndividual;
+        
+        /// <summary>
+        /// Control txtMarcaCompIndividual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMarcaCompIndividual;
+        
+        /// <summary>
+        /// Control txtModeloCompIndividual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtModeloCompIndividual;
+        
+        /// <summary>
+        /// Control txtCaracCompIndividual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCaracCompIndividual;
+        
+        /// <summary>
+        /// Control txtNumeroSerieIndividual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNumeroSerieIndividual;
+        
+        /// <summary>
+        /// Control txtCantidadIndividual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCantidadIndividual;
+        
+        /// <summary>
+        /// Control ddlComputadoraAsociar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlComputadoraAsociar;
+        
+        /// <summary>
         /// Control btnGuardar.
         /// </summary>
         /// <remarks>
