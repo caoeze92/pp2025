@@ -61,6 +61,25 @@
                              TextMode="MultiLine" Rows="3" 
                              Style="background-color: #f0f8ff; border: 1px solid #007bff; padding: 5px;"
                              placeholder="Escriba el motivo de la reserva aquí..." />
+                             <!-- ✅ Validación: campo obligatorio -->
+                        <asp:RequiredFieldValidator 
+                            ID="rfvMotivo" 
+                            runat="server"
+                            ControlToValidate="txtMotivo"
+                            ErrorMessage="El motivo es obligatorio"
+                            CssClass="text-danger" 
+                            Display="Dynamic" />
+
+                        <!-- ✅ Validación: entre 5 y 100 palabras -->
+                        <asp:RegularExpressionValidator 
+                            ID="revMotivo" 
+                            runat="server"
+                            ControlToValidate="txtMotivo"
+                            ValidationExpression="^(\b\w+\b[\s\r\n]*){5,100}$"
+                            ErrorMessage="El motivo debe tener entre 5 y 100 palabras."
+                            CssClass="text-danger" 
+                            Display="Dynamic" />
+
 
                 <asp:Button ID="btnReservar" runat="server" Text="Reservar"
                     CssClass="btn btn-primary" OnClick="btnReservar_Click" />

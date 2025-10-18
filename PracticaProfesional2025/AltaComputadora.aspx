@@ -60,24 +60,67 @@
                 <div class="filtro-box">
                     <label for="ddlLaboratorio">Laboratorio</label>
                     <asp:DropDownList ID="ddlLaboratorio" runat="server" CssClass="form-select" AppendDataBoundItems="true"></asp:DropDownList>
+                    <asp:RequiredFieldValidator 
+                        ID="rfvLaboratorio" 
+                        runat="server"
+                        ControlToValidate="ddlLaboratorio"
+                        InitialValue="0"
+                        ErrorMessage="Debe seleccionar un laboratorio"
+                        CssClass="text-danger" 
+                        Display="Dynamic" />
+
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="filtro-box">
                     <label for="txtCodigoInventario">Código de Inventario</label>
                     <asp:TextBox ID="txtCodigoInventario" runat="server" />
+                    <asp:RequiredFieldValidator 
+                        ID="rfvCodigoInventario" 
+                        runat="server" 
+                        ControlToValidate="txtCodigoInventario"
+                        ErrorMessage="Debe ingresar un código de inventario"
+                        CssClass="text-danger" Display="Dynamic" />
+
+                    <asp:RegularExpressionValidator 
+                        ID="revCodigoInventario"
+                        runat="server"
+                        ControlToValidate="txtCodigoInventario"
+                        ValidationExpression="^[A-Za-z0-9\-]+$"
+                        ErrorMessage="Solo se permiten letras, números y guiones"
+                        CssClass="text-danger" Display="Dynamic" />
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="filtro-box">
                     <label for="txtNumeroSerie">Número de Serie</label>
                     <asp:TextBox ID="txtNumeroSerie" runat="server" />
+                    <asp:RequiredFieldValidator 
+                        ID="rfvNumeroSerie" 
+                        runat="server"
+                        ControlToValidate="txtNumeroSerie"
+                        ErrorMessage="Debe ingresar un número de serie"
+                        CssClass="text-danger" Display="Dynamic" />
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="filtro-box">
                     <label for="txtDescripcion">Descripción</label>
                     <asp:TextBox ID="txtDescripcion" runat="server" />
+                    <asp:RequiredFieldValidator 
+                        ID="rfvDescripcion" 
+                        runat="server"
+                        ControlToValidate="txtDescripcion"
+                        ErrorMessage="Debe ingresar una descripción"
+                        CssClass="text-danger" Display="Dynamic" />
+
+                    <asp:RegularExpressionValidator 
+                        ID="revDescripcion"
+                        runat="server"
+                        ControlToValidate="txtDescripcion"
+                        ValidationExpression="^.{5,100}$"
+                        ErrorMessage="La descripción debe tener entre 5 y 100 caracteres"
+                        CssClass="text-danger" Display="Dynamic" />
                 </div>
             </div>
         </div>
@@ -104,24 +147,71 @@
                     <div class="filtro-box">
                         <label for="txtTipo">Tipo</label>
                         <asp:TextBox ID="txtTipo" runat="server" />
+                        <!--Val- Tipo -->
+                        <asp:RequiredFieldValidator 
+                            ID="rfvTipo" 
+                            runat="server"
+                            ControlToValidate="txtTipo"
+                            ErrorMessage="Debe ingresar el tipo de componente"
+                            CssClass="text-danger" Display="Dynamic" />
+
+                        <asp:RegularExpressionValidator
+                            ID="revTipo"
+                            runat="server"
+                            ControlToValidate="txtTipo"
+                            ValidationExpression="^[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s\-_]+$"
+                            ErrorMessage="Solo se permiten letras, números, espacios y guiones"
+                            CssClass="text-danger"
+                            Display="Dynamic" />
+
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="filtro-box">
                         <label for="txtMarca">Marca</label>
                         <asp:TextBox ID="txtMarca" runat="server" />
+                        <!--Val- Marca -->
+                        <asp:RequiredFieldValidator ID="rfvMarca" runat="server"
+                            ControlToValidate="txtMarca"
+                            ErrorMessage="Debe ingresar la marca"
+                            CssClass="text-danger" Display="Dynamic" />
+                        <asp:RegularExpressionValidator ID="revMarca" runat="server"
+                            ControlToValidate="txtMarca"
+                            ValidationExpression="^[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s\-_]+$"
+                            ErrorMessage="Solo se permiten letras, números, espacios y guiones"
+                            CssClass="text-danger" Display="Dynamic" />
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="filtro-box">
                         <label for="txtModelo">Modelo</label>
                         <asp:TextBox ID="txtModelo" runat="server" />
+                        <!-- Val-Modelo -->
+                        <asp:RequiredFieldValidator ID="rfvModelo" runat="server"
+                            ControlToValidate="txtModelo"
+                            ErrorMessage="Debe ingresar el modelo"
+                            CssClass="text-danger" Display="Dynamic" />
+                        <asp:RegularExpressionValidator ID="revModelo" runat="server"
+                            ControlToValidate="txtModelo"
+                            ValidationExpression="^[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s\-_]+$"
+                            ErrorMessage="Solo se permiten letras, números, espacios y guiones"
+                            CssClass="text-danger" Display="Dynamic" />
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="filtro-box">
                         <label for="txtNumeroSerieComp">N° Serie</label>
                         <asp:TextBox ID="txtNumeroSerieComp" runat="server" />
+                        <!-- VAL-N° Serie -->
+                        <asp:RequiredFieldValidator ID="rfvNumeroSerieComp" runat="server"
+                            ControlToValidate="txtNumeroSerieComp"
+                            ErrorMessage="Debe ingresar el número de serie"
+                            CssClass="text-danger" Display="Dynamic" />
+                        <asp:RegularExpressionValidator ID="revNumeroSerieComp" runat="server"
+                            ControlToValidate="txtNumeroSerieComp"
+                            ValidationExpression="^[A-Za-z0-9ÁÉÍÓÚáéíóúñÑ\s\-_]+$"
+                            ErrorMessage="Solo se permiten letras, números, espacios y guiones"
+                            CssClass="text-danger" Display="Dynamic" />
                     </div>
                 </div>
             </div>

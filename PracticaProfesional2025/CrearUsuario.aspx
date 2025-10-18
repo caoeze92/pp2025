@@ -95,8 +95,8 @@
                             CssClass="text-danger" Display="Dynamic" />
                         <asp:RegularExpressionValidator ID="regexPassword" runat="server"
                             ControlToValidate="nTxtPassword"
-                            ValidationExpression="^.{6,}$"
-                            ErrorMessage="La contraseña debe tener al menos 6 caracteres"
+                            ValidationExpression="^(?=.*[A-Z])(?=.*[^A-Za-z0-9]).{8,}$"
+                            ErrorMessage="La contraseña debe tener al menos 8 caracteres, incluir una letra mayúscula y un carácter especial."
                             CssClass="text-danger" Display="Dynamic" />
 		             	</div>
                     <div class="form-group mt-4">

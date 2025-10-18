@@ -103,6 +103,24 @@ namespace PracticaProfesional2025 {
         protected global::System.Web.UI.WebControls.TextBox txtMotivo;
         
         /// <summary>
+        /// Control rfvMotivo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator rfvMotivo;
+        
+        /// <summary>
+        /// Control revMotivo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revMotivo;
+        
+        /// <summary>
         /// Control btnReservar.
         /// </summary>
         /// <remarks>
