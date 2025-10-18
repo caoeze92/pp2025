@@ -16,9 +16,9 @@ using System.Collections.Generic;namespace PracticaProfesional2025
         int idComponente = 0;
 
         string query = "INSERT INTO Componentes (Tipo, Marca, Modelo,Caracteristicas, Numero_Serie, Estado_id, Fecha_compra) " +
-                       "VALUES (@Tipo, @Marca, @Modelo,@Caracteristicas, @NumeroSerie, @Estado, @Fecha); SELECT SCOPE_IDENTITY();";
+                       "VALUES (@Tipo, @Marca, @Modelo,@Caracteristicas @NumeroSerie, @Estado, @Fecha); SELECT SCOPE_IDENTITY();";
 
-        using (SqlConnection con = ConnectionFactory.GetConnection())
+        using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Conexion"].ConnectionString))
         using (SqlCommand cmd = new SqlCommand(query, con))
         {
             cmd.Parameters.AddWithValue("@Tipo", componente.Tipo);

@@ -68,6 +68,18 @@ namespace PracticaProfesional2025
 
         protected void btnAgregarComponente_Click(object sender, EventArgs e)
         {
+            //var repoComponente = new ComponenteRepository();
+            //// Generar un Numero_Serie único
+            //string baseNumeroSerie = txtNumeroSerieIndividual.Text;
+            //string numeroSerie = string.Format("{0}_{1}", baseNumeroSerie, j);
+            //int sufijo = j;
+
+            //while (repoComponente.ExisteNumeroSerie(numeroSerie))
+            //{
+            //    sufijo++;
+            //    numeroSerie = string.Format("{0}_{1}", baseNumeroSerie, sufijo);
+            //}    VER ESTO ME ESTA CHOCANDO NUMERO DE SERIE UNAO LO INGRESO CON LA COMPU NO SE SI CHOCA EL NUMRO DE SERIE DE LA CPOMPU O DEL COMPONENETE VERIFICAR
+
             var componente = new Componente
             {
                 Tipo = txtTipo.Text,
@@ -113,15 +125,26 @@ namespace PracticaProfesional2025
 
         private void GuardarComputadoraConComponentes()
         {
-            int cant; 
-            bool ok = int.TryParse(txtCantidad.Text, out cant); 
+            int cant;
+            bool ok = int.TryParse(txtCantidad.Text, out cant);
             int cantidadComputadoras = ok ? cant : 1;
 
             var repoCompu = new ComputadoraRepository();
-            var repoComponente = new ComponenteRepository();
 
             for (int i = 1; i <= cantidadComputadoras; i++)
             {
+
+                // Generar un Numero_Serie único
+                string baseNumeroSerie = txtNumeroSerieIndividual.Text;
+                string numeroSerie = string.Format("{0}_{1}", baseNumeroSerie, i);
+                int sufijo = i;
+
+                while (repoCompu.ExisteNumeroSerie(numeroSerie))
+                {
+                    sufijo++;
+                    numeroSerie = string.Format("{0}_{1}", baseNumeroSerie, sufijo);
+                }
+
                 var computadora = new Computadora
                 {
                     IdLaboratorio = int.Parse(ddlLaboratorio.SelectedValue),
@@ -132,22 +155,8 @@ namespace PracticaProfesional2025
                     EstadoActual = "1" //se da de alta una compu esta "en funcionamiento"
                 };
 
-                int idComputadora = repoCompu.Insert(computadora);
-
-                // Crear y vincular cada componente
-                foreach (var comp in Componentes)
-                {
-                    var componente = new Componente
-                    {
-                        Tipo = comp.Tipo,
-                        Marca = comp.Marca,
-                        Modelo = comp.Modelo,
-                        Numero_Serie = comp.Numero_Serie
-                    };
-
-                    int idComponente = repoComponente.Insert(componente);
-                    repoComponente.VincularConComputadora(idComputadora, idComponente, txtFechaAlta.Text);
-                }
+                // ✅ Pasamos la lista de componentes al repository para insertar todo en una sola transacción
+                int idComputadora = repoCompu.InsertarComputadoraConComponentes(computadora, Componentes);
             }
 
             Componentes.Clear();

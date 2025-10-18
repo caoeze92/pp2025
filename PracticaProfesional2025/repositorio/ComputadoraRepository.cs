@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Configuration;
+using System.Data.SqlClient;
 
 namespace PracticaProfesional2025
 {
     public class ComputadoraRepository
     {
-        public int Insert(Computadora computadora)
+        public int InsertarComputadoraConComponentes(Computadora computadora, List<Componente> componentes)
         {
             using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["Conexion"].ConnectionString))
             {
@@ -16,11 +16,11 @@ namespace PracticaProfesional2025
 
                 try
                 {
-                    // 1️⃣ Insertar la computadora y obtener el ID generado
+                    // 1️⃣ Insertar la computadora
                     string sqlComputadora = @"
-                        INSERT INTO Computadoras (id_laboratorio, codigo_inventario, numero_serie, descripcion, estado_actual, fecha_alta)
-                        OUTPUT INSERTED.id_computadora
-                        VALUES (@Laboratorio, @CodigoInventario, @NumeroSerie, @Descripcion, @EstadoActual, @FechaAlta)";
+                    INSERT INTO Computadoras (id_laboratorio, codigo_inventario, numero_serie, descripcion, estado_actual, fecha_alta)
+                    OUTPUT INSERTED.id_computadora
+                    VALUES (@Laboratorio, @CodigoInventario, @NumeroSerie, @Descripcion, @EstadoActual, @FechaAlta)";
 
                     using (SqlCommand cmd = new SqlCommand(sqlComputadora, con, transaction))
                     {
@@ -31,62 +31,64 @@ namespace PracticaProfesional2025
                         cmd.Parameters.AddWithValue("@EstadoActual", computadora.EstadoActual);
                         cmd.Parameters.AddWithValue("@FechaAlta", computadora.FechaAlta);
 
-                        System.Diagnostics.Debug.WriteLine("Parametros para la query de Relaciones");
-                        foreach (SqlParameter p in cmd.Parameters)
-                        {
-                            string result = String.Format("{0} = {1}", p.ParameterName, p.Value);
-                            System.Diagnostics.Debug.WriteLine(result);
-                        }
-
                         computadora.IdComputadora = (int)cmd.ExecuteScalar();
-
-
                     }
 
-                    // 2️⃣ Insertar las relaciones en Computadora_Componentes
-                    if (computadora.Componentes != null && computadora.Componentes.Count > 0)
+                    // 2️⃣ Insertar los componentes y obtener sus IDs
+                    List<int> idsComponentes = new List<int>();
+                    var repoComponente = new ComponenteRepository();
+
+                    foreach (var comp in componentes)
                     {
-                        string sqlRelacion = @"
-                            INSERT INTO Computadora_Componentes (id_computadora, id_componente, fecha_asignacion)
-                            VALUES (@IdComputadora, @IdComponente, @FechaAsignacion)";
-
-                        foreach (var idComponente in computadora.Componentes)
-                        {
-                            using (SqlCommand cmdRelacion = new SqlCommand(sqlRelacion, con, transaction))
-                            {
-                                cmdRelacion.Parameters.AddWithValue("@IdComputadora", computadora.IdComputadora);
-                                cmdRelacion.Parameters.AddWithValue("@IdComponente", idComponente);
-                                cmdRelacion.Parameters.AddWithValue("@FechaAsignacion", DateTime.Now);
-
-
-                                System.Diagnostics.Debug.WriteLine("Parametros para la query de Relaciones");
-                                foreach (SqlParameter p in cmdRelacion.Parameters)
-                                {
-                                    string result = String.Format("{0} = {1}", p.ParameterName, p.Value);
-                                    System.Diagnostics.Debug.WriteLine(result);
-                                }
-
-                                cmdRelacion.ExecuteNonQuery();
-
-                                
-                            }
-
-                            
-                        }
-                        
-
+                        int idComponente = repoComponente.Insert(comp); // pasar conexión y transacción
+                        idsComponentes.Add(idComponente);
                     }
 
-                    // 3️⃣ Confirmar la transacción
+                    // 3️⃣ Insertar las relaciones computadora-componente
+                    string sqlRelacion = @"
+                    INSERT INTO Computadora_Componentes (id_computadora, id_componente, fecha_asignacion)
+                    VALUES (@IdComputadora, @IdComponente, @FechaAsignacion)";
+
+                    foreach (var idComp in idsComponentes)
+                    {
+                        using (SqlCommand cmdRelacion = new SqlCommand(sqlRelacion, con, transaction))
+                        {
+                            cmdRelacion.Parameters.AddWithValue("@IdComputadora", computadora.IdComputadora);
+                            cmdRelacion.Parameters.AddWithValue("@IdComponente", idComp);
+                            cmdRelacion.Parameters.AddWithValue("@FechaAsignacion", DateTime.Now);
+
+                            cmdRelacion.ExecuteNonQuery();
+                        }
+                    }
+
+                    // 4️⃣ Confirmar la transacción
                     transaction.Commit();
                     return computadora.IdComputadora;
                 }
-                catch (Exception)
+                catch
                 {
                     transaction.Rollback();
                     throw;
                 }
             }
+
+
+        }
+
+
+        // Opcional: método para verificar si ya existe un Numero_Serie
+        public bool ExisteNumeroSerie(string numeroSerie)
+        {
+            string query = "SELECT COUNT(*) FROM Computadora WHERE Numero_Serie = @NumeroSerie";
+            using (SqlConnection con = ConnectionFactory.GetConnection())
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@NumeroSerie", numeroSerie);
+                con.Open();
+                int count = (int)cmd.ExecuteScalar();
+                return count > 0;
+            }
         }
     }
+
 }
