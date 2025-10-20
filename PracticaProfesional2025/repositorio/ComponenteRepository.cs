@@ -26,7 +26,11 @@ namespace PracticaProfesional2025
                 cmd.Parameters.AddWithValue("@Marca", componente.Marca ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@Modelo", componente.Modelo ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@Caracteristicas", componente.Caracteristicas ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@Estado", componente.Estado_Id);
+
+                // Si Estado_Id no es válido (>0) pasar DBNull para no violar FK
+                object estadoParam = componente.Estado_Id > 0 ? (object)componente.Estado_Id : (object)DBNull.Value;
+                cmd.Parameters.AddWithValue("@Estado", estadoParam);
+
                 cmd.Parameters.AddWithValue("@NumeroSerie", componente.Numero_Serie ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@Fecha", componente.Fecha_Compra);
 
@@ -89,7 +93,10 @@ namespace PracticaProfesional2025
                 cmd.Parameters.AddWithValue("@Marca", componente.Marca ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@Modelo", componente.Modelo ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@Caracteristicas", componente.Caracteristicas ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@Estado", componente.Estado_Id);
+
+                object estadoParam = componente.Estado_Id > 0 ? (object)componente.Estado_Id : (object)DBNull.Value;
+                cmd.Parameters.AddWithValue("@Estado", estadoParam);
+
                 cmd.Parameters.AddWithValue("@NumeroSerie", componente.Numero_Serie ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@Fecha", componente.Fecha_Compra);
 
@@ -105,7 +112,7 @@ namespace PracticaProfesional2025
             }
         }
 
-        // Devuelve DataTable de componentes asociados a una computadora (aliases para DataField)
+        // Devuelve DataTable de componentes asociados a una computadora (incluye descripcion de estado)
         public DataTable ObtenerPorComputadora(int idComputadora)
         {
             var dt = new DataTable();
@@ -118,8 +125,10 @@ namespace PracticaProfesional2025
                     c.caracteristicas AS Caracteristicas,
                     c.numero_serie AS Numero_Serie,
                     c.estado_id AS Estado_id,
+                    e.descripcion AS EstadoDescripcion,
                     c.fecha_compra AS Fecha_compra
                 FROM Componentes c
+                LEFT JOIN Estados e ON c.estado_id = e.id_estado
                 INNER JOIN Computadora_Componentes cc ON cc.id_componente = c.id_componente
                 WHERE cc.id_computadora = @IdComputadora
                 ORDER BY c.tipo, c.marca;";
@@ -186,13 +195,14 @@ namespace PracticaProfesional2025
         {
             if (componente == null) throw new ArgumentNullException(nameof(componente));
 
+            // Usamos ISNULL(@Estado, estado_id) para no sobreescribir con un estado inválido si el parámetro viene NULL
             string sql = @"UPDATE Componentes
                            SET tipo = @Tipo,
                                marca = @Marca,
                                modelo = @Modelo,
                                caracteristicas = @Caracteristicas,
                                numero_serie = @NumeroSerie,
-                               estado_id = @Estado,
+                               estado_id = ISNULL(@Estado, estado_id),
                                fecha_compra = @Fecha
                            WHERE id_componente = @Id";
 
@@ -204,7 +214,11 @@ namespace PracticaProfesional2025
                 cmd.Parameters.AddWithValue("@Modelo", componente.Modelo ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@Caracteristicas", componente.Caracteristicas ?? (object)DBNull.Value);
                 cmd.Parameters.AddWithValue("@NumeroSerie", componente.Numero_Serie ?? (object)DBNull.Value);
-                cmd.Parameters.AddWithValue("@Estado", componente.Estado_Id);
+
+                // Si no se pasó un Estado válido (>0), enviamos DBNull para que ISNULL use el valor actual en la fila
+                object estadoParam = componente.Estado_Id > 0 ? (object)componente.Estado_Id : (object)DBNull.Value;
+                cmd.Parameters.AddWithValue("@Estado", estadoParam);
+
                 cmd.Parameters.AddWithValue("@Fecha", componente.Fecha_Compra);
                 cmd.Parameters.AddWithValue("@Id", componente.Id_Componente);
 
