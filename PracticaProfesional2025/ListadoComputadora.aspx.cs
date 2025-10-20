@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Diagnostics;
 
 namespace PracticaProfesional2025
 {
@@ -104,6 +105,46 @@ namespace PracticaProfesional2025
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
             Response.Redirect("AltaComputadora.aspx");
+        }
+
+        protected void gvComputadoras_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType != DataControlRowType.DataRow) return;
+
+            int idComputadora = Convert.ToInt32(DataBinder.Eval(e.Row.DataItem, "id_computadora"));
+
+            var gvComponentes = e.Row.FindControl("gvComponentes") as GridView;
+            if (gvComponentes != null)
+            {
+                var repoComp = new ComponenteRepository();
+                DataTable dt = repoComp.ObtenerPorComputadora(idComputadora);
+                gvComponentes.DataSource = dt;
+                gvComponentes.DataBind();
+            }
+        }
+
+        protected void gvComponentes_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "DeleteComponent")
+            {
+                int idComponente;
+                if (!int.TryParse(e.CommandArgument.ToString(), out idComponente)) return;
+
+                try
+                {
+                    var repo = new ComponenteRepository();
+                    repo.EliminarComponente(idComponente);
+
+                    // recargar todo para actualizar la UI
+                    CargarComputadoras();
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine("Error al eliminar componente: " + ex);
+                    // opcional: mostrar mensaje usuario
+                    throw;
+                }
+            }
         }
     }
 }
