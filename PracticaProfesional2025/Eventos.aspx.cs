@@ -26,26 +26,54 @@ namespace PracticaProfesional2025
             using (SqlConnection conexion = ConnectionFactory.GetConnection())
             {
                 string query = @"
-                    SELECT 
-                        h.id_historial,
-                        h.tipo_evento,
-                        te.nombre AS nombre_evento,
-                        h.entidad,
-                        h.codentidad,
-                        h.usuario,
-                        h.fecha_solicitud,
-                        h.detalle
-                    FROM historial h
-                    INNER JOIN tipos_evento te 
-                        ON h.tipo_evento = te.id_tipo_evento";
+                                SELECT 
+                                    h.id_historial,
+                                    h.tipo_evento,
+                                    te.nombre AS nombre_evento,
+                                    h.entidad,
+                                    h.codentidad,
+                                    h.usuario,
+                                    h.fecha_solicitud,
+                                    h.detalle
+                                FROM historial h
+                                INNER JOIN tipos_evento te 
+                                    ON h.tipo_evento = te.id_tipo_evento
+                                WHERE
+                                    (@idHistorial IS NULL OR h.id_historial = @idHistorial)
+                                    AND (@tipoEvento IS NULL OR te.nombre = @tipoEvento)
+                                    AND (@entidad IS NULL OR h.entidad LIKE '%' + @entidad + '%')
+                                    AND (@codEntidad IS NULL OR h.codentidad LIKE '%' + @codEntidad + '%')
+                                    AND (@usuario IS NULL OR h.usuario LIKE '%' + @usuario + '%')
+                                    AND (@fechaDesde IS NULL OR h.fecha_solicitud >= @fechaDesde)
+                                    AND (@fechaHasta IS NULL OR h.fecha_solicitud <= @fechaHasta)
+                                    AND (@detalle IS NULL OR h.detalle LIKE '%' + @detalle + '%');";
+
+                SqlCommand cmd = new SqlCommand(query, conexion);
+
+                // Parametros adaptados al SELECT actual
+                cmd.Parameters.AddWithValue("@idHistorial", string.IsNullOrEmpty(txtIdHistorial.Text)
+                    ? (object)DBNull.Value : txtIdHistorial.Text);
+                cmd.Parameters.AddWithValue("@tipoEvento", string.IsNullOrEmpty(comboEventos.SelectedValue)
+                    ? (object)DBNull.Value : comboEventos.SelectedValue);
+                cmd.Parameters.AddWithValue("@entidad", string.IsNullOrEmpty(txtIdEntidad.Text)
+                    ? (object)DBNull.Value : txtIdEntidad.Text);
+                cmd.Parameters.AddWithValue("@usuario", string.IsNullOrEmpty(txtIdUsuario.Text)
+                    ? (object)DBNull.Value : txtIdUsuario.Text);
+
+                // Parametros sin uso, dejo codigo disponible y comentado
+                // en caso de hacer uso del mismo en un futuro.
+                // MD :)
+                //cmd.Parameters.AddWithValue("@fechaDesde", DBNull.Value); 
+                //cmd.Parameters.AddWithValue("@fechaHasta", DBNull.Value); 
+                //cmd.Parameters.AddWithValue("@detalle", DBNull.Value);
+                //cmd.Parameters.AddWithValue("@codEntidad", DBNull.Value);
+
 
                 // Si hay un filtro, agregamos WHERE
                 if (!string.IsNullOrEmpty(eventoSeleccionado))
                 {
                     query += " WHERE te.nombre = @nombreEvento";
                 }
-
-                SqlCommand cmd = new SqlCommand(query, conexion);
 
                 // Si hay filtro, asignar parámetro
                 if (!string.IsNullOrEmpty(eventoSeleccionado))

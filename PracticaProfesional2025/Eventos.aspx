@@ -93,8 +93,8 @@
 
          <div class="col-md-2">
             <div class="filtro-box">
-                <label for="txtIdComputadora">ID</label>
-                <asp:TextBox ID="txtIdComputadora" runat="server" />
+                <label for="txtIdHistorial">ID</label>
+                <asp:TextBox ID="txtIdHistorial" runat="server" />
             </div>
         </div>
 <%--        <div class="col-md-2">
@@ -113,15 +113,15 @@
 
         <div class="col-md-2">
             <div class="filtro-box">
-                <label for="txtIdComponente">Entidad</label>
-                <asp:TextBox ID="TextBox2" runat="server" />
+                <label for="txtIdEntidad">Entidad</label>
+                <asp:TextBox ID="txtIdEntidad" runat="server" />
             </div>
         </div>
 
         <div class="col-md-2">
             <div class="filtro-box">
-                <label for="txtIdComponente">Usuario</label>
-                <asp:TextBox ID="TextBox1" runat="server" />
+                <label for="txtIdUsuario">Usuario</label>
+                <asp:TextBox ID="txtIdUsuario" runat="server" />
             </div>
         </div>
 
@@ -156,7 +156,7 @@
         <!-- Tabla de resultados -->
         <h4>Resultados</h4>
         <div class="table-responsive">
-            <asp:GridView ID="gvResultados" runat="server" AutoGenerateColumns="false" CssClass="text-center"  OnPageIndexChanging="gvResultados_PageIndexChanging" OnRowDataBound="gvResultados_RowDataBound_Eventos" AllowPaging="True" PageSize="5">
+            <asp:GridView ID="gvResultados" runat="server" AutoGenerateColumns="false" CssClass="text-center"  OnPageIndexChanging="gvResultados_PageIndexChanging" OnRowDataBound="gvResultados_RowDataBound_Eventos" AllowPaging="True" PageSize="5" EmptyDataText="SIN INFORMACION DISPONIBLE...">
                 
                 <HeaderStyle BackColor="#0d1b2a" ForeColor="White" HorizontalAlign="Center" Font-Bold="True" />
 
