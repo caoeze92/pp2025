@@ -71,6 +71,9 @@
                         <li class="active">
                             <a href="Inicio.aspx"><span class="fa fa-home mr-3"></span> Inicio</a>
                         </li>
+                         <li id="menuGestion" runat="server">
+                            <a href="ListadoComputadora.aspx"><span class="fa fa-desktop mr-3"></span> Gestionar PC's/Componentes</a>
+                        </li>
                         <li id="menuConsultaStock" runat="server">
                             <a href="ConsultaStock.aspx"><span class="fa fa-user mr-3"></span> Consultar Stock</a>
                         </li>
@@ -83,9 +86,6 @@
                         <!-- Solo Admin -->
                         <li id="menuAdmin" runat="server">
                             <a href="AdministracionDeUsuarios.aspx"><span class="fa fa-sticky-note mr-3"></span> Administrar Usuarios</a>
-                        </li>
-                        <li id="menuAlta" runat="server">
-                            <a href="ListadoComputadora.aspx"><span class="fa fa-desktop mr-3"></span> Agregar PC's/Componentes</a>
                         </li>
 
                     </ul>

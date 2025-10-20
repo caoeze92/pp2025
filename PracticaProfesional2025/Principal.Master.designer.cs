@@ -7,11 +7,13 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace PracticaProfesional2025 {
-    
-    
-    public partial class Principal {
-        
+namespace PracticaProfesional2025
+{
+
+
+    public partial class Principal
+    {
+
         /// <summary>
         /// Control form1.
         /// </summary>
@@ -20,7 +22,16 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
-        
+
+        /// <summary>
+        /// Control menuGestion.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuGestion;
+
         /// <summary>
         /// Control menuConsultaStock.
         /// </summary>
@@ -29,7 +40,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuConsultaStock;
-        
+
         /// <summary>
         /// Control menuReservas.
         /// </summary>
@@ -38,7 +49,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuReservas;
-        
+
         /// <summary>
         /// Control menuEvento.
         /// </summary>
@@ -47,7 +58,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuEvento;
-        
+
         /// <summary>
         /// Control menuAdmin.
         /// </summary>
@@ -56,16 +67,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuAdmin;
-        
-        /// <summary>
-        /// Control menuAlta.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl menuAlta;
-        
+
         /// <summary>
         /// Control btnLogout.
         /// </summary>
@@ -74,7 +76,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnLogout;
-        
+
         /// <summary>
         /// Control ContentPlaceHolder1.
         /// </summary>
