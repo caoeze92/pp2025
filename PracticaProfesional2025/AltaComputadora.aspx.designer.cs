@@ -7,11 +7,13 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace PracticaProfesional2025 {
-    
-    
-    public partial class AltaComputadora {
-        
+namespace PracticaProfesional2025
+{
+
+
+    public partial class AltaComputadora
+    {
+
         /// <summary>
         /// Control ddlTipoCarga.
         /// </summary>
@@ -20,7 +22,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlTipoCarga;
-        
+
         /// <summary>
         /// Control pnlComputadora.
         /// </summary>
@@ -29,7 +31,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlComputadora;
-        
+
         /// <summary>
         /// Control ddlLaboratorio.
         /// </summary>
@@ -38,7 +40,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlLaboratorio;
-        
+
         /// <summary>
         /// Control txtCodigoInventario.
         /// </summary>
@@ -47,7 +49,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCodigoInventario;
-        
+
         /// <summary>
         /// Control txtNumeroSerie.
         /// </summary>
@@ -56,7 +58,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNumeroSerie;
-        
+
         /// <summary>
         /// Control txtDescripcion.
         /// </summary>
@@ -65,7 +67,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtDescripcion;
-        
+
         /// <summary>
         /// Control txtFechaAlta.
         /// </summary>
@@ -74,7 +76,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtFechaAlta;
-        
+
         /// <summary>
         /// Control txtCantidad.
         /// </summary>
@@ -83,7 +85,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtCantidad;
-        
+
         /// <summary>
         /// Control pnlAgregarComponente.
         /// </summary>
@@ -92,7 +94,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlAgregarComponente;
-        
+
         /// <summary>
         /// Control txtTipo.
         /// </summary>
@@ -101,7 +103,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtTipo;
-        
+
         /// <summary>
         /// Control txtMarca.
         /// </summary>
@@ -110,7 +112,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtMarca;
-        
+
         /// <summary>
         /// Control txtModelo.
         /// </summary>
@@ -119,7 +121,16 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtModelo;
-        
+
+        /// <summary>
+        /// Control txtCarac.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCarac;
+
         /// <summary>
         /// Control txtNumeroSerieComp.
         /// </summary>
@@ -128,7 +139,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox txtNumeroSerieComp;
-        
+
         /// <summary>
         /// Control btnAgregarComponente.
         /// </summary>
@@ -137,7 +148,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnAgregarComponente;
-        
+
         /// <summary>
         /// Control gvComponentes.
         /// </summary>
@@ -146,7 +157,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.GridView gvComponentes;
-        
+
         /// <summary>
         /// Control pnlComponente.
         /// </summary>
@@ -155,7 +166,70 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Panel pnlComponente;
-        
+
+        /// <summary>
+        /// Control txtTipoCompIndividual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtTipoCompIndividual;
+
+        /// <summary>
+        /// Control txtMarcaCompIndividual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtMarcaCompIndividual;
+
+        /// <summary>
+        /// Control txtModeloCompIndividual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtModeloCompIndividual;
+
+        /// <summary>
+        /// Control txtCaracCompIndividual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCaracCompIndividual;
+
+        /// <summary>
+        /// Control txtNumeroSerieIndividual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtNumeroSerieIndividual;
+
+        /// <summary>
+        /// Control txtCantidadIndividual.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtCantidadIndividual;
+
+        /// <summary>
+        /// Control ddlComputadoraAsociar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlComputadoraAsociar;
+
         /// <summary>
         /// Control btnGuardar.
         /// </summary>
@@ -164,7 +238,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnGuardar;
-        
+
         /// <summary>
         /// Control btnVolver.
         /// </summary>
@@ -173,7 +247,7 @@ namespace PracticaProfesional2025 {
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnVolver;
-        
+
         /// <summary>
         /// Control lblMensaje.
         /// </summary>
