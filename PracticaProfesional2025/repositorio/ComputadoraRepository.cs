@@ -79,7 +79,7 @@ namespace PracticaProfesional2025
         // Opcional: método para verificar si ya existe un Numero_Serie
         public bool ExisteNumeroSerie(string numeroSerie)
         {
-            string query = "SELECT COUNT(*) FROM Computadora WHERE Numero_Serie = @NumeroSerie";
+            string query = "SELECT COUNT(*) FROM Computadoras WHERE Numero_Serie = @NumeroSerie";
             using (SqlConnection con = ConnectionFactory.GetConnection())
             using (SqlCommand cmd = new SqlCommand(query, con))
             {

@@ -68,31 +68,44 @@ namespace PracticaProfesional2025
 
         protected void btnAgregarComponente_Click(object sender, EventArgs e)
         {
-            //var repoComponente = new ComponenteRepository();
-            //// Generar un Numero_Serie único
-            //string baseNumeroSerie = txtNumeroSerieIndividual.Text;
-            //string numeroSerie = string.Format("{0}_{1}", baseNumeroSerie, j);
-            //int sufijo = j;
-
-            //while (repoComponente.ExisteNumeroSerie(numeroSerie))
-            //{
-            //    sufijo++;
-            //    numeroSerie = string.Format("{0}_{1}", baseNumeroSerie, sufijo);
-            //}    VER ESTO ME ESTA CHOCANDO NUMERO DE SERIE UNAO LO INGRESO CON LA COMPU NO SE SI CHOCA EL NUMRO DE SERIE DE LA CPOMPU O DEL COMPONENETE VERIFICAR
-
             var componente = new Componente
             {
                 Tipo = txtTipo.Text,
                 Marca = txtMarca.Text,
-                Modelo = txtModelo.Text,
-                Numero_Serie = txtNumeroSerieComp.Text
+                Modelo = txtModelo.Text,    
+                Caracteristicas = txtCarac != null ? txtCarac.Text : string.Empty,
+                Estado_Id = 1,
+                Numero_Serie = txtNumeroSerieComp.Text,
+                Fecha_Compra = DateTime.Now
             };
 
             Componentes.Add(componente);
             gvComponentes.DataSource = Componentes;
             gvComponentes.DataBind();
 
-            txtTipo.Text = txtMarca.Text = txtModelo.Text = txtNumeroSerieComp.Text = "";
+            txtTipo.Text = txtMarca.Text = txtModelo.Text = (txtCarac != null ? txtCarac.Text = "" : "");
+            txtNumeroSerieComp.Text = "";
+        }
+
+        // Maneja el botón de eliminar en la grilla usando NamingContainer para obtener el índice real
+        protected void gvComponentes_RowCommand(object sender, GridViewCommandEventArgs e)
+        {
+            if (e.CommandName == "Remove")
+            {
+                var btn = e.CommandSource as Button;
+                if (btn == null) return;
+
+                var row = btn.NamingContainer as GridViewRow;
+                if (row == null) return;
+
+                int index = row.RowIndex;
+                if (index >= 0 && index < Componentes.Count)
+                {
+                    Componentes.RemoveAt(index);
+                    gvComponentes.DataSource = Componentes;
+                    gvComponentes.DataBind();
+                }
+            }
         }
 
         protected void btnGuardar_Click(object sender, EventArgs e)
@@ -129,16 +142,37 @@ namespace PracticaProfesional2025
             bool ok = int.TryParse(txtCantidad.Text, out cant);
             int cantidadComputadoras = ok ? cant : 1;
 
+            // Validar laboratorio seleccionado
+            int idLaboratorio;
+            if (!int.TryParse(ddlLaboratorio.SelectedValue, out idLaboratorio))
+            {
+                lblMensaje.Text = "Debe seleccionar un laboratorio válido.";
+                lblMensaje.CssClass = "text-danger fw-bold";
+                return;
+            }
+
+            // Validar/parsear fecha
+            DateTime fechaAlta;
+            if (!DateTime.TryParse(txtFechaAlta.Text, out fechaAlta))
+            {
+                fechaAlta = DateTime.Now;
+            }
+
             var repoCompu = new ComputadoraRepository();
 
             for (int i = 1; i <= cantidadComputadoras; i++)
             {
+                // Usar el campo correcto para base de número de serie (campo de la computadora)
+                string baseNumeroSerie = txtNumeroSerie != null ? txtNumeroSerie.Text ?? string.Empty : string.Empty;
+                if (string.IsNullOrWhiteSpace(baseNumeroSerie))
+                {
+                    // Generar uno temporal para evitar errores de formato
+                    baseNumeroSerie = "SN" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                }
 
-                // Generar un Numero_Serie único
-                string baseNumeroSerie = txtNumeroSerieIndividual.Text;
-                string numeroSerie = string.Format("{0}_{1}", baseNumeroSerie, i);
+                // Generar número de serie único consultando el repo
                 int sufijo = i;
-
+                string numeroSerie = string.Format("{0}_{1}", baseNumeroSerie, sufijo);
                 while (repoCompu.ExisteNumeroSerie(numeroSerie))
                 {
                     sufijo++;
@@ -147,15 +181,15 @@ namespace PracticaProfesional2025
 
                 var computadora = new Computadora
                 {
-                    IdLaboratorio = int.Parse(ddlLaboratorio.SelectedValue),
+                    IdLaboratorio = idLaboratorio,
                     CodigoInventario = string.Format("{0}_{1}", txtCodigoInventario.Text, i),
-                    NumeroSerie = string.Format("{0}_{1}", txtNumeroSerie.Text, i),
+                    NumeroSerie = numeroSerie, // asignamos el SN único generado
                     Descripcion = txtDescripcion.Text,
-                    FechaAlta = DateTime.Parse(txtFechaAlta.Text),
-                    EstadoActual = "1" //se da de alta una compu esta "en funcionamiento"
+                    FechaAlta = fechaAlta,
+                    EstadoActual = "1" // en funcionamiento
                 };
 
-                // ✅ Pasamos la lista de componentes al repository para insertar todo en una sola transacción
+                // Insertar la computadora con sus componentes (observación más abajo)
                 int idComputadora = repoCompu.InsertarComputadoraConComponentes(computadora, Componentes);
             }
 
@@ -228,7 +262,7 @@ namespace PracticaProfesional2025
 
             // Limpiar campos
             txtTipoCompIndividual.Text = txtMarcaCompIndividual.Text =
-                txtModeloCompIndividual.Text = txtNumeroSerieIndividual.Text = txtCaracCompIndividual.Text =  "";
+                txtModeloCompIndividual.Text = txtNumeroSerieIndividual.Text = txtCaracCompIndividual.Text = "";
             ddlComputadoraAsociar.SelectedIndex = 0;
         }
 
