@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
+using System.Diagnostics;
 
 namespace PracticaProfesional2025
 {
@@ -31,16 +32,23 @@ namespace PracticaProfesional2025
                         cmd.Parameters.AddWithValue("@EstadoActual", computadora.EstadoActual);
                         cmd.Parameters.AddWithValue("@FechaAlta", computadora.FechaAlta);
 
+                        Debug.WriteLine("---- Insert Computadora ----");
+                        Debug.WriteLine(cmd.CommandText);
+                        foreach (SqlParameter p in cmd.Parameters)
+                        {
+                            Debug.WriteLine(string.Format("{0} = {1}", p.ParameterName, p.Value ?? "NULL"));
+                        }
+
                         computadora.IdComputadora = (int)cmd.ExecuteScalar();
                     }
-
-                    // 2️⃣ Insertar los componentes y obtener sus IDs
+                        
+                    // 2️⃣ Insertar los componentes y obtener sus IDs usando la MISMA conexión/transaction
                     List<int> idsComponentes = new List<int>();
                     var repoComponente = new ComponenteRepository();
 
                     foreach (var comp in componentes)
                     {
-                        int idComponente = repoComponente.Insert(comp); // pasar conexión y transacción
+                        int idComponente = repoComponente.Insert(comp, con, transaction); // ahora dentro de la misma transacción
                         idsComponentes.Add(idComponente);
                     }
 
@@ -57,6 +65,13 @@ namespace PracticaProfesional2025
                             cmdRelacion.Parameters.AddWithValue("@IdComponente", idComp);
                             cmdRelacion.Parameters.AddWithValue("@FechaAsignacion", DateTime.Now);
 
+                            Debug.WriteLine("---- Insert Computadora_Componentes ----");
+                            Debug.WriteLine(cmdRelacion.CommandText);
+                            foreach (SqlParameter p in cmdRelacion.Parameters)
+                            {
+                                Debug.WriteLine(string.Format("{0} = {1}", p.ParameterName, p.Value ?? "NULL"));
+                            }
+
                             cmdRelacion.ExecuteNonQuery();
                         }
                     }
@@ -71,15 +86,12 @@ namespace PracticaProfesional2025
                     throw;
                 }
             }
-
-
         }
 
-
-        // Opcional: método para verificar si ya existe un Numero_Serie
+        // Opcional: método para verificar si ya existe un Numero_serie
         public bool ExisteNumeroSerie(string numeroSerie)
         {
-            string query = "SELECT COUNT(*) FROM Computadoras WHERE Numero_Serie = @NumeroSerie";
+            string query = "SELECT COUNT(*) FROM Computadoras WHERE numero_serie = @NumeroSerie";
             using (SqlConnection con = ConnectionFactory.GetConnection())
             using (SqlCommand cmd = new SqlCommand(query, con))
             {
@@ -90,5 +102,4 @@ namespace PracticaProfesional2025
             }
         }
     }
-
 }
