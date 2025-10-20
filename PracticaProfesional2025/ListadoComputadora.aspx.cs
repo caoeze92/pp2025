@@ -1,11 +1,11 @@
 ﻿using System;
-using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Configuration;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
-
+using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace PracticaProfesional2025
 {
@@ -19,53 +19,84 @@ namespace PracticaProfesional2025
             if (!IsPostBack)
             {
                 pnlResultados.Visible = false;
+                pnlCompResultados.Visible = false;
             }
         }
 
         protected void btnBuscar_Click(object sender, EventArgs e)
         {
             lblMensaje.Text = string.Empty;
-            int id;
-            if (!int.TryParse(txtBuscarId.Text.Trim(), out id))
+            string modo = ddlBuscarPor.SelectedValue ?? "Computadora";
+            string texto = txtBuscar.Text?.Trim() ?? string.Empty;
+
+            pnlResultados.Visible = false;
+            pnlCompResultados.Visible = false;
+
+            if (modo == "Computadora")
             {
-                lblMensaje.Text = "Ingresa un ID de computadora válido.";
-                pnlResultados.Visible = false;
+                int id;
+                if (!int.TryParse(texto, out id))
+                {
+                    lblMensaje.Text = "Ingresa un ID de computadora válido.";
+                    return;
+                }
+
+                var repo = new ComputadoraRepository();
+                Computadora c = repo.ObtenerPorId(id);
+                if (c == null)
+                {
+                    lblMensaje.Text = "No se encontró la computadora con ese ID.";
+                    return;
+                }
+
+                DataTable dt = new DataTable();
+                dt.Columns.Add("id_computadora", typeof(int));
+                dt.Columns.Add("id_laboratorio", typeof(int));
+                dt.Columns.Add("codigo_inventario", typeof(string));
+                dt.Columns.Add("numero_serie", typeof(string));
+                dt.Columns.Add("descripcion", typeof(string));
+                dt.Columns.Add("estado_actual", typeof(string));
+                dt.Columns.Add("fecha_alta", typeof(DateTime));
+                dt.Columns.Add("fecha_baja", typeof(DateTime));
+
+                var row = dt.NewRow();
+                row["id_computadora"] = c.IdComputadora;
+                row["id_laboratorio"] = c.IdLaboratorio;
+                row["codigo_inventario"] = c.CodigoInventario ?? string.Empty;
+                row["numero_serie"] = c.NumeroSerie ?? string.Empty;
+                row["descripcion"] = c.Descripcion ?? string.Empty;
+                row["estado_actual"] = c.EstadoActual ?? string.Empty;
+                row["fecha_alta"] = c.FechaAlta;
+                row["fecha_baja"] = c.FechaBaja.HasValue ? (object)c.FechaBaja.Value : DBNull.Value;
+                dt.Rows.Add(row);
+
+                rptComputadoras.DataSource = dt;
+                rptComputadoras.DataBind();
+                pnlResultados.Visible = true;
                 return;
             }
 
-            var repo = new ComputadoraRepository();
-            Computadora c = repo.ObtenerPorId(id);
-            if (c == null)
+            // Modo Componente
+            if (modo == "Componente")
             {
-                lblMensaje.Text = "No se encontró la computadora con ese ID.";
-                pnlResultados.Visible = false;
-                return;
+                if (string.IsNullOrWhiteSpace(texto))
+                {
+                    lblMensaje.Text = "Ingresa un término para buscar el componente (ID, SN, Tipo o Marca).";
+                    return;
+                }
+
+                var repoComp = new ComponenteRepository();
+                DataTable dtComp = repoComp.Buscar(texto);
+                if (dtComp == null || dtComp.Rows.Count == 0)
+                {
+                    lblMensaje.Text = "No se encontraron componentes que coincidan.";
+                    return;
+                }
+
+                gvResultadosComponentes.DataSource = dtComp;
+                gvResultadosComponentes.DataBind();
+                pnlCompResultados.Visible = true;
             }
-
-            DataTable dt = new DataTable();
-            dt.Columns.Add("id_computadora", typeof(int));
-            dt.Columns.Add("id_laboratorio", typeof(int));
-            dt.Columns.Add("codigo_inventario", typeof(string));
-            dt.Columns.Add("numero_serie", typeof(string));
-            dt.Columns.Add("descripcion", typeof(string));
-            dt.Columns.Add("estado_actual", typeof(string));
-            dt.Columns.Add("fecha_alta", typeof(DateTime));
-            dt.Columns.Add("fecha_baja", typeof(DateTime));
-
-            var row = dt.NewRow();
-            row["id_computadora"] = c.IdComputadora;
-            row["id_laboratorio"] = c.IdLaboratorio;
-            row["codigo_inventario"] = c.CodigoInventario ?? string.Empty;
-            row["numero_serie"] = c.NumeroSerie ?? string.Empty;
-            row["descripcion"] = c.Descripcion ?? string.Empty;
-            row["estado_actual"] = c.EstadoActual ?? string.Empty;
-            row["fecha_alta"] = c.FechaAlta;
-            row["fecha_baja"] = c.FechaBaja.HasValue ? (object)c.FechaBaja.Value : DBNull.Value;
-            dt.Rows.Add(row);
-
-            rptComputadoras.DataSource = dt;
-            rptComputadoras.DataBind();
-            pnlResultados.Visible = true;
         }
 
         protected void rptComputadoras_ItemDataBound(object sender, RepeaterItemEventArgs e)
@@ -85,14 +116,17 @@ namespace PracticaProfesional2025
                 gvComponentes.Attributes["data-computadora-id"] = idComputadora.ToString();
             }
 
-            // si estamos en modo edición, poblar ddl de estados tipo 1 (PC)
             int editingId = ViewState[EDIT_COMPUTER_KEY] != null ? (int)ViewState[EDIT_COMPUTER_KEY] : 0;
             bool isEditing = editingId == idComputadora;
 
             var phEdit = e.Item.FindControl("phEditMode") as PlaceHolder;
-            if (isEditing && phEdit != null)
+            var phView = e.Item.FindControl("phViewMode") as PlaceHolder;
+            if (phEdit != null) phEdit.Visible = isEditing;
+            if (phView != null) phView.Visible = !isEditing;
+
+            if (isEditing)
             {
-                var ddlEstadoCompu = phEdit.FindControl("ddlEstadoCompu") as DropDownList;
+                var ddlEstadoCompu = e.Item.FindControl("ddlEstadoCompu") as DropDownList;
                 if (ddlEstadoCompu != null)
                 {
                     ddlEstadoCompu.DataSource = GetEstadosPorTipo(1);
@@ -105,25 +139,21 @@ namespace PracticaProfesional2025
                     if (int.TryParse(estadoActual, out estadoId))
                         ddlEstadoCompu.SelectedValue = estadoId.ToString();
                 }
-            }
 
-            // controlar botones (igual que antes)
-            var phView = e.Item.FindControl("phViewMode") as PlaceHolder;
-            if (phEdit != null) phEdit.Visible = isEditing;
-            if (phView != null) phView.Visible = !isEditing;
+                var lnkSave = e.Item.FindControl("lnkSave") as LinkButton;
+                var lnkCancel = e.Item.FindControl("lnkCancel") as LinkButton;
+                var lnkEdit = e.Item.FindControl("lnkEdit") as LinkButton;
 
-            var lnkSave = e.Item.FindControl("lnkSave") as LinkButton;
-            var lnkCancel = e.Item.FindControl("lnkCancel") as LinkButton;
-            var lnkEdit = e.Item.FindControl("lnkEdit") as LinkButton;
-
-            if (isEditing)
-            {
                 if (lnkSave != null) lnkSave.CssClass = lnkSave.CssClass.Replace("d-none", "").Trim();
                 if (lnkCancel != null) lnkCancel.CssClass = lnkCancel.CssClass.Replace("d-none", "").Trim();
                 if (lnkEdit != null) lnkEdit.CssClass = (lnkEdit.CssClass + " d-none").Trim();
             }
             else
             {
+                var lnkSave = e.Item.FindControl("lnkSave") as LinkButton;
+                var lnkCancel = e.Item.FindControl("lnkCancel") as LinkButton;
+                var lnkEdit = e.Item.FindControl("lnkEdit") as LinkButton;
+
                 if (lnkSave != null && !lnkSave.CssClass.Contains("d-none")) lnkSave.CssClass += " d-none";
                 if (lnkCancel != null && !lnkCancel.CssClass.Contains("d-none")) lnkCancel.CssClass += " d-none";
                 if (lnkEdit != null) lnkEdit.CssClass = lnkEdit.CssClass.Replace(" d-none", "").Trim();
@@ -201,12 +231,11 @@ namespace PracticaProfesional2025
             }
         }
 
-        // COMPONENT GRID handlers
+        // GRID de componentes en cada PC (ya existente)
         protected void gvComponentes_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType != DataControlRowType.DataRow) return;
 
-            // bind ddl only for edit mode row
             var ddl = e.Row.FindControl("ddlEstadoComp") as DropDownList;
             if (ddl != null)
             {
@@ -215,7 +244,6 @@ namespace PracticaProfesional2025
                 ddl.DataValueField = "id_estado";
                 ddl.DataBind();
 
-                // seleccionar el estado actual
                 object dataItem = e.Row.DataItem;
                 if (dataItem is DataRowView drv)
                 {
@@ -236,10 +264,8 @@ namespace PracticaProfesional2025
 
         private void OpenCollapseForGrid(GridView gv)
         {
-            // Intención: después de un postback mantener el collapse abierto para la computadora asociada al GridView.
             if (gv == null) return;
 
-            // intentar obtener el id de la computadora desde el atributo o desde el NamingContainer
             string idCompu = gv.Attributes["data-computadora-id"];
 
             if (string.IsNullOrEmpty(idCompu))
@@ -254,24 +280,20 @@ namespace PracticaProfesional2025
 
             if (string.IsNullOrEmpty(idCompu)) return;
 
-            // Script para abrir el collapse correspondiente (Bootstrap 5)
             string script = @"
                 (function(){
                     var id = 'collapse" + idCompu + @"';
                     var el = document.getElementById(id);
                     if (!el) return;
-                    // si ya existe una instancia, usarla; si no, crear una y mostrarla
                     try {
                         var inst = bootstrap.Collapse.getInstance(el);
                         if (!inst) inst = new bootstrap.Collapse(el, {toggle:false});
                         inst.show();
                     } catch(e) {
-                        // fallback: añadir clase show
                         if (!el.classList.contains('show')) el.classList.add('show');
                     }
                 })();";
 
-            // Registrar script preferiblemente con ScriptManager si hay uno, si no con ClientScript
             if (ScriptManager.GetCurrent(Page) != null)
             {
                 ScriptManager.RegisterStartupScript(Page, Page.GetType(), "openCollapse_" + idCompu, script, true);
@@ -376,11 +398,95 @@ namespace PracticaProfesional2025
             Response.Redirect("~/AltaComputadora.aspx");
         }
 
-        protected void btnVolver_Click(object sender, EventArgs e)
+        // -------------------------------------------------------
+        // Grid de resultados por componente (edición/eliminación)
+        protected void gvResultadosComponentes_RowDataBound(object sender, GridViewRowEventArgs e)
         {
-            // Redirige al índice principal; ajusta la ruta si tu proyecto usa otra página de inicio.
-            Response.Redirect("~/Default.aspx");
+            if (e.Row.RowType != DataControlRowType.DataRow) return;
+
+            var ddl = e.Row.FindControl("ddlEstadoCompGrid") as DropDownList;
+            if (ddl != null)
+            {
+                ddl.DataSource = GetEstadosPorTipo(2);
+                ddl.DataTextField = "descripcion";
+                ddl.DataValueField = "id_estado";
+                ddl.DataBind();
+
+                object dataItem = e.Row.DataItem;
+                if (dataItem is DataRowView drv)
+                {
+                    var estadoVal = drv["Estado_id"];
+                    if (estadoVal != DBNull.Value)
+                        ddl.SelectedValue = estadoVal.ToString();
+                }
+            }
         }
+
+        protected void gvResultadosComponentes_RowEditing(object sender, GridViewEditEventArgs e)
+        {
+            gvResultadosComponentes.EditIndex = e.NewEditIndex;
+            BindResultadosComponentesFromCurrentSearch();
+        }
+
+        protected void gvResultadosComponentes_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            gvResultadosComponentes.EditIndex = -1;
+            BindResultadosComponentesFromCurrentSearch();
+        }
+
+        protected void gvResultadosComponentes_RowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            int idComponente = Convert.ToInt32(gvResultadosComponentes.DataKeys[e.RowIndex].Value);
+            GridViewRow row = gvResultadosComponentes.Rows[e.RowIndex];
+
+            string tipo = GetTextBoxFromCell(row, 1);
+            string marca = GetTextBoxFromCell(row, 2);
+            string modelo = GetTextBoxFromCell(row, 3);
+            string numeroSerie = GetTextBoxFromCell(row, 4);
+
+            var ddl = row.FindControl("ddlEstadoCompGrid") as DropDownList;
+            int estadoSeleccionado = 0;
+            if (ddl != null) int.TryParse(ddl.SelectedValue, out estadoSeleccionado);
+
+            var componente = new Componente
+            {
+                Id_Componente = idComponente,
+                Tipo = tipo,
+                Marca = marca,
+                Modelo = modelo,
+                Caracteristicas = null,
+                Numero_Serie = numeroSerie,
+                Estado_Id = estadoSeleccionado,
+                Fecha_Compra = DateTime.Now
+            };
+
+            var repo = new ComponenteRepository();
+            repo.Actualizar(componente);
+
+            gvResultadosComponentes.EditIndex = -1;
+            BindResultadosComponentesFromCurrentSearch();
+        }
+
+        protected void gvResultadosComponentes_RowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            int idComponente = Convert.ToInt32(gvResultadosComponentes.DataKeys[e.RowIndex].Value);
+            var repo = new ComponenteRepository();
+            repo.EliminarComponente(idComponente);
+
+            BindResultadosComponentesFromCurrentSearch();
+        }
+
+        private void BindResultadosComponentesFromCurrentSearch()
+        {
+            string filtro = txtBuscar.Text?.Trim() ?? string.Empty;
+            if (string.IsNullOrEmpty(filtro)) return;
+
+            var repo = new ComponenteRepository();
+            gvResultadosComponentes.DataSource = repo.Buscar(filtro);
+            gvResultadosComponentes.DataBind();
+            pnlCompResultados.Visible = true;
+        }
+
 
         // Helper: obtiene lista de estados por tipo (1 = PC, 2 = Componente)
         private DataTable GetEstadosPorTipo(int idTipo)
@@ -397,8 +503,5 @@ namespace PracticaProfesional2025
             }
             return dt;
         }
-
-        // OpenCollapseForGrid(...) y demás helper se mantienen sin cambios
-        // (incluye el script para reabrir el collapse; ya lo tienes en la versión anterior)
     }
 }

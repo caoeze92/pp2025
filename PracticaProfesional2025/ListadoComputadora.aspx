@@ -12,37 +12,44 @@
         <div class="card mb-3 p-3">
             <div class="row g-2 align-items-center">
                 <div class="col-auto">
-                    <label for="txtBuscarId" class="form-label mb-0">Buscar por ID Computadora:</label>
+                    <label for="ddlBuscarPor" class="form-label mb-0">Buscar por:</label>
                 </div>
                 <div class="col-auto">
-                    <asp:TextBox ID="txtBuscarId" runat="server" CssClass="form-control" />
+                    <asp:DropDownList ID="ddlBuscarPor" runat="server" CssClass="form-select" AutoPostBack="false">
+                        <asp:ListItem Value="Computadora" Selected="True">Computadora (por ID)</asp:ListItem>
+                        <asp:ListItem Value="Componente">Componente (ID / SN / Tipo / Marca)</asp:ListItem>
+                    </asp:DropDownList>
                 </div>
+
+                <div class="col-auto">
+                    <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" Placeholder="Ingresa ID, SN o texto..." />
+                </div>
+
                 <div class="col-auto">
                     <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-outline-primary" OnClick="btnBuscar_Click" />
                 </div>
+
                 <div class="col-auto">
                     <asp:Label ID="lblMensaje" runat="server" CssClass="text-danger fw-bold" />
                 </div>
             </div>
         </div>
 
+        <!-- Resultados por PC (Repeater) -->
         <asp:Panel ID="pnlResultados" runat="server" Visible="false">
             <asp:Repeater ID="rptComputadoras" runat="server" OnItemDataBound="rptComputadoras_ItemDataBound">
                 <ItemTemplate>
                     <div class="card mb-2">
                         <div class="card-header d-flex justify-content-between align-items-center">
                             <div>
-                                <!-- HiddenField accesible tanto en view como en edit -->
                                 <asp:HiddenField ID="hfIdComputadora" runat="server" Value='<%# Eval("id_computadora") %>' />
 
-                                <!-- VIEW MODE -->
                                 <asp:PlaceHolder ID="phViewMode" runat="server">
                                     <strong>ID:</strong> <%# Eval("id_computadora") %> &nbsp;
                                     <strong>Código:</strong> <%# Eval("codigo_inventario") %> &nbsp;
                                     <strong>SN:</strong> <%# Eval("numero_serie") %>
                                 </asp:PlaceHolder>
 
-                                <!-- EDIT MODE -->
                                 <asp:PlaceHolder ID="phEditMode" runat="server" Visible="false">
                                     <div class="row g-2 align-items-center">
                                         <div class="col-auto">
@@ -59,7 +66,6 @@
                                         </div>
                                         <div class="col-auto">
                                             <label class="form-label mb-0">Estado</label>
-                                            <!-- Se pobla en code-behind dentro de ItemDataBound cuando está en modo edición -->
                                             <asp:DropDownList ID="ddlEstadoCompu" runat="server" CssClass="form-select form-select-sm"></asp:DropDownList>
                                         </div>
                                     </div>
@@ -118,6 +124,41 @@
                     </div>
                 </ItemTemplate>
             </asp:Repeater>
+        </asp:Panel>
+
+        <!-- Resultados por componente -->
+        <asp:Panel ID="pnlCompResultados" runat="server" Visible="false">
+            <div class="card mb-3">
+                <div class="card-header">
+                    <strong>Resultados - Componentes</strong>
+                </div>
+                <div class="card-body">
+                    <asp:GridView ID="gvResultadosComponentes" runat="server" AutoGenerateColumns="False" CssClass="table table-sm"
+                        DataKeyNames="id_componente"
+                        OnRowEditing="gvResultadosComponentes_RowEditing"
+                        OnRowCancelingEdit="gvResultadosComponentes_RowCancelingEdit"
+                        OnRowUpdating="gvResultadosComponentes_RowUpdating"
+                        OnRowDeleting="gvResultadosComponentes_RowDeleting"
+                        OnRowDataBound="gvResultadosComponentes_RowDataBound">
+                        <Columns>
+                            <asp:BoundField DataField="id_componente" HeaderText="ID" ReadOnly="True" ItemStyle-Width="50px" />
+                            <asp:BoundField DataField="Tipo" HeaderText="Tipo" />
+                            <asp:BoundField DataField="Marca" HeaderText="Marca" />
+                            <asp:BoundField DataField="Modelo" HeaderText="Modelo" />
+                            <asp:BoundField DataField="Numero_Serie" HeaderText="Nº Serie" />
+                            <asp:TemplateField HeaderText="Estado">
+                                <ItemTemplate>
+                                    <%# Eval("EstadoDescripcion") %>
+                                </ItemTemplate>
+                                <EditItemTemplate>
+                                    <asp:DropDownList ID="ddlEstadoCompGrid" runat="server" CssClass="form-select form-select-sm"></asp:DropDownList>
+                                </EditItemTemplate>
+                            </asp:TemplateField>
+                            <asp:CommandField ShowEditButton="True" ShowDeleteButton="True" />
+                        </Columns>
+                    </asp:GridView>
+                </div>
+            </div>
         </asp:Panel>
     </div>
 

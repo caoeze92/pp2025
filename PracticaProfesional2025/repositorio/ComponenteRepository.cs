@@ -258,6 +258,44 @@ namespace PracticaProfesional2025
             }
         }
 
+        // Nuevo: buscar componentes por id (numérico) o por texto (numero_serie, tipo, marca)
+        public DataTable Buscar(string filtro)
+        {
+            var dt = new DataTable();
+            if (string.IsNullOrWhiteSpace(filtro)) return dt;
+
+            string sqlById = "SELECT c.*, e.descripcion AS EstadoDescripcion FROM Componentes c LEFT JOIN Estados e ON c.estado_id = e.id_estado WHERE c.id_componente = @term";
+            string sqlByText = @"SELECT c.*, e.descripcion AS EstadoDescripcion 
+                                 FROM Componentes c 
+                                 LEFT JOIN Estados e ON c.estado_id = e.id_estado
+                                 WHERE c.numero_serie LIKE @termLike OR c.tipo LIKE @termLike OR c.marca LIKE @termLike
+                                 ORDER BY c.tipo, c.marca";
+
+            using (var con = new SqlConnection(ConfigurationManager.ConnectionStrings["Conexion"].ConnectionString))
+            using (SqlCommand cmd = new SqlCommand())
+            {
+                cmd.Connection = con;
+                int id;
+                if (int.TryParse(filtro, out id))
+                {
+                    cmd.CommandText = sqlById;
+                    cmd.Parameters.AddWithValue("@term", id);
+                }
+                else
+                {
+                    cmd.CommandText = sqlByText;
+                    cmd.Parameters.AddWithValue("@termLike", filtro + "%");
+                }
+
+                using (var da = new SqlDataAdapter(cmd))
+                {
+                    da.Fill(dt);
+                }
+            }
+
+            return dt;
+        }
+
         // Método para verificar si ya existe un Numero_Serie
         public bool ExisteNumeroSerie(string numeroSerie)
         {

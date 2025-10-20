@@ -24,13 +24,22 @@ namespace PracticaProfesional2025
         protected global::System.Web.UI.WebControls.Button btnAgregar;
 
         /// <summary>
-        /// Control txtBuscarId.
+        /// Control ddlBuscarPor.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtBuscarId;
+        protected global::System.Web.UI.WebControls.DropDownList ddlBuscarPor;
+
+        /// <summary>
+        /// Control txtBuscar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtBuscar;
 
         /// <summary>
         /// Control btnBuscar.
@@ -67,5 +76,23 @@ namespace PracticaProfesional2025
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater rptComputadoras;
+
+        /// <summary>
+        /// Control pnlCompResultados.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel pnlCompResultados;
+
+        /// <summary>
+        /// Control gvResultadosComponentes.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView gvResultadosComponentes;
     }
 }
