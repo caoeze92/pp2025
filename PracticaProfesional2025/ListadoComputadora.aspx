@@ -1,6 +1,30 @@
 <%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ListadoComputadora.aspx.cs" Inherits="PracticaProfesional2025.Computadoras" MasterPageFile="~/Principal.Master" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
+
+    <style>
+.filtro-box {
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    padding: 8px;
+    background-color: #f8f9fa;
+    margin-bottom: 10px;
+}
+.filtro-box label {
+    font-size: 0.85rem;
+    margin-bottom: 3px;
+}
+.filtro-box input, .filtro-box select {
+    width: 100%;
+    height: 28px;
+    font-size: 0.85rem;
+    padding: 2px 6px;
+    border: 1px solid #adb5bd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+</style>
+    <asp:Panel ID="pnlBusqueda" runat="server" DefaultButton="btnBuscar" class="container py-3">   
     <div class="container py-3">
         <div class="d-flex justify-content-between align-items-center mb-3">
             <h3 class="m-0">Computadoras</h3>
@@ -20,11 +44,11 @@
                         <asp:ListItem Value="Componente">Componente (ID / SN / Tipo / Marca)</asp:ListItem>
                     </asp:DropDownList>
                 </div>
-
-                <div class="col-auto">
-                    <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" Placeholder="Ingresa ID, SN o texto..." />
+                <div class="filtro-box">
+                    <div class="col-auto">
+                        <asp:TextBox ID="txtBuscar" runat="server" CssClass="form-control" Placeholder="Ingresa ID, SN o texto..." />
+                    </div>
                 </div>
-
                 <div class="col-auto">
                     <asp:Button ID="btnBuscar" runat="server" Text="Buscar" CssClass="btn btn-outline-primary" OnClick="btnBuscar_Click" />
                 </div>
@@ -34,6 +58,8 @@
                 </div>
             </div>
         </div>
+
+ </asp:Panel>
 
         <!-- Resultados por PC (Repeater) -->
         <asp:Panel ID="pnlResultados" runat="server" Visible="false">
