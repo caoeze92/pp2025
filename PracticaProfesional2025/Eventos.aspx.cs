@@ -41,12 +41,17 @@ namespace PracticaProfesional2025
                                 WHERE
                                     (@idHistorial IS NULL OR h.id_historial = @idHistorial)
                                     AND (@tipoEvento IS NULL OR te.nombre = @tipoEvento)
-                                    AND (@entidad IS NULL OR h.entidad LIKE '%' + @entidad + '%')
-                                    AND (@codEntidad IS NULL OR h.codentidad LIKE '%' + @codEntidad + '%')
-                                    AND (@usuario IS NULL OR h.usuario LIKE '%' + @usuario + '%')
-                                    AND (@fechaDesde IS NULL OR h.fecha_solicitud >= @fechaDesde)
-                                    AND (@fechaHasta IS NULL OR h.fecha_solicitud <= @fechaHasta)
-                                    AND (@detalle IS NULL OR h.detalle LIKE '%' + @detalle + '%');";
+                                    AND (@entidad IS NULL OR h.entidad LIKE '%' + @entidad + '%')";
+
+                //Parametros de query sql adicionales
+                //Solo agregar en caso de habilitar los parametros de busqueda 
+                //codEntidad, fechas o detalle
+                //De lo contrario dejar comentado
+                                    //AND(@codEntidad IS NULL OR h.codentidad LIKE '%' + @codEntidad + '%')
+                                    //AND(@usuario IS NULL OR h.usuario LIKE '%' + @usuario + '%')
+                                    //AND(@fechaDesde IS NULL OR h.fecha_solicitud >= @fechaDesde)
+                                    //AND(@fechaHasta IS NULL OR h.fecha_solicitud <= @fechaHasta)
+                                    //AND(@detalle IS NULL OR h.detalle LIKE '%' + @detalle + '%');
 
                 SqlCommand cmd = new SqlCommand(query, conexion);
 
