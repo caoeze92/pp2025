@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
+using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
-using System.Configuration;
+using System.Web.UI;
+using System.Web.UI.WebControls;
 
 namespace PracticaProfesional2025
 {
@@ -16,8 +13,12 @@ namespace PracticaProfesional2025
 
         protected void Page_Load(object sender, EventArgs e)
         {
+<<<<<<< Updated upstream
                 CargarUsuarios();
 
+=======
+            if (!IsPostBack)
+>>>>>>> Stashed changes
                 CargarUsuarios();
         }
 
@@ -25,7 +26,8 @@ namespace PracticaProfesional2025
         {
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                SqlDataAdapter da = new SqlDataAdapter(" SELECT id_usuario, nombre, apellido, rol, email, telefono, activo FROM Usuarios", conn);
+                SqlDataAdapter da = new SqlDataAdapter(
+                    "SELECT id_usuario, nombre, apellido, rol, email, telefono, activo FROM Usuarios", conn);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 gvUsuarios.DataSource = dt;
@@ -33,13 +35,13 @@ namespace PracticaProfesional2025
             }
         }
 
-        protected void gvUsuarios_RowEditing(object sender, System.Web.UI.WebControls.GridViewEditEventArgs e)
+        protected void gvUsuarios_RowEditing(object sender, GridViewEditEventArgs e)
         {
             gvUsuarios.EditIndex = e.NewEditIndex;
             CargarUsuarios();
         }
 
-        protected void gvUsuarios_RowCancelingEdit(object sender, System.Web.UI.WebControls.GridViewCancelEditEventArgs e)
+        protected void gvUsuarios_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
             gvUsuarios.EditIndex = -1;
             CargarUsuarios();
@@ -53,32 +55,54 @@ namespace PracticaProfesional2025
                 string rolActual = DataBinder.Eval(e.Row.DataItem, "rol").ToString();
 
                 if (ddlRol.Items.FindByValue(rolActual) != null)
-                {
                     ddlRol.SelectedValue = rolActual;
-                }
             }
         }
 
-        protected void gvUsuarios_RowUpdating(object sender, System.Web.UI.WebControls.GridViewUpdateEventArgs e)
+        protected void gvUsuarios_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
             int idUsuario = (int)gvUsuarios.DataKeys[e.RowIndex].Value;
             GridViewRow row = gvUsuarios.Rows[e.RowIndex];
+
+            // Tomar los valores editados
+            string nombre = ((TextBox)row.Cells[1].Controls[0]).Text.Trim();
+            string apellido = ((TextBox)row.Cells[2].Controls[0]).Text.Trim();
+            string email = ((TextBox)row.Cells[3].Controls[0]).Text.Trim();
+            string telefono = ((TextBox)row.Cells[4].Controls[0]).Text.Trim();
+            string activo = ((TextBox)row.Cells[5].Controls[0]).Text.Trim();
+
             DropDownList ddlRol = (DropDownList)row.FindControl("ddlRol");
 
-
+            // Actualizar en BD
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("UPDATE Usuarios SET rol=@rol WHERE id_usuario=@ID", conn);
+                string query = @"UPDATE Usuarios 
+                                 SET nombre = @Nombre,
+                                     apellido = @Apellido,
+                                     email = @Email,
+                                     telefono = @Telefono,
+                                     rol = @Rol,
+                                     activo = @Activo
+                                 WHERE id_usuario = @ID";
+
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@Nombre", nombre);
+                cmd.Parameters.AddWithValue("@Apellido", apellido);
+                cmd.Parameters.AddWithValue("@Email", email);
+                cmd.Parameters.AddWithValue("@Telefono", telefono);
                 cmd.Parameters.AddWithValue("@Rol", ddlRol.SelectedValue);
                 cmd.Parameters.AddWithValue("@ID", idUsuario);
+                cmd.Parameters.AddWithValue("@Activo", activo);
+
                 cmd.ExecuteNonQuery();
             }
+
             gvUsuarios.EditIndex = -1;
             CargarUsuarios();
         }
 
-        protected void gvUsuarios_RowDeleting(object sender, System.Web.UI.WebControls.GridViewDeleteEventArgs e)
+        protected void gvUsuarios_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
             int idUsuario = (int)gvUsuarios.DataKeys[e.RowIndex].Value;
 
@@ -91,6 +115,11 @@ namespace PracticaProfesional2025
             }
 
             CargarUsuarios();
+
+            lblMensaje.Text = "✅ Usuario eliminado correctamente.";
+            lblMensaje.Visible = true;
         }
+
+
     }
 }
