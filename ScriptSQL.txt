@@ -222,3 +222,24 @@ GO
 ALTER TABLE Historial
 ADD codEntidad int NULL;
 GO
+
+
+
+
+
+
+
+
+////////////////////// ELIMINAR LA FK  Y CREAR OTRA FK PARA QEU CUANDO SE ELIMINE UN USUARIO SE ELIMINES SUS RESERVAS EN CASCADA://////////////////////////////////////////////////////////////////
+
+-- 1. Eliminar la FK actual
+ALTER TABLE Reservas
+DROP CONSTRAINT FK__Reservas__id_usu__571DF1D5;
+
+-- 2. Crear la FK con ON DELETE CASCADE
+ALTER TABLE Reservas
+ADD CONSTRAINT FK_Reservas_Usuarios
+FOREIGN KEY (id_usuario) REFERENCES USUARIOS(id_usuario)
+ON DELETE CASCADE;
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -107,6 +107,7 @@
     <Content Include="Error.aspx" />
     <Content Include="Inicio.aspx" />
     <Content Include="login.aspx" />
+    <Content Include="ConfirmarCuenta.aspx" />
     <Content Include="ReservaExitosa.aspx" />
     <Content Include="Reservas.aspx" />
     <Content Include="Web.config">
@@ -203,6 +204,13 @@
     </Compile>
     <Compile Include="Eventos.aspx.designer.cs">
       <DependentUpon>Eventos.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ConfirmarCuenta.aspx.cs">
+      <DependentUpon>ConfirmarCuenta.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ConfirmarCuenta.aspx.designer.cs">
+      <DependentUpon>ConfirmarCuenta.aspx</DependentUpon>
     </Compile>
     <Compile Include="ReservaExitosa.aspx.cs">
       <DependentUpon>ReservaExitosa.aspx</DependentUpon>
