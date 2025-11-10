@@ -13,23 +13,21 @@ namespace PracticaProfesional2025
 
         protected void Page_Load(object sender, EventArgs e)
         {
-<<<<<<< Updated upstream
-                CargarUsuarios();
-
-=======
             if (!IsPostBack)
->>>>>>> Stashed changes
+            {
                 CargarUsuarios();
+            }
         }
 
         private void CargarUsuarios()
         {
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                SqlDataAdapter da = new SqlDataAdapter(
-                    "SELECT id_usuario, nombre, apellido, rol, email, telefono, activo FROM Usuarios", conn);
+                string query = "SELECT id_usuario, nombre, apellido, email, telefono, rol, activo FROM Usuarios";
+                SqlDataAdapter da = new SqlDataAdapter(query, conn);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
+
                 gvUsuarios.DataSource = dt;
                 gvUsuarios.DataBind();
             }
@@ -47,24 +45,12 @@ namespace PracticaProfesional2025
             CargarUsuarios();
         }
 
-        protected void gvUsuarios_RowDataBound(object sender, GridViewRowEventArgs e)
-        {
-            if (e.Row.RowType == DataControlRowType.DataRow && gvUsuarios.EditIndex == e.Row.RowIndex)
-            {
-                DropDownList ddlRol = (DropDownList)e.Row.FindControl("ddlRol");
-                string rolActual = DataBinder.Eval(e.Row.DataItem, "rol").ToString();
-
-                if (ddlRol.Items.FindByValue(rolActual) != null)
-                    ddlRol.SelectedValue = rolActual;
-            }
-        }
-
         protected void gvUsuarios_RowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-            int idUsuario = (int)gvUsuarios.DataKeys[e.RowIndex].Value;
+            int idUsuario = Convert.ToInt32(gvUsuarios.DataKeys[e.RowIndex].Value);
             GridViewRow row = gvUsuarios.Rows[e.RowIndex];
 
-            // Tomar los valores editados
+            // Obtener los valores desde las celdas editables
             string nombre = ((TextBox)row.Cells[1].Controls[0]).Text.Trim();
             string apellido = ((TextBox)row.Cells[2].Controls[0]).Text.Trim();
             string email = ((TextBox)row.Cells[3].Controls[0]).Text.Trim();
@@ -72,54 +58,68 @@ namespace PracticaProfesional2025
             string activo = ((TextBox)row.Cells[5].Controls[0]).Text.Trim();
 
             DropDownList ddlRol = (DropDownList)row.FindControl("ddlRol");
+            string rol = ddlRol.SelectedValue;
 
-            // Actualizar en BD
             using (SqlConnection conn = new SqlConnection(connStr))
             {
-                conn.Open();
                 string query = @"UPDATE Usuarios 
-                                 SET nombre = @Nombre,
-                                     apellido = @Apellido,
-                                     email = @Email,
-                                     telefono = @Telefono,
-                                     rol = @Rol,
-                                     activo = @Activo
-                                 WHERE id_usuario = @ID";
+                                 SET nombre = @nombre, apellido = @apellido, email = @mail, 
+                                     telefono = @telefono, rol = @rol, activo = @activo 
+                                 WHERE id_usuario = @id";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
-                cmd.Parameters.AddWithValue("@Nombre", nombre);
-                cmd.Parameters.AddWithValue("@Apellido", apellido);
-                cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@Telefono", telefono);
-                cmd.Parameters.AddWithValue("@Rol", ddlRol.SelectedValue);
-                cmd.Parameters.AddWithValue("@ID", idUsuario);
-                cmd.Parameters.AddWithValue("@Activo", activo);
+                cmd.Parameters.AddWithValue("@nombre", nombre);
+                cmd.Parameters.AddWithValue("@apellido", apellido);
+                cmd.Parameters.AddWithValue("@mail", email);
+                cmd.Parameters.AddWithValue("@telefono", telefono);
+                cmd.Parameters.AddWithValue("@rol", rol);
+                cmd.Parameters.AddWithValue("@activo", activo);
+                cmd.Parameters.AddWithValue("@id", idUsuario);
 
+                conn.Open();
                 cmd.ExecuteNonQuery();
+                conn.Close();
             }
 
             gvUsuarios.EditIndex = -1;
             CargarUsuarios();
+
+            // Mensaje de confirmación
+            ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Usuario actualizado con éxito.');", true);
         }
 
         protected void gvUsuarios_RowDeleting(object sender, GridViewDeleteEventArgs e)
         {
-            int idUsuario = (int)gvUsuarios.DataKeys[e.RowIndex].Value;
+            int idUsuario = Convert.ToInt32(gvUsuarios.DataKeys[e.RowIndex].Value);
 
             using (SqlConnection conn = new SqlConnection(connStr))
             {
+                string query = "DELETE FROM Usuarios WHERE id_usuario = @id";
+                SqlCommand cmd = new SqlCommand(query, conn);
+                cmd.Parameters.AddWithValue("@id", idUsuario);
+
                 conn.Open();
-                SqlCommand cmd = new SqlCommand("DELETE FROM Usuarios WHERE id_usuario=@ID", conn);
-                cmd.Parameters.AddWithValue("@ID", idUsuario);
                 cmd.ExecuteNonQuery();
+                conn.Close();
             }
 
             CargarUsuarios();
 
-            lblMensaje.Text = "✅ Usuario eliminado correctamente.";
-            lblMensaje.Visible = true;
+            ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Usuario eliminado con éxito.');", true);
         }
 
+        protected void gvUsuarios_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow && gvUsuarios.EditIndex == e.Row.RowIndex)
+            {
+                DropDownList ddlRol = (DropDownList)e.Row.FindControl("ddlRol");
+                string rolActual = DataBinder.Eval(e.Row.DataItem, "rol").ToString();
 
+                if (ddlRol != null && ddlRol.Items.FindByValue(rolActual) != null)
+                {
+                    ddlRol.SelectedValue = rolActual;
+                }
+            }
+        }
     }
 }

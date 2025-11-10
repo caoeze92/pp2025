@@ -4,46 +4,6 @@
     <title>Administración De Usuarios - Sistema de control de Inventario Institucional - ISFDyT 46</title>
 
     <style>
-<<<<<<< Updated upstream
-        .custom-grid {
-            border-collapse: collapse;
-            width: 90%;
-            margin: 30px;
-            background-color: white;
-            box-shadow: 0px 2px 6px rgba(0,0,0,0.1);
-            border: 2px solid #ccc; /* Borde exterior */
-        }
-
-        .custom-grid th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-            text-align: left;
-            padding: 10px;
-            border: 2px solid #dee2e6; /* Borde entre columnas del encabezado */
-        }
-
-        .custom-grid td {
-            padding: 10px;
-            border: 2px solid #dee2e6; /* Borde entre columnas del cuerpo */
-        }
-
-        .custom-grid tr:nth-child(even) {
-            background-color: #f2f2f2; /* Alternar color de filas */
-        }
-
-        .custom-grid tr:hover {
-            background-color: #e8f0fe; /* Color al pasar el mouse */
-        }
-
-        .btn-volver {
-            background-color: #0d6efd;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            margin: 30px;
-=======
         body {
             background-color: #f5f7fb;
         }
@@ -63,7 +23,7 @@
             font-weight: bold;
             color: #003366;
             margin-bottom: 30px;
-            border-bottom: 3px solid #0d1b2a;
+            border-bottom: 3px solid #0d6efd;
             padding-bottom: 10px;
         }
 
@@ -75,7 +35,7 @@
         }
 
         .custom-grid th {
-            background-color: #0d1b2a;
+            background-color: #0d6efd;
             color: white;
             text-align: center;
             padding: 12px;
@@ -108,7 +68,7 @@
         }
 
         .btn-primary {
-            background-color: #0d1b2a;
+            background-color: #0d6efd;
             color: white;
         }
 
@@ -144,7 +104,7 @@
         }
 
         .btn-volver {
-            background-color: #0d1b2a;
+            background-color: #0d6efd;
             color: white;
             padding: 10px 25px;
             border-radius: 8px;
@@ -153,18 +113,11 @@
             display: block;
             margin: 25px auto;
             cursor: pointer;
->>>>>>> Stashed changes
         }
 
         .btn-volver:hover {
             background-color: #0b5ed7;
         }
-<<<<<<< Updated upstream
-    </style>
-
-    <div style="padding: 30px;">
-        <h2 style="margin-left: 30px; font-weight: bold;">Gestión de Usuarios</h2>
-=======
 
         .alert {
             text-align: center;
@@ -187,7 +140,6 @@
     <div class="container-usuarios">
         <h2 class="titulo-usuarios">Gestión de Usuarios</h2>
 
->>>>>>> Stashed changes
         <asp:GridView ID="gvUsuarios" runat="server" AutoGenerateColumns="false"
             CssClass="custom-grid"
             DataKeyNames="id_usuario"
@@ -217,12 +169,6 @@
                     </ItemTemplate>
                 </asp:TemplateField>
 
-<<<<<<< Updated upstream
-                <asp:CommandField ShowEditButton="true" ShowDeleteButton="true" />
-            </Columns>
-        </asp:GridView>
-
-=======
                 <asp:TemplateField HeaderText="Acciones">
                     <ItemTemplate>
                         <asp:LinkButton ID="btnEditar" runat="server" CommandName="Edit" Text="Editar"
@@ -247,7 +193,6 @@
         <!-- Mensaje visual -->
         <asp:Label ID="lblMensaje" runat="server" CssClass="alert alert-success" Visible="false"></asp:Label>
 
->>>>>>> Stashed changes
         <asp:Button ID="btnVolverInicio" runat="server" Text="Volver al inicio" CssClass="btn-volver" PostBackUrl="~/Inicio.aspx" />
     </div>
 </asp:Content>
