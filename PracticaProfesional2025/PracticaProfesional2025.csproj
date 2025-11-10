@@ -131,6 +131,7 @@
     <Compile Include="AdministracionDeUsuarios.aspx.designer.cs">
       <DependentUpon>AdministracionDeUsuarios.aspx</DependentUpon>
     </Compile>
+    <Compile Include="HistorialManager.cs" />
     <Compile Include="modelo\Componente.cs" />
     <Compile Include="repositorio\ComponenteRepository.cs" />
     <Compile Include="modelo\Computadora.cs" />
