@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace PracticaProfesional2025
 {
     public partial class AltaComputadora : System.Web.UI.Page
     {
+        // Variable global de conexion
+        string connStr = ConfigurationManager.ConnectionStrings["Conexion"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -16,6 +17,49 @@ namespace PracticaProfesional2025
                 CargarLaboratorios();
                 CargarComputadorasExistentes(); // para asociar componentes individuales
                 txtFechaAlta.Text = DateTime.Now.ToString("yyyy-MM-dd");
+            }
+
+            // Asegurar bloqueo en servidor (por si viene directo postback)
+            SetSerialFieldsReadonly();
+        }
+
+        private void SetSerialFieldsReadonly()
+        {
+            int cant;
+            if (int.TryParse(txtCantidad.Text, out cant) && cant > 1)
+            {
+                // crear y almacenar un prefijo AUTO por lote si no existe
+                if (ViewState["AutoPrefix_Computadora"] == null)
+                    ViewState["AutoPrefix_Computadora"] = GenerateAutoPrefixServer();
+                txtNumeroSerie.Text = ViewState["AutoPrefix_Computadora"].ToString();
+                txtNumeroSerie.ReadOnly = true;
+
+                if (ViewState["AutoPrefix_Componente"] == null)
+                    ViewState["AutoPrefix_Componente"] = GenerateAutoPrefixServer();
+                txtNumeroSerieComp.Text = ViewState["AutoPrefix_Componente"].ToString();
+                txtNumeroSerieComp.ReadOnly = true;
+            }
+            else
+            {
+                txtNumeroSerie.ReadOnly = false;
+                txtNumeroSerieComp.ReadOnly = false;
+                // eliminar prefijos si el usuario bajó la cantidad a 1
+                ViewState.Remove("AutoPrefix_Computadora");
+                ViewState.Remove("AutoPrefix_Componente");
+            }
+
+            int cantInd;
+            if (int.TryParse(txtCantidadIndividual.Text, out cantInd) && cantInd > 1)
+            {
+                if (ViewState["AutoPrefix_Individual"] == null)
+                    ViewState["AutoPrefix_Individual"] = GenerateAutoPrefixServer();
+                txtNumeroSerieIndividual.Text = ViewState["AutoPrefix_Individual"].ToString();
+                txtNumeroSerieIndividual.ReadOnly = true;
+            }
+            else
+            {
+                txtNumeroSerieIndividual.ReadOnly = false;
+                ViewState.Remove("AutoPrefix_Individual");
             }
         }
 
@@ -68,14 +112,28 @@ namespace PracticaProfesional2025
 
         protected void btnAgregarComponente_Click(object sender, EventArgs e)
         {
+            // Si se están creando varias computadoras, usar el prefijo AUTO para los componentes agregados
+            int cant;
+            bool ok = int.TryParse(txtCantidad.Text, out cant);
+            bool multipleComputadoras = ok && cant > 1;
+
+            string componenteSN = txtNumeroSerieComp.Text;
+            if (multipleComputadoras)
+            {
+                // tomar el prefijo ya guardado o generar uno nuevo
+                if (ViewState["AutoPrefix_Componente"] == null)
+                    ViewState["AutoPrefix_Componente"] = GenerateAutoPrefixServer();
+                componenteSN = ViewState["AutoPrefix_Componente"].ToString();
+            }
+
             var componente = new Componente
             {
                 Tipo = txtTipo.Text,
                 Marca = txtMarca.Text,
-                Modelo = txtModelo.Text,    
+                Modelo = txtModelo.Text,
                 Caracteristicas = txtCarac != null ? txtCarac.Text : string.Empty,
                 Estado_Id = 1,
-                Numero_Serie = txtNumeroSerieComp.Text,
+                Numero_Serie = componenteSN,
                 Fecha_Compra = DateTime.Now
             };
 
@@ -84,7 +142,11 @@ namespace PracticaProfesional2025
             gvComponentes.DataBind();
 
             txtTipo.Text = txtMarca.Text = txtModelo.Text = (txtCarac != null ? txtCarac.Text = "" : "");
-            txtNumeroSerieComp.Text = "";
+            // no borramos prefijo en textbox si existe; dejamos vacío para nueva entrada
+            if (!multipleComputadoras)
+                txtNumeroSerieComp.Text = "";
+            else
+                txtNumeroSerieComp.Text = ViewState["AutoPrefix_Componente"].ToString();
         }
 
         // Maneja el botón de eliminar en la grilla usando NamingContainer para obtener el índice real
@@ -115,9 +177,37 @@ namespace PracticaProfesional2025
                 string tipoCarga = ddlTipoCarga.SelectedValue;
 
                 if (tipoCarga == "computadora")
+                {
                     GuardarComputadoraConComponentes();
+                    // Select del ultimo registro creado de id compu y SN
+                    using (SqlConnection conn = new SqlConnection(connStr))
+                    {
+                        conn.Open();
+                        string querySelect = "SELECT TOP 1 id_computadora, numero_serie FROM Computadoras ORDER BY id_computadora DESC";
+                        SqlCommand cmdSelect = new SqlCommand(querySelect, conn);
+
+                        string idComp = string.Empty;
+                        string serialNum = string.Empty;
+
+                        using (SqlDataReader dr = cmdSelect.ExecuteReader())
+                        {
+                            if (dr.Read())
+                            {
+                                idComp = dr["id_computadora"].ToString();
+                                serialNum = dr["numero_serie"].ToString();
+                            }
+                        }
+
+                        cmdSelect.ExecuteNonQuery();
+                        conn.Close();
+                        HistorialManager.RegistrarEvento(1, int.Parse(idComp) , "Computadora", (string)Session["NombreInicio"], "Alta de nueva Computadora" + " ID: " + idComp + " S/N: " + serialNum + " generada con éxito");
+                    }
+                }
+                // Fin select + Metodo aplicado
                 else if (tipoCarga == "componente")
+                {
                     GuardarComponenteIndividual();
+                }
                 else
                 {
                     lblMensaje.Text = "Debe seleccionar un tipo de alta.";
@@ -127,6 +217,7 @@ namespace PracticaProfesional2025
 
                 lblMensaje.Text = "Registro guardado correctamente.";
                 lblMensaje.CssClass = "text-success fw-bold";
+
             }
             catch (Exception ex)
             {
@@ -160,42 +251,114 @@ namespace PracticaProfesional2025
 
             var repoCompu = new ComputadoraRepository();
 
+            // obtener prefijo de lote para computadoras si existe
+            string basePrefixComputadora = ViewState["AutoPrefix_Computadora"] as string;
+            if (cantidadComputadoras > 1 && string.IsNullOrWhiteSpace(basePrefixComputadora))
+            {
+                basePrefixComputadora = !string.IsNullOrWhiteSpace(txtNumeroSerie.Text) && txtNumeroSerie.Text.StartsWith("AUTO-")
+                    ? txtNumeroSerie.Text
+                    : GenerateAutoPrefixServer();
+            }
+
             for (int i = 1; i <= cantidadComputadoras; i++)
             {
-                // Usar el campo correcto para base de número de serie (campo de la computadora)
-                string baseNumeroSerie = txtNumeroSerie != null ? txtNumeroSerie.Text ?? string.Empty : string.Empty;
-                if (string.IsNullOrWhiteSpace(baseNumeroSerie))
+                string numeroSerie;
+                if (cantidadComputadoras > 1)
                 {
-                    // Generar uno temporal para evitar errores de formato
-                    baseNumeroSerie = "SN" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                    string candidateBase = !string.IsNullOrWhiteSpace(basePrefixComputadora) ? basePrefixComputadora : (txtNumeroSerie != null ? txtNumeroSerie.Text ?? string.Empty : string.Empty);
+                    if (string.IsNullOrWhiteSpace(candidateBase))
+                        candidateBase = "SN" + DateTime.Now.ToString("yyyyMMddHHmmss");
+                    numeroSerie = string.Format("{0}_{1}", candidateBase, i);
+                }
+                else
+                {
+                    // única unidad: respetar lo ingresado o generar si está vacío
+                    numeroSerie = !string.IsNullOrWhiteSpace(txtNumeroSerie.Text) ? txtNumeroSerie.Text : "SN" + DateTime.Now.ToString("yyyyMMddHHmmss");
                 }
 
-                // Generar número de serie único consultando el repo
-                int sufijo = i;
-                string numeroSerie = string.Format("{0}_{1}", baseNumeroSerie, sufijo);
-                while (repoCompu.ExisteNumeroSerie(numeroSerie))
+                // Asegurar unicidad consultando el repo
+                int sufijo = 0;
+                string uniqueSN = numeroSerie;
+                while (repoCompu.ExisteNumeroSerie(uniqueSN))
                 {
                     sufijo++;
-                    numeroSerie = string.Format("{0}_{1}", baseNumeroSerie, sufijo);
+                    uniqueSN = string.Format("{0}_{1}", numeroSerie, sufijo);
                 }
 
                 var computadora = new Computadora
                 {
                     IdLaboratorio = idLaboratorio,
                     CodigoInventario = string.Format("{0}_{1}", txtCodigoInventario.Text, i),
-                    NumeroSerie = numeroSerie, // asignamos el SN único generado
+                    NumeroSerie = uniqueSN,
                     Descripcion = txtDescripcion.Text,
                     FechaAlta = fechaAlta,
                     EstadoActual = "1" // en funcionamiento
                 };
 
-                // Insertar la computadora con sus componentes (observación más abajo)
-                int idComputadora = repoCompu.InsertarComputadoraConComponentes(computadora, Componentes);
+                // preparar componentes para insertar asociados a esta computadora
+                var componentesParaInsertar = new List<Componente>();
+                int compIndex = 1;
+                foreach (var compOriginal in Componentes)
+                {
+                    var compCopy = new Componente
+                    {
+                        Tipo = compOriginal.Tipo,
+                        Marca = compOriginal.Marca,
+                        Modelo = compOriginal.Modelo,
+                        Caracteristicas = compOriginal.Caracteristicas,
+                        Estado_Id = compOriginal.Estado_Id,
+                        Fecha_Compra = compOriginal.Fecha_Compra
+                    };
+
+                    // generar SN por componente por cada computadora si el prefijo es AUTO o si se crean múltiples unidades
+                    if (cantidadComputadoras > 1)
+                    {
+                        string compBase = compOriginal.Numero_Serie;
+                        if (string.IsNullOrWhiteSpace(compBase) || !compBase.StartsWith("AUTO-"))
+                            compBase = ViewState["AutoPrefix_Componente"] as string ?? GenerateAutoPrefixServer();
+
+                        string candidateCompSN = string.Format("{0}_{1}_{2}", compBase, i, compIndex);
+                        // asegurar unicidad
+                        var repoCompCheck = new ComponenteRepository();
+                        int intent = 0;
+                        string uniqueCompSN = candidateCompSN;
+                        while (repoCompCheck.ExisteNumeroSerie(uniqueCompSN))
+                        {
+                            intent++;
+                            uniqueCompSN = string.Format("{0}_{1}", candidateCompSN, intent);
+                        }
+                        compCopy.Numero_Serie = uniqueCompSN;
+                    }
+                    else
+                    {
+                        // una sola computadora: respetar el SN ingresado o generar temporal
+                        compCopy.Numero_Serie = string.IsNullOrWhiteSpace(compOriginal.Numero_Serie) ? GenerateAutoPrefixServer() : compOriginal.Numero_Serie;
+                        // asegurar unicidad
+                        var repoCompCheck = new ComponenteRepository();
+                        string candidateCompSN = compCopy.Numero_Serie;
+                        int intent = 0;
+                        while (repoCompCheck.ExisteNumeroSerie(candidateCompSN))
+                        {
+                            intent++;
+                            candidateCompSN = string.Format("{0}_{1}", compCopy.Numero_Serie, intent);
+                        }
+                        compCopy.Numero_Serie = candidateCompSN;
+                    }
+
+                    componentesParaInsertar.Add(compCopy);
+                    compIndex++;
+                }
+
+                // Insertar la computadora con sus componentes (el repo debe insertar los componentes que reciba)
+                int idComputadora = repoCompu.InsertarComputadoraConComponentes(computadora, componentesParaInsertar);
             }
 
+            // limpiar estado
             Componentes.Clear();
             gvComponentes.DataSource = null;
             gvComponentes.DataBind();
+            ViewState.Remove("AutoPrefix_Computadora");
+            ViewState.Remove("AutoPrefix_Componente");
         }
 
         private void GuardarComponenteIndividual()
@@ -213,7 +376,7 @@ namespace PracticaProfesional2025
             // Validaciones mínimas
             if (string.IsNullOrWhiteSpace(txtTipoCompIndividual.Text) ||
                 string.IsNullOrWhiteSpace(txtMarcaCompIndividual.Text) ||
-                string.IsNullOrWhiteSpace(txtNumeroSerieIndividual.Text))
+                (cantidad == 1 && string.IsNullOrWhiteSpace(txtNumeroSerieIndividual.Text)))
             {
                 lblMensaje.Text = "Debe completar todos los campos del componente.";
                 lblMensaje.CssClass = "text-danger fw-bold";
@@ -223,17 +386,37 @@ namespace PracticaProfesional2025
             var repoComponente = new ComponenteRepository();
             int componentesGuardados = 0;
 
+            // obtener prefijo de lote para individuales si existe
+            string basePrefixIndividual = ViewState["AutoPrefix_Individual"] as string;
+            if (cantidad > 1 && string.IsNullOrWhiteSpace(basePrefixIndividual))
+            {
+                basePrefixIndividual = !string.IsNullOrWhiteSpace(txtNumeroSerieIndividual.Text) && txtNumeroSerieIndividual.Text.StartsWith("AUTO-")
+                    ? txtNumeroSerieIndividual.Text
+                    : GenerateAutoPrefixServer();
+            }
+
             for (int i = 1; i <= cantidad; i++)
             {
-                // Generar un Numero_Serie único
-                string baseNumeroSerie = txtNumeroSerieIndividual.Text;
-                string numeroSerie = string.Format("{0}_{1}", baseNumeroSerie, i);
-                int sufijo = i;
+                string numeroSerie;
+                if (cantidad > 1)
+                {
+                    string candidateBase = !string.IsNullOrWhiteSpace(basePrefixIndividual) ? basePrefixIndividual : txtNumeroSerieIndividual.Text;
+                    if (string.IsNullOrWhiteSpace(candidateBase))
+                        candidateBase = GenerateAutoPrefixServer();
+                    numeroSerie = string.Format("{0}_{1}", candidateBase, i);
+                }
+                else
+                {
+                    numeroSerie = !string.IsNullOrWhiteSpace(txtNumeroSerieIndividual.Text) ? txtNumeroSerieIndividual.Text : GenerateAutoPrefixServer();
+                }
 
-                while (repoComponente.ExisteNumeroSerie(numeroSerie))
+                // Asegurar unicidad
+                int sufijo = 0;
+                string uniqueSN = numeroSerie;
+                while (repoComponente.ExisteNumeroSerie(uniqueSN))
                 {
                     sufijo++;
-                    numeroSerie = string.Format("{0}_{1}", baseNumeroSerie, sufijo);
+                    uniqueSN = string.Format("{0}_{1}", numeroSerie, sufijo);
                 }
 
                 var componente = new Componente
@@ -242,7 +425,7 @@ namespace PracticaProfesional2025
                     Marca = txtMarcaCompIndividual.Text,
                     Modelo = txtModeloCompIndividual.Text,
                     Caracteristicas = txtCaracCompIndividual.Text,
-                    Numero_Serie = numeroSerie,
+                    Numero_Serie = uniqueSN,
                     Estado_Id = (idComputadora != 0) ? 6 : 7, // asigna 6 si tiene PC, 7 si no
                     Fecha_Compra = DateTime.Now
                 };
@@ -254,6 +437,9 @@ namespace PracticaProfesional2025
                 if (idComputadora > 0)
                     repoComponente.VincularConComputadora(idComputadora, idComponente, txtFechaAlta.Text);
 
+                // Guardo registro en la tabla eventos/historial
+                HistorialManager.RegistrarEvento(1, idComponente,"Componente",(string)Session["NombreInicio"],"Nuevo componente agregado con S/N: " + uniqueSN + ", cargado con éxito");
+
                 componentesGuardados++;
             }
 
@@ -264,12 +450,19 @@ namespace PracticaProfesional2025
             txtTipoCompIndividual.Text = txtMarcaCompIndividual.Text =
                 txtModeloCompIndividual.Text = txtNumeroSerieIndividual.Text = txtCaracCompIndividual.Text = "";
             ddlComputadoraAsociar.SelectedIndex = 0;
+            ViewState.Remove("AutoPrefix_Individual");
         }
 
 
         protected void btnVolver_Click(object sender, EventArgs e)
         {
             Response.Redirect("ListadoComputadora.aspx");
+        }
+
+        // Genera un prefijo AUTO legible y corto para lotes
+        private static string GenerateAutoPrefixServer()
+        {
+            return "AUTO-" + DateTime.Now.ToString("yyyyMMddHHmmss") + "-" + Guid.NewGuid().ToString("N").Substring(0, 6).ToUpper();
         }
     }
 }

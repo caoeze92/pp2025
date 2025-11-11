@@ -28,6 +28,12 @@
         height: 36px;
         font-size: 0.9rem;
     }
+
+    /* estilo para campo bloqueado (readOnly) */
+    .readonly {
+        background-color: #e9ecef;
+        color: #6c757d;
+    }
 </style>
 
 <div id="content" class="p-4 p-md-5 pt-5">
@@ -214,5 +220,79 @@
 
     <asp:Label ID="lblMensaje" runat="server" CssClass="mt-3 d-block fw-bold" />
 </div>
+
+<!-- Script cliente para bloquear campo S/N cuando la cantidad > 1 y generar prefijo AUTO -->
+<script type="text/javascript">
+    (function () {
+        function toInt(v) {
+            var n = parseInt(v, 10);
+            return isNaN(n) ? 0 : n;
+        }
+
+        function generateAutoPrefix() {
+            var t = new Date();
+            var ts = t.getFullYear().toString()
+                + ('0' + (t.getMonth()+1)).slice(-2)
+                + ('0' + t.getDate()).slice(-2)
+                + ('0' + t.getHours()).slice(-2)
+                + ('0' + t.getMinutes()).slice(-2)
+                + ('0' + t.getSeconds()).slice(-2);
+            var rnd = Math.random().toString(36).slice(2,8).toUpperCase();
+            return 'AUTO-' + ts + '-' + rnd;
+        }
+
+        function ensureAuto(el) {
+            if (!el) return;
+            if (!el.value || el.value.indexOf('AUTO-') !== 0) {
+                el.value = generateAutoPrefix();
+                el.classList.add('readonly');
+            }
+        }
+
+        function updateSerialReadonly() {
+            var qtyEl = document.getElementById('<%= txtCantidad.ClientID %>');
+            var snEl = document.getElementById('<%= txtNumeroSerie.ClientID %>');
+            var snCompEl = document.getElementById('<%= txtNumeroSerieComp.ClientID %>');
+            if (!qtyEl) return;
+            var qty = toInt(qtyEl.value);
+            if (qty > 1) {
+                if (snEl) { ensureAuto(snEl); snEl.readOnly = true; snEl.classList.add('readonly'); }
+                if (snCompEl) { ensureAuto(snCompEl); snCompEl.readOnly = true; snCompEl.classList.add('readonly'); }
+            } else {
+                if (snEl) { snEl.readOnly = false; snEl.classList.remove('readonly'); }
+                if (snCompEl) { snCompEl.readOnly = false; snCompEl.classList.remove('readonly'); }
+            }
+        }
+
+        function updateSerialIndividualReadonly() {
+            var qtyEl = document.getElementById('<%= txtCantidadIndividual.ClientID %>');
+            var snEl = document.getElementById('<%= txtNumeroSerieIndividual.ClientID %>');
+            if (!qtyEl || !snEl) return;
+            var qty = toInt(qtyEl.value);
+            if (qty > 1) {
+                if (snEl) { if (!snEl.value || snEl.value.indexOf('AUTO-') !== 0) snEl.value = generateAutoPrefix(); snEl.readOnly = true; snEl.classList.add('readonly'); }
+            } else {
+                snEl.readOnly = false;
+                snEl.classList.remove('readonly');
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            updateSerialReadonly();
+            updateSerialIndividualReadonly();
+
+            var qtyComp = document.getElementById('<%= txtCantidad.ClientID %>');
+            if (qtyComp) {
+                qtyComp.addEventListener('input', updateSerialReadonly);
+                qtyComp.addEventListener('change', updateSerialReadonly);
+            }
+            var qtyInd = document.getElementById('<%= txtCantidadIndividual.ClientID %>');
+            if (qtyInd) {
+                qtyInd.addEventListener('input', updateSerialIndividualReadonly);
+                qtyInd.addEventListener('change', updateSerialIndividualReadonly);
+            }
+        });
+    })();
+</script>
 
 </asp:Content>
