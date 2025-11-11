@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data.SqlClient;
-using System.Web.UI;
 using System.Web.UI.WebControls;
 
 namespace PracticaProfesional2025
 {
     public partial class AltaComputadora : System.Web.UI.Page
     {
+        // Variable global de conexion
+        string connStr = ConfigurationManager.ConnectionStrings["Conexion"].ConnectionString;
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
@@ -72,7 +73,7 @@ namespace PracticaProfesional2025
             {
                 Tipo = txtTipo.Text,
                 Marca = txtMarca.Text,
-                Modelo = txtModelo.Text,    
+                Modelo = txtModelo.Text,
                 Caracteristicas = txtCarac != null ? txtCarac.Text : string.Empty,
                 Estado_Id = 1,
                 Numero_Serie = txtNumeroSerieComp.Text,
@@ -85,6 +86,7 @@ namespace PracticaProfesional2025
 
             txtTipo.Text = txtMarca.Text = txtModelo.Text = (txtCarac != null ? txtCarac.Text = "" : "");
             txtNumeroSerieComp.Text = "";
+
         }
 
         // Maneja el botón de eliminar en la grilla usando NamingContainer para obtener el índice real
@@ -115,9 +117,37 @@ namespace PracticaProfesional2025
                 string tipoCarga = ddlTipoCarga.SelectedValue;
 
                 if (tipoCarga == "computadora")
+                {
                     GuardarComputadoraConComponentes();
+                    // Select del ultimo registro creado de id compu y SN
+                    using (SqlConnection conn = new SqlConnection(connStr))
+                    {
+                        conn.Open();
+                        string querySelect = "SELECT TOP 1 id_computadora, numero_serie FROM Computadoras ORDER BY id_computadora DESC";
+                        SqlCommand cmdSelect = new SqlCommand(querySelect, conn);
+
+                        string idComp = string.Empty;
+                        string serialNum = string.Empty;
+
+                        using (SqlDataReader dr = cmdSelect.ExecuteReader())
+                        {
+                            if (dr.Read())
+                            {
+                                idComp = dr["id_computadora"].ToString();
+                                serialNum = dr["numero_serie"].ToString();
+                            }
+                        }
+
+                        cmdSelect.ExecuteNonQuery();
+                        conn.Close();
+                        HistorialManager.RegistrarEvento(1, "Computadora", (string)Session["NombreInicio"], "Alta de nueva Computadora" + " ID: " + idComp + " S/N: " + serialNum + " generada con éxito");
+                    }
+                }
+                // Fin select + Metodo aplicado
                 else if (tipoCarga == "componente")
+                {
                     GuardarComponenteIndividual();
+                }
                 else
                 {
                     lblMensaje.Text = "Debe seleccionar un tipo de alta.";
@@ -127,6 +157,7 @@ namespace PracticaProfesional2025
 
                 lblMensaje.Text = "Registro guardado correctamente.";
                 lblMensaje.CssClass = "text-success fw-bold";
+
             }
             catch (Exception ex)
             {
@@ -253,6 +284,9 @@ namespace PracticaProfesional2025
                 // Vincular con computadora si aplica
                 if (idComputadora > 0)
                     repoComponente.VincularConComputadora(idComputadora, idComponente, txtFechaAlta.Text);
+
+                // Guardo registro en la tabla eventos/historial
+                HistorialManager.RegistrarEvento(1,"Componente",(string)Session["NombreInicio"],"Nuevo componente agregado con S/N: " + numeroSerie + ", cargado con éxito");
 
                 componentesGuardados++;
             }
