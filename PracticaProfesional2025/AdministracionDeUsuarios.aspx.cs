@@ -55,17 +55,23 @@ namespace PracticaProfesional2025
             string apellido = ((TextBox)row.Cells[2].Controls[0]).Text.Trim();
             string email = ((TextBox)row.Cells[3].Controls[0]).Text.Trim();
             string telefono = ((TextBox)row.Cells[4].Controls[0]).Text.Trim();
-            string activo = ((TextBox)row.Cells[5].Controls[0]).Text.Trim();
 
+            // ✅ Nuevo: obtener el valor de activo desde el DropDownList
+            DropDownList ddlActivo = (DropDownList)row.FindControl("ddlActivo");
+            string activo = ddlActivo.SelectedValue; // "1" o "0"
+
+
+            // Obtener el rol desde el DropDownList
             DropDownList ddlRol = (DropDownList)row.FindControl("ddlRol");
             string rol = ddlRol.SelectedValue;
 
+            // Actualizar en base de datos
             using (SqlConnection conn = new SqlConnection(connStr))
             {
                 string query = @"UPDATE Usuarios 
-                                 SET nombre = @nombre, apellido = @apellido, email = @mail, 
-                                     telefono = @telefono, rol = @rol, activo = @activo 
-                                 WHERE id_usuario = @id";
+                         SET nombre = @nombre, apellido = @apellido, email = @mail, 
+                             telefono = @telefono, rol = @rol, activo = @activo 
+                         WHERE id_usuario = @id";
 
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@nombre", nombre);
@@ -86,6 +92,13 @@ namespace PracticaProfesional2025
 
             // Mensaje de confirmación
             ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Usuario actualizado con éxito.');", true);
+<<<<<<< Updated upstream
+=======
+
+            // Registrar en historial (Modificación → id_tipo_evento = 4)
+            HistorialManager.RegistrarEvento(4, idUsuario, "Cuenta", (string)Session["NombreInicio"],
+                "Corrección de datos sobre usuario: " + nombre + " " + apellido);
+>>>>>>> Stashed changes
         }
 
         protected void gvUsuarios_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -97,10 +110,19 @@ namespace PracticaProfesional2025
                 string query = "DELETE FROM Usuarios WHERE id_usuario = @id";
                 SqlCommand cmd = new SqlCommand(query, conn);
                 cmd.Parameters.AddWithValue("@id", idUsuario);
+<<<<<<< Updated upstream
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
                 conn.Close();
+=======
+                cmd.ExecuteNonQuery();
+                conn.Close();
+
+                // Registrar en historial (Baja → id_tipo_evento = 5)
+                HistorialManager.RegistrarEvento(5, idUsuario, "Cuenta", (string)Session["NombreInicio"],
+                    "Usuario: " + nombre + " " + apellido + " eliminado con éxito");
+>>>>>>> Stashed changes
             }
 
             CargarUsuarios();
@@ -120,6 +142,11 @@ namespace PracticaProfesional2025
                     ddlRol.SelectedValue = rolActual;
                 }
             }
+        }
+
+        protected void gvUsuarios_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

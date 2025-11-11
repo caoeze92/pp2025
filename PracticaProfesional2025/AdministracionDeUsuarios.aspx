@@ -147,7 +147,7 @@
             OnRowCancelingEdit="gvUsuarios_RowCancelingEdit"
             OnRowUpdating="gvUsuarios_RowUpdating"
             OnRowDeleting="gvUsuarios_RowDeleting"
-            OnRowDataBound="gvUsuarios_RowDataBound">
+            OnRowDataBound="gvUsuarios_RowDataBound" OnSelectedIndexChanged="gvUsuarios_SelectedIndexChanged">
 
             <Columns>
                 <asp:BoundField DataField="id_usuario" HeaderText="ID" ReadOnly="true" />
@@ -155,7 +155,8 @@
                 <asp:BoundField DataField="apellido" HeaderText="Apellido" />
                 <asp:BoundField DataField="email" HeaderText="Email" />
                 <asp:BoundField DataField="telefono" HeaderText="Teléfono" />
-                <asp:BoundField DataField="activo" HeaderText="Activo" />
+                
+
 
                 <asp:TemplateField HeaderText="Rol">
                     <EditItemTemplate>
@@ -168,6 +169,20 @@
                         <%# Eval("rol") %>
                     </ItemTemplate>
                 </asp:TemplateField>
+                <asp:TemplateField HeaderText="Activo">
+                    <EditItemTemplate>
+                        <asp:DropDownList ID="ddlActivo" runat="server">
+                            <asp:ListItem Text="Activo" Value="1"></asp:ListItem>
+                            <asp:ListItem Text="Inactivo" Value="0"></asp:ListItem>
+                        </asp:DropDownList>
+                    </EditItemTemplate>
+                    <ItemTemplate>
+                        <%# (Eval("activo").ToString() == "1") ? "Activo" : "Inactivo" %>
+                    </ItemTemplate>
+                </asp:TemplateField>
+
+
+
 
                 <asp:TemplateField HeaderText="Acciones">
                     <ItemTemplate>
