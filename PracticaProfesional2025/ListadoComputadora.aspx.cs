@@ -179,44 +179,6 @@ namespace PracticaProfesional2025
 
             if (cmd == "SaveComputer")
             {
-                //RepeaterItem target = null;
-                //foreach (RepeaterItem it in rptComputadoras.Items)
-                //{
-                //    var hf = it.FindControl("hfIdComputadora") as HiddenField;
-                //    if (hf != null && hf.Value == id.ToString())
-                //    {
-                //        target = it;
-                //        break;
-                //    }
-                //}
-                //if (target == null) { btnBuscar_Click(null, null); return; }
-
-                //var tbCodigo = target.FindControl("tbCodigoInv") as TextBox;
-                //var tbSN = target.FindControl("tbNumeroSerie") as TextBox;
-                //var tbDesc = target.FindControl("tbDescripcion") as TextBox;
-                //var ddlEstadoCompu = target.FindControl("ddlEstadoCompu") as DropDownList;
-
-                //int estadoSeleccionado = 0;
-                //if (ddlEstadoCompu != null) int.TryParse(ddlEstadoCompu.SelectedValue, out estadoSeleccionado);
-
-                //var computadora = new Computadora
-                //{
-                //    IdComputadora = id,
-                //    IdLaboratorio = 0,
-                //    CodigoInventario = tbCodigo != null ? tbCodigo.Text : string.Empty,
-                //    NumeroSerie = tbSN != null ? tbSN.Text : string.Empty,
-                //    Descripcion = tbDesc != null ? tbDesc.Text : string.Empty,
-                //    EstadoActual = estadoSeleccionado > 0 ? estadoSeleccionado.ToString() : null,
-                //    FechaAlta = DateTime.Now,
-                //    FechaBaja = null
-                //};
-
-                //var repo = new ComputadoraRepository();
-                //repo.Actualizar(computadora);
-
-                //ViewState[EDIT_COMPUTER_KEY] = null;
-                //btnBuscar_Click(null, null);
-                //return;
                 RepeaterItem target = null;
                 foreach (RepeaterItem it in rptComputadoras.Items)
                 {
@@ -261,7 +223,7 @@ namespace PracticaProfesional2025
                 if (estadoAnterior != computadora.EstadoActual)
                 {
                     HistorialManager.RegistrarEvento(
-                        3, // Tipo modificación
+                        3,computadora.IdComputadora, // Tipo modificación
                         "Computadora",
                         (string)Session["NombreInicio"],
                         "Estado de computadora con S/N: " + numeroSerieAnterior +
@@ -396,7 +358,7 @@ protected void gvComponentes_RowUpdating(object sender, GridViewUpdateEventArgs 
     var repo = new ComponenteRepository();
     repo.Actualizar(componente);
     //Registro de evento
-    HistorialManager.RegistrarEvento(3, "Componente", (string)Session["NombreInicio"], "Componente con S/N: " + numeroSerie + " fue modificado.");
+    HistorialManager.RegistrarEvento(3, componente.Id_Componente, "Componente", (string)Session["NombreInicio"], "Componente con S/N: " + numeroSerie + " fue modificado.");
     gv.EditIndex = -1;
     RebindComponentGrid(gv);
     OpenCollapseForGrid(gv);
@@ -456,7 +418,7 @@ protected void gvComponentes_RowDeleting(object sender, GridViewDeleteEventArgs 
     string numeroSerie = ObtenerNumeroSerieComponente(idComponente);
 
     // Registrar baja (2)
-    HistorialManager.RegistrarEvento(2, "Componente", (string)Session["NombreInicio"], "Componente con S/N: " + numeroSerie + " fue eliminado.");
+    HistorialManager.RegistrarEvento(2, idComponente, "Componente", (string)Session["NombreInicio"], "Componente con S/N: " + numeroSerie + " fue eliminado.");
 
     // Eliminar via repository (manteniendo tu capa de datos)
     var repo = new ComponenteRepository();
@@ -573,7 +535,7 @@ protected void gvResultadosComponentes_RowUpdating(object sender, GridViewUpdate
     var repo = new ComponenteRepository();
     repo.Actualizar(componente);
 
-    HistorialManager.RegistrarEvento(3, "Componente", (string)Session["NombreInicio"], "Componente con S/N: " + numeroSerie + " fue modificado.");
+    HistorialManager.RegistrarEvento(3, componente.Id_Componente, "Componente", (string)Session["NombreInicio"], "Componente con S/N: " + numeroSerie + " fue modificado.");
 
     gvResultadosComponentes.EditIndex = -1;
     BindResultadosComponentesFromCurrentSearch();
@@ -593,7 +555,7 @@ protected void gvResultadosComponentes_RowDeleting(object sender, GridViewDelete
     string numeroSerie = ObtenerNumeroSerieComponente(idComponente);
 
     // Registrar baja (2)
-    HistorialManager.RegistrarEvento(2, "Componente", (string)Session["NombreInicio"], "Componente con S/N: " + numeroSerie + " fue eliminado.");
+    HistorialManager.RegistrarEvento(2, idComponente, "Componente", (string)Session["NombreInicio"], "Componente con S/N: " + numeroSerie + " fue eliminado.");
 
     // Eliminar componente
     var repo = new ComponenteRepository();

@@ -4,7 +4,7 @@ using System.Data.SqlClient;
 
 public static class HistorialManager
 {
-    public static void RegistrarEvento(int tipoEvento, string entidad, string usuario, string detalle)
+    public static void RegistrarEvento(int tipoEvento,int codEntidad, string entidad, string usuario, string detalle)
     {
         try
         {
@@ -13,10 +13,11 @@ public static class HistorialManager
                 conexion.Open();
 
                 using (SqlCommand cmd = new SqlCommand(@"
-                    INSERT INTO Historial (tipo_evento, entidad, usuario, fecha_solicitud, detalle)
-                    VALUES (@tipo_evento, @entidad, @usuario, @fecha_solicitud, @detalle)", conexion))
+                    INSERT INTO Historial (tipo_evento, entidad, usuario, fecha_solicitud, detalle, codEntidad)
+                    VALUES (@tipo_evento, @entidad, @usuario, @fecha_solicitud, @detalle, @codEntidad)", conexion))
                 {
                     cmd.Parameters.AddWithValue("@tipo_evento", tipoEvento);
+                    cmd.Parameters.AddWithValue("@codEntidad", codEntidad);
                     cmd.Parameters.AddWithValue("@entidad", entidad);
                     cmd.Parameters.AddWithValue("@usuario", usuario);
                     cmd.Parameters.AddWithValue("@fecha_solicitud", DateTime.Now);
@@ -28,7 +29,7 @@ public static class HistorialManager
         }
         catch (Exception ex)
         {
-            // Podés loggear el error o manejarlo como prefieras
+            
             throw new Exception("Error al registrar evento en Historial", ex);
         }
     }

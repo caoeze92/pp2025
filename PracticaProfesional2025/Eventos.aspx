@@ -93,8 +93,8 @@
 
          <div class="col-md-2">
             <div class="filtro-box">
-                <label for="txtIdHistorial">ID</label>
-                <asp:TextBox ID="txtIdHistorial" runat="server" />
+                <label for="txtcodEntidad">Id Entidad</label>
+                <asp:TextBox ID="txtcodEntidad" runat="server" />
             </div>
         </div>
 <%--        <div class="col-md-2">

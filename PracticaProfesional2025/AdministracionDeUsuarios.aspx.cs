@@ -87,7 +87,7 @@ namespace PracticaProfesional2025
 
             // Mensaje de confirmación
             ScriptManager.RegisterStartupScript(this, GetType(), "alert", "alert('Usuario actualizado con éxito.');", true);
-            HistorialManager.RegistrarEvento(3, "Cuenta", (string)Session["NombreInicio"], "Correcion de datos sobre usuario: " + nombre + " " + apellido);
+            HistorialManager.RegistrarEvento(3, idUsuario, "Cuenta", (string)Session["NombreInicio"], "Correcion de datos sobre usuario: " + nombre + " " + apellido);
         }
 
         protected void gvUsuarios_RowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -121,7 +121,7 @@ namespace PracticaProfesional2025
                
                 cmd.ExecuteNonQuery();
                 conn.Close();
-                HistorialManager.RegistrarEvento(2, "Cuenta", (string)Session["NombreInicio"], "Usuario: " + nombre + " " + apellido + " eliminado con éxito");
+                HistorialManager.RegistrarEvento(2, idUsuario, "Cuenta", (string)Session["NombreInicio"], "Usuario: " + nombre + " " + apellido + " eliminado con éxito");
             }
 
             CargarUsuarios();
